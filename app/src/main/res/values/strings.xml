@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Baseball Stats Collector</string>
+    <string name="title_activity_view_whos_stats">ViewWhosStats</string>
+    <string name="title_activity_quick_batting_stats">QuickBattingStats</string>
+</resources>

@@ -1,0 +1,104 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="inningscores">
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:text">0</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="fullgameplayernames">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="fullgameplayernames.number">
+        <item name="android:text">00</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="fullgameplayernames.subbutton">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:text">S</item>
+        <item name="android:paddingRight">5dp</item>
+    </style>
+
+    <style name="fullgameplayernames.name">
+        <item name="android:text">Player</item>
+    </style>
+
+    <style name="playernamescollum">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="middlebuttons">
+        <item name="android:layout_width">30sp</item>
+        <item name="android:layout_height">20sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">0sp</item>
+    </style>
+
+
+    <style name="saveteamnames">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="saveteamnames.names">
+        <item name="android:layout_weight">1</item>
+        <item name="android:hint">Player names</item>
+    </style>
+
+    <style name="saveteamnames.number">
+        <item name="android:hint">00</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="loadteamsbutton">
+        <item name="android:layout_width">70sp</item>
+        <item name="android:layout_height">30sp</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:text">load Team</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="typeofpitchbuttons">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">0sp</item>
+        <item name="android:padding">0sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="quickbattingpage">
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="quickbattiongbuttontitle">
+        <item name="android:textAlignment">center</item>
+    </style>
+</resources>
