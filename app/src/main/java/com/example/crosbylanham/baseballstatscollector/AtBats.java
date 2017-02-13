@@ -5,11 +5,11 @@ package com.example.crosbylanham.baseballstatscollector;
  */
 
 public class AtBats {
-    int atBatID;
-    int inningID;
-    int gameID;
-    int pitcherID;
-    int PlayerAtBatId;
+    long atBatID;
+    long inningID;
+    long gameID;
+    long pitcherID;
+    long PlayerAtBatId;
     int pitches;
     int Balls;
     int Strikes;
@@ -20,7 +20,7 @@ public class AtBats {
 
     }
 
-    public int getGameID() {
+    public long getGameID() {
         return gameID;
     }
 
@@ -28,7 +28,7 @@ public class AtBats {
         this.gameID = gameID;
     }
 
-    public int getPitcherID() {
+    public long getPitcherID() {
         return pitcherID;
     }
 
@@ -43,7 +43,7 @@ public class AtBats {
     public void setPitches(int pitches) {
         this.pitches = pitches;
     }
-    public int getAtBatID() {
+    public long getAtBatID() {
         return atBatID;
     }
 
@@ -51,7 +51,7 @@ public class AtBats {
         this.atBatID = atBatID;
     }
 
-    public int getInningID() {
+    public long getInningID() {
         return inningID;
     }
 
@@ -59,7 +59,7 @@ public class AtBats {
         this.inningID = inningID;
     }
 
-    public int getPlayerAtBatId() {
+    public long getPlayerAtBatId() {
         return PlayerAtBatId;
     }
 

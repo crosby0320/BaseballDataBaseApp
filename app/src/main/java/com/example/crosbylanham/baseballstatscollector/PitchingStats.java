@@ -8,9 +8,9 @@ import java.io.Serializable;
 
 public class PitchingStats implements Serializable{
     long PitchingStatsID;
-    int GameID;
-    int TeamID;
-    int playerID;
+    long GameID;
+    long TeamID;
+    long playerID;
     int pitchs;
     int balls;
     int strikes;
@@ -55,7 +55,7 @@ public class PitchingStats implements Serializable{
         PitchingStatsID = pitchingStatsID;
     }
 
-    public int getGameID() {
+    public long getGameID() {
         return GameID;
     }
 
@@ -63,7 +63,7 @@ public class PitchingStats implements Serializable{
         GameID = gameID;
     }
 
-    public int getPlayerID() {
+    public long getPlayerID() {
         return playerID;
     }
 
@@ -215,7 +215,7 @@ public class PitchingStats implements Serializable{
         this.untouched = untouched;
     }
 
-    public int getTeamID() {
+    public long getTeamID() {
         return TeamID;
     }
 

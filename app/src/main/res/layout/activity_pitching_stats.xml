@@ -10,44 +10,63 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.crosbylanham.baseballstatscollector.QuickPitchingStatsActivity">
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <Spinner
+            android:id="@+id/pitchingPlayers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/pitchingPlayers"/>
+            android:layout_centerHorizontal="true"/>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pitchingPlayers"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/pitchingPlayers">
+            android:layout_gravity="center">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <TextView android:text="Pitches"/>
-            <TextView android:id="@+id/pitches"/>
+                android:layout_height="match_parent">
+
+            </TableRow>
+
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <TextView android:text="balls"/>
-            <TextView android:id="@+id/balls"/>
+                android:layout_height="match_parent">
+                <TextView android:text="Game"/>
+                <TextView android:id="@+id/PitchingStats_games"/>
+                <TextView android:text="W"/>
+                <TextView android:id="@+id/PitchingStats_wins"/>
+                <TextView android:text="L"/>
+                <TextView android:id="@+id/PitchingStats_losses"/>
+                <TextView android:text="ERA"/>
+                <TextView android:id="@+id/PitchingStats_era"/>
+                <TextView android:text="GS"/>
+                <TextView android:id="@+id/PitchingStats_gs"/>
+            </TableRow>
+
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <TextView android:text="strikes"/>
-            <TextView android:id="@+id/strikes"/>
+                android:layout_height="match_parent">
+                <TextView android:text=""/>
+                <TextView android:id="@+id/strikes"/>
+            </TableRow>
+
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <TextView android:text="hits"/>
-            <TextView android:id="@+id/hits"/>
+                android:layout_height="match_parent">
+
+                <TextView android:text="hits"/>
+
+                <TextView android:id="@+id/hits"/>
+            </TableRow>
         </TableLayout>
 
     </LinearLayout>

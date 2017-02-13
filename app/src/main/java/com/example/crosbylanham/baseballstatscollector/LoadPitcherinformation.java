@@ -88,6 +88,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(playername.getText().toString() == "" || playername.getText() == null){
+                    Log.d("save player action","player name was null");
                     if (playersSpinner.getSelectedItem() == null){
                         Toast.makeText(
                                 LoadPitcherinformation.this,
@@ -95,6 +96,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else  if(teamname.getText().toString() == "" || teamname.getText() == null){
+                    Log.d("save player action","team name was null");
                     if (teamsSpinner.getSelectedItem() == null){
                         Toast.makeText(
                                 LoadPitcherinformation.this,
@@ -102,6 +104,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 }else  if(opponentname.getText().toString() == "" || opponentname.getText() == null){
+                    Log.d("save player action","opp name was null");
                     if (teamsSpinner2.getSelectedItem() == null){
                         Toast.makeText(
                                 LoadPitcherinformation.this,
@@ -111,9 +114,13 @@ public class LoadPitcherinformation extends AppCompatActivity {
                 }else {
                     //-------------------saveing inforamtion ---------------------------------
                     Player player = getPlayer();
+                    Log.d("save player action","player name = "+player.getName());
                     Team team = getTeam();
+                    Log.d("save player action","team name = "+team.getName());
                     Team opp = getOpponent();
+                    Log.d("save player action","opp name = "+opp.getName());
                     int home = homeTeamOrNot();
+
                     if (home != -1) {
                         Game game = new Game();
                         if (home == 1){
@@ -123,6 +130,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
                             game.setHomeTeamID(team.getTeamid());
                             game.setAwayTeamID(opp.getTeamid());
                         }
+
                         game = dataBaseHelper.saveGame(game);
 
                         pitchingStats.setPlayerID(player.getPlayerID());
@@ -130,6 +138,11 @@ public class LoadPitcherinformation extends AppCompatActivity {
 
                         Intent intent = new Intent(LoadPitcherinformation.this, HomePage.class);
                         startActivity(intent);
+                    }else{
+                        Toast.makeText(
+                                LoadPitcherinformation.this,
+                                "You must let us know who the Home team is.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }

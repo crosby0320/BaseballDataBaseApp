@@ -8,31 +8,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePage">
+        <activity android:name=".SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".FullGame" android:screenOrientation="landscape">
-        </activity>
-        <activity android:name=".LoadPitcherinformation">
-        </activity>
-        <activity android:name=".MakeTeam">
-        </activity>
-        <activity android:name=".PitcherGameStats">
-        </activity>
-        <activity android:name=".ViewStats">
-        </activity>
-        <activity android:name=".QuickPitchingStatsActivity">
-        </activity>
-        <activity android:name=".WhosLombo">
-        </activity>
-        <activity android:name=".QuickBattingStatsActivity">
-        </activity>
-        <activity android:name=".whattablemenu">
-        </activity>
+        <activity
+            android:name=".FullGame"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".HomePage"/>
+        <activity android:name=".LoadPitcherinformation"/>
+        <activity android:name=".MakeTeam"/>
+        <activity android:name=".PitcherGameStats"/>
+        <activity android:name=".ViewStats"/>
+        <activity android:name=".QuickPitchingStatsActivity"/>
+        <activity android:name=".WhosLombo"/>
+        <activity android:name=".QuickBattingStatsActivity"/>
+        <activity android:name=".whattablemenu"/>
     </application>
 
 </manifest>

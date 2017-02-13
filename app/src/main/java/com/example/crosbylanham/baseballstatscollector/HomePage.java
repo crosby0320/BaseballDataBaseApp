@@ -8,22 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 public class HomePage extends AppCompatActivity {
-    private static final int SPLASHSCREENTIME = 4000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-/*
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent homeintent = new Intent(SplashscreenActivity.this,HomePage.this);
-                startActivity(homeintent);
-                finish();
-            }
-        },SPLASHSCREENTIME);
-*/
 
         initButtons();
         fullGameActionButton();

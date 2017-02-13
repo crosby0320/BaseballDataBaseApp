@@ -6,8 +6,8 @@ package com.example.crosbylanham.baseballstatscollector;
 
 public class Game {
     long GameID;
-    int HomeTeamID;
-    int AwayTeamID;
+    long HomeTeamID;
+    long AwayTeamID;
     String Description;
     String name;
 
@@ -23,19 +23,17 @@ public class Game {
         GameID = gameID;
     }
 
-    public int getHomeTeamID() {
+    public long getHomeTeamID() {
         return HomeTeamID;
     }
 
-    public void setHomeTeamID(int homeTeamID) {
-        HomeTeamID = homeTeamID;
-    }
+    public void setHomeTeamID(long homeTeamID) {HomeTeamID = homeTeamID;}
 
-    public int getAwayTeamID() {
+    public long getAwayTeamID() {
         return AwayTeamID;
     }
 
-    public void setAwayTeamID(int awayTeamID) {
+    public void setAwayTeamID(long awayTeamID) {
         AwayTeamID = awayTeamID;
     }
 

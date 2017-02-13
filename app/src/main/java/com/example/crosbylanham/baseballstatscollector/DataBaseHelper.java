@@ -172,7 +172,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------------
     public DataBaseHelper(Context context) {
         super(context, databaseName, null, version);
-        Log.i("Database Operations", "Created oropened the database");
+        Log.i("Database Operations", "Created opened the database");
     }
 
     @Override
