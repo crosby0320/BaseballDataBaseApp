@@ -397,6 +397,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return game;
     }
+    public Game getGame(String gameName){
+        String Query = "SELECT * "+
+                "FROM " + GAMETABLENAME +" "+
+                "WHERE "+ GAMEname + " = \"" + gameName +"\" ;";
+
+        Game game = new Game();
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        cursor.moveToFirst();
+
+        game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
+        game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
+        game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
+        game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
+        game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
+
+        db.close();
+        return game;
+    }
 
     public ArrayList<AtBats> getAllABsForPlayer(long id){
         ArrayList<AtBats> list = new ArrayList<>();
@@ -420,6 +441,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return list;
+    }
+    public ArrayList<String> getAllGamesForPlayer(long playerID){
+
+
+
+        String Query = "SELECT "+" * "+
+                "FROM " + GAMETABLENAME +" "+
+                "WHERE "+GAMEname+" = \""+id+"\" ;";
+
+        ArrayList<String> names = new ArrayList<>();
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            names.add(cursor.getString(cursor.getColumnIndex(GAMEname)));
+            cursor.moveToNext();
+        }
+        db.close();
+        return names;
     }
 
     public ArrayList<String> getAllGameNames(){

@@ -215,9 +215,7 @@ public class PitchingStats implements Serializable{
         this.untouched = untouched;
     }
 
-    public long getTeamID() {
-        return TeamID;
-    }
+    public long getTeamID() {return TeamID;}
 
     public void setTeamID(long teamID) {
         TeamID = teamID;

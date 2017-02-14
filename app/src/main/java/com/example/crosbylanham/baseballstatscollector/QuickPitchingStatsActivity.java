@@ -22,10 +22,11 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
     TextView hits;
 
     Player player;
+    Game game;
 
     PitchingStats totalstats;
 
-    Spinner spinner;
+    Spinner spinner,gamespiner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,10 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
 
     public void spinnerAction() {
         spinner = (Spinner) findViewById(R.id.pitchingPlayers);
+        gamespiner = (Spinner) findViewById(R.id.PitchingStats_gamespinner);
 
         List<String> list = new ArrayList<>(
-                new DataBaseHelper(QuickPitchingStatsActivity.this).getAllPlayersNames()
+                dataBaseHelper.getAllPlayersNames()
         );
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -69,6 +71,25 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
             }
         });
 
+        List<String> listOfGames = new ArrayList<String>(dataBaseHelper.getAllGamesForPlayer());
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                listOfGames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gamespiner.setAdapter(adapter1);
+        gamespiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                game = dataBaseHelper.getGame(parent.getSelectedItem().toString());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void initTextViews() {

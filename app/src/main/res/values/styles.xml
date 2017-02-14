@@ -101,4 +101,7 @@
     <style name="quickbattiongbuttontitle">
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="statscolumns">
+        <item name="android:paddingRight">5sp</item>
+    </style>
 </resources>
