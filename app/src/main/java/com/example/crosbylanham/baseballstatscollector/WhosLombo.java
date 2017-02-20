@@ -26,7 +26,8 @@ public class WhosLombo extends AppCompatActivity {
         batting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(WhosLombo.this, QuickBattingStatsActivity.class);
+                startActivity(intent);
             }
         });
     }

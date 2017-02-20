@@ -27,24 +27,24 @@
             <LinearLayout style="@style/playernamescollum">
 
                 <TextView
-                    android:id="@+id/awayplayername1"
+                    android:id="@+id/awayplayernumber1"
                     style="@style/fullgameplayernames.number"/>
 
                 <TextView
-                    android:id="@+id/awayplayernumber1"
+                    android:id="@+id/awayplayername1"
                     style="@style/fullgameplayernames.name"/>
 
                 <Button style="@style/fullgameplayernames.subbutton"/>
             </LinearLayout>
 
             <LinearLayout style="@style/playernamescollum">
-
-                <TextView
-                    android:id="@+id/awayplayername2"
-                    style="@style/fullgameplayernames.number"/>
 
                 <TextView
                     android:id="@+id/awayplayernumber2"
+                    style="@style/fullgameplayernames.number"/>
+
+                <TextView
+                    android:id="@+id/awayplayername2"
                     style="@style/fullgameplayernames.name"/>
 
                 <Button style="@style/fullgameplayernames.subbutton"/>
@@ -53,11 +53,11 @@
             <LinearLayout style="@style/playernamescollum">
 
                 <TextView
-                    android:id="@+id/awayplayername3"
+                    android:id="@+id/awayplayernumber3"
                     style="@style/fullgameplayernames.number"/>
 
                 <TextView
-                    android:id="@+id/awayplayernumber3"
+                    android:id="@+id/awayplayername3"
                     style="@style/fullgameplayernames.name"/>
 
                 <Button style="@style/fullgameplayernames.subbutton"/>
@@ -197,16 +197,6 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/clipartbestcomvclipart"/>
                     <!-- second base player name -->
-                    <TextView
-                        android:id="@+id/textView34"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="70dp"
-                        android:background="@android:color/white"
-                        android:text="Player"
-                        android:textColor="@android:color/black"/>
                     <!-- batter name -->
                     <TextView
                         android:id="@+id/personAtHomePlate"
@@ -239,6 +229,17 @@
                         android:background="@android:color/white"
                         android:text="Player"
                         android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="69dp"
+                        android:background="@android:color/white"
+                        android:text="Player"
+                        android:textColor="@android:color/black"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"/>
                 </RelativeLayout>
 
                 <LinearLayout

@@ -41,7 +41,8 @@
                 <TextView android:text="ERA" style="@style/statscolumns"/>
                 <TextView android:text="GS" style="@style/statscolumns"/>
                 <TextView android:text="Shut Outs" style="@style/statscolumns"/>
-                <TextView android:text="Saves" style="@style/statscolumns"/>
+                <TextView android:text="Saves" style="@style/statscolumns"
+                    />
             </TableRow>
 
             <TableRow
@@ -52,6 +53,8 @@
                 <TextView android:id="@+id/PitchingStats_losses" style="@style/statscolumns"/>
                 <TextView android:id="@+id/PitchingStats_era" style="@style/statscolumns"/>
                 <TextView android:id="@+id/PitchingStats_gs" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_shutouts" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_saves" style="@style/statscolumns"/>
             </TableRow>
 
         </TableLayout>
@@ -79,12 +82,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView android:id="@+id/PitchingStats_hits" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_HRs" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_IP" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_R" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_ER" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_BB" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_HBP" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_HRs" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_IP" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_R" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_ER" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_BB" style="@style/statscolumns"/>
+                <TextView android:id="@+id/PitchingStats_Total_HBP" style="@style/statscolumns"/>
             </TableRow>
 
         </TableLayout>

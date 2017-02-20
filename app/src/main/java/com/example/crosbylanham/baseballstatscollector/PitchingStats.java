@@ -15,7 +15,7 @@ public class PitchingStats implements Serializable{
     int balls;
     int strikes;
     int hits;
-    int strikouts;
+    private int strikouts;
     int putouts;
     int walks;
     int hitsByPitch;
@@ -29,6 +29,7 @@ public class PitchingStats implements Serializable{
     int looking;
     int gapper;
     int untouched;
+    int outsPitched;
     public PitchingStats() {
     }
 
@@ -38,13 +39,14 @@ public class PitchingStats implements Serializable{
     public void ball(){pitchs++;balls++;}
     public void looking(){pitchs++;strikes++;untouched++;}
     public void grounderhit(){pitchs++;hits++;groundHits++;}
-    public void grounderout(){pitchs++;hits++;groundOuts++;}
+    public void grounderout(){pitchs++;hits++;groundOuts++;outsPitched++;}
     public void linerhit(){pitchs++;hits++;lineHits++;}
-    public void linerout(){pitchs++;hits++;lineOuts++;}
-    public void flyout(){pitchs++;hits++;flyOut++;}
+    public void linerout(){pitchs++;hits++;lineOuts++;outsPitched++;}
+    public void flyout(){pitchs++;hits++;flyOut++;outsPitched++;}
     public void gapper(){pitchs++;hits++;gapper++;}
     public void homerun(){pitchs++;hits++;homeRuns++;}
     public void hitByPitch(){pitchs++;hitsByPitch++;}
+    public void hitStrikeout(){strikouts++;outsPitched++;}
     //------------------------------------------------------------------------
 
     public long getPitchingStatsID() {
@@ -78,6 +80,10 @@ public class PitchingStats implements Serializable{
     public void setPitchs(int pitchs) {
         this.pitchs = pitchs;
     }
+
+    public int getOutsPitched() {return outsPitched;}
+
+    public void setOutsPitched(int outsPitched) {this.outsPitched = outsPitched;}
 
     public int getBalls() {
         return balls;

@@ -28,10 +28,10 @@ public class PitchCounter {
         totalAtBatPitches=0;
     }
 
-    public boolean hitstrike() {
+    public boolean calledStrike() {
         strikes++;
-        totalAtBatPitches+=1;
-        totalInningPitches+=1;
+        totalAtBatPitches++;
+        totalInningPitches++;
         if (strikes == 3) {
             hitout();
             totalAtBatPitches=0;
@@ -40,7 +40,7 @@ public class PitchCounter {
         return false;
     }
 
-    public boolean hitball() {
+    public boolean calledBall() {
         totalAtBatPitches+=1;
         totalInningPitches+=1;
         if (balls < 4) {
@@ -68,7 +68,7 @@ public class PitchCounter {
         }
     }
 
-    public void hitfoul(){
+    public void foulAction(){
         totalInningPitches+=1;
         totalAtBatPitches+=1;
         if(strikes <= 2){
@@ -109,5 +109,41 @@ public class PitchCounter {
 
     public int getOuts() {
         return outs;
+    }
+
+    public void setStrikes(int strikes) {
+        this.strikes = strikes;
+    }
+
+    public void setBalls(int balls) {
+        this.balls = balls;
+    }
+
+    public void setOuts(int outs) {
+        this.outs = outs;
+    }
+
+    public void setKs(int ks) {
+        Ks = ks;
+    }
+
+    public void setInning(int inning) {
+        this.inning = inning;
+    }
+
+    public int getTotalInningPitches() {
+        return totalInningPitches;
+    }
+
+    public void setTotalInningPitches(int totalInningPitches) {
+        this.totalInningPitches = totalInningPitches;
+    }
+
+    public int getTotalAtBatPitches() {
+        return totalAtBatPitches;
+    }
+
+    public void setTotalAtBatPitches(int totalAtBatPitches) {
+        this.totalAtBatPitches = totalAtBatPitches;
     }
 }

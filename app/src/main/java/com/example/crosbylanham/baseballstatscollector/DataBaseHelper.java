@@ -49,7 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     static final String GAMEhometeam    = "HomeTeamID";
     static final String GAMEawayteam    = "AwayTeamID";
     static final String GAMEdescription = "Description";
-    static final String GAMEname = "Name";
+    static final String GAMEname        = "Name";
     //----------------------Team --------------------------------------------
     static final String TEAMTABLENAME   = "Team";
     static final String TEAMid          = "TeamID";
@@ -106,6 +106,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     static final String PITCHINGSTATSlooking            = "Looking";
     static final String PITCHINGSTATSgaper              = "Gapper";
     static final String PITCHINGSTATSuntouched          = "Untounched";
+    static final String PITCHINGSTATSoutspitched        = "Outs Pitched";
     //------------------------Pplayer Information ---------------------------
     static final String PLAYERINFOTABLEBNAME    = "Player";
     static final String PLAYERINFOid            = "PlayerID";
@@ -154,6 +155,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             PITCHINGSTATSflyouts            + " INTEGER," +
             PITCHINGSTATSlooking            + " INTEGER," +
             PITCHINGSTATSgaper              + " INTEGER," +
+            PITCHINGSTATSoutspitched        + " INTEGER," +
             PITCHINGSTATSuntouched          + " INTEGER"  +
             ");";
     private static final String CREATEATBATTABLE = "CREATE TABLE IF NOT EXISTS " + ATBATTableName +
@@ -218,10 +220,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(GAMEhometeam      , game.getHomeTeamID());
         contentValues.put(GAMEawayteam      , game.getAwayTeamID());
         contentValues.put(GAMEdescription   , game.getDescription());
-        contentValues.put(GAMEname          ,
-                getTeam(game.getHomeTeamID()).getName() + " Vs. " +
-                getTeam(game.getAwayTeamID()).getName()
-                );
+        contentValues.put(GAMEname          , game.getName());
 
         SQLiteDatabase db = getWritableDatabase();
         long gameid = db.insert(GAMETABLENAME,null,contentValues);
@@ -252,6 +251,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(PITCHINGSTATSflyouts          , pitchingStats.getFlyOut());
         contentValues.put(PITCHINGSTATSlooking          , pitchingStats.getLooking());
         contentValues.put(PITCHINGSTATSgaper            , pitchingStats.getGapper());
+        contentValues.put(PITCHINGSTATSoutspitched      , pitchingStats.getOutsPitched());
         contentValues.put(PITCHINGSTATSuntouched        , pitchingStats.getUntouched());
 
         SQLiteDatabase db = getWritableDatabase();
@@ -285,6 +285,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String Query = "SELECT * "+
                 "FROM " + PLAYERINFOTABLEBNAME +" "+
                 "WHERE "+ PLAYERINFOname +" = \"" + name +"\" ;";
+
+        Player player = new Player();
+        Log.d("Database comand", Query);
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        cursor.moveToFirst();
+
+        player.setPlayerID(cursor.getLong(cursor.getColumnIndex(PLAYERINFOid)));
+        player.setName(cursor.getString(cursor.getColumnIndex(PLAYERINFOname)));
+
+        db.close();
+        return player;
+    }
+
+    public Player getPlayer(long id){
+        String Query = "SELECT * "+
+                "FROM " + PLAYERINFOTABLEBNAME +" "+
+                "WHERE "+ PLAYERINFOid +" = " + id +" ;";
 
         Player player = new Player();
         Log.d("Database comand", Query);
@@ -439,29 +458,55 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             a.setOutcome(cursor.getInt(cursor.getColumnIndex(ATBAToutcome)));
             cursor.moveToNext();
         }
-
+        db.close();
         return list;
     }
-    public ArrayList<String> getAllGamesForPlayer(long playerID){
 
+    public ArrayList<String> getallBattersNames(){
+        ArrayList<String> list = new ArrayList<>();
 
+        String query = "SELECT * "+
+                "FROM "+ ATBATTableName +";";
 
-        String Query = "SELECT "+" * "+
-                "FROM " + GAMETABLENAME +" "+
-                "WHERE "+GAMEname+" = \""+id+"\" ;";
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
 
-        ArrayList<String> names = new ArrayList<>();
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            String id = cursor.getString(cursor.getColumnIndex(ATBATplayeratbatid));
+            if(!list.contains(id)){
+                list.add(id);
+            }
+            cursor.moveToNext();
+        }
+        db.close();
+        ArrayList<String> battersNames = new ArrayList<>();
+        for (String id:list){
+            battersNames.add(getPlayer(Long.valueOf(id)).getName());
+        }
+        return battersNames;
+    }
+
+    public ArrayList<String> getAllGamesNamesForPitcher(long id){
+        ArrayList<String> gameNames = new ArrayList<String>();
+
+        String Query = "SELECT "+PITCHINGSTATSgameid+" "+
+                "FROM " + PITCHINGSTATSTABLENAME +" "+
+                "WHERE " +PITCHINGSTATSplayerid + " = " + id + " ;";
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(Query, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            names.add(cursor.getString(cursor.getColumnIndex(GAMEname)));
+            String name = cursor.getString(cursor.getColumnIndex(PITCHINGSTATSgameid));
+            if(!gameNames.contains(name)){
+                gameNames.add(name);
+            }
             cursor.moveToNext();
         }
         db.close();
-        return names;
+        return gameNames;
     }
 
     public ArrayList<String> getAllGameNames(){
@@ -502,7 +547,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return names;
     }
-
     public ArrayList<Game> getAllGames(){
         ArrayList<Game> games = new ArrayList<>();
 
@@ -528,7 +572,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return games;
     }
 
-    public ArrayList<AtBats> getAllAtBatsForPlayer(int id){
+    /*public ArrayList<AtBats> getAllAtBatsForPlayer(long id){
         String query = "SELECT * "+
                 "FROM "+ATBATTableName + " "+
                 "WHERE "+ATBATplayeratbatid +" = "+id+";";
@@ -556,7 +600,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         db.close();
         return list;
-    }
+    }*/
 
     public ArrayList<PitchingStats> getAllPitchingStatsForPlayer(long id){
         String Query = "SELECT * "+
@@ -594,6 +638,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             pitchingStats.setFlyOut(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSflyouts         )));
             pitchingStats.setLooking(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlooking         )));
             pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgaper           )));
+            pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSoutspitched           )));
             pitchingStats.setUntouched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSuntouched       )));
 
             cursor.moveToNext();

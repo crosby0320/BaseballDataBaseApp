@@ -1,110 +1,80 @@
 package com.example.crosbylanham.baseballstatscollector;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
-public class QuickBattingStatsActivity extends AppCompatActivity implements View.OnClickListener {
-    Spinner playerSpinner, gameSpinner;
+public class QuickBattingStatsActivity extends AppCompatActivity {
 
-    TextView ballsTextView, strikesTextView;
-    TextView abs, avg, hits, ks, hr;
+    Spinner playerSpinner,gameSpinner;
 
-    Button ball, strike;
-    Button single, doubles, triple, homeRun;
-    Button flyOut, foulOut, groundOut, lineOut;
-    Button advancedrunner, hbp;
-    Button backHomeButton;
+    TextView abTextView,avgTextView,obpTextView,slgTextView,
+            rTextView,hTextView,singleTextView,doubleTextView,triplesTextView,
+            hrTextView,sbTextView,csTextView;
 
-    AtBats atBats;
-    Player playeratbat;
+    TextView gameabTextView,gameavgTextView,gameobpTextView,gameslgTextView,
+            gamerTextView,gamehTextView,gamesingleTextView,gamedoubleTextView,gametriplesTextView,
+            gamehrTextView,gamesbTextView,gamecsTextView;
+
+    Player player;
     Game game;
 
-    PitchCounter pitchCounter;
+    DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_batting_stats2);
 
-        pitchCounter = new PitchCounter();
+        initTotalTextViews();
+        initGameTextViews();
 
-        initButton();
-        initSpinner();
-        initTextViews();
-        buttonActions();
     }
 
-    public void buttonActions() {
-        ball.setOnClickListener(this);
-        strike.setOnClickListener(this);
-
-        single.setOnClickListener(this);
-        doubles.setOnClickListener(this);
-        triple.setOnClickListener(this);
-        homeRun.setOnClickListener(this);
-
-        flyOut.setOnClickListener(this);
-        foulOut.setOnClickListener(this);
-        groundOut.setOnClickListener(this);
-        lineOut.setOnClickListener(this);
-
-        advancedrunner.setOnClickListener(this);
-        hbp.setOnClickListener(this);
+    public void initTotalTextViews(){
+        abTextView      = (TextView)findViewById(R.id.BattingStats_AB);
+        avgTextView     = (TextView)findViewById(R.id.BattingStats_AVG);
+        obpTextView     = (TextView)findViewById(R.id.BattingStats_OBP);
+        slgTextView     = (TextView)findViewById(R.id.BattingStats_SLG);
+        rTextView       = (TextView)findViewById(R.id.BattingStats_R);
+        hTextView       = (TextView)findViewById(R.id.BattingStats_H);
+        singleTextView  = (TextView)findViewById(R.id.BattingStats_1B);
+        doubleTextView  = (TextView)findViewById(R.id.BattingStats_2B);
+        triplesTextView = (TextView)findViewById(R.id.BattingStats_3B);
+        hrTextView      = (TextView)findViewById(R.id.BattingStats_HR);
+        sbTextView      = (TextView)findViewById(R.id.BattingStats_SB);
+        csTextView      = (TextView)findViewById(R.id.BattingStats_CS);
     }
 
-    public void initButton() {
-        ball = (Button) findViewById(R.id.batting_ballbutton);
-        strike = (Button) findViewById(R.id.batting_strikesbutton);
-        single = (Button) findViewById(R.id.batting_singlebutton);
-        doubles = (Button) findViewById(R.id.batting_doublebutton);
-        triple = (Button) findViewById(R.id.batting_tripplebutton);
-        homeRun = (Button) findViewById(R.id.batting_homerunbutton);
-
-        foulOut = (Button) findViewById(R.id.batting_fouloutbutton);
-        groundOut = (Button) findViewById(R.id.batting_groundoutbutton);
-        lineOut = (Button) findViewById(R.id.batting_lineoutbutton);
-        flyOut = (Button) findViewById(R.id.batting_flyoutbutton);
-
-        advancedrunner = (Button) findViewById(R.id.advancerunnerbutton);
-        hbp = (Button) findViewById(R.id.batting_hitByPitch);
-
-        backHomeButton = (Button) findViewById(R.id.batting_backhomebutton);
+    public void initGameTextViews(){
+        gameabTextView = (TextView)findViewById(R.id.BattingStats_game_AB);
+        gameavgTextView = (TextView)findViewById(R.id.BattingStats_game_AVG);
+        gameobpTextView     = (TextView)findViewById(R.id.BattingStats_game_OBP);
+        gameslgTextView     = (TextView)findViewById(R.id.BattingStats_game_SLG);
+        gamerTextView       = (TextView)findViewById(R.id.BattingStats_game_R);
+        gamehTextView       = (TextView)findViewById(R.id.BattingStats_game_H);
+        gamesingleTextView = (TextView)findViewById(R.id.BattingStats_game_1B);
+        gamedoubleTextView = (TextView)findViewById(R.id.BattingStats_game_2B);
+        gametriplesTextView = (TextView)findViewById(R.id.BattingStats_game_3B);
+        gamehrTextView = (TextView)findViewById(R.id.BattingStats_game_HR);
+        gamesbTextView = (TextView)findViewById(R.id.BattingStats_game_SB);
+        gamecsTextView = (TextView)findViewById(R.id.BattingStats_game_CS);
     }
+    public void playerSpinnerAction(){
+        playerSpinner = (Spinner) findViewById(R.id.BattingStats_playerSpinner);
+        gameSpinner = (Spinner) findViewById(R.id.BattingStats_gameSpinner);
 
-    public void initTextViews() {
-        ballsTextView = (TextView) findViewById(R.id.batting_balls);
-        strikesTextView = (TextView) findViewById(R.id.batting_strikes);
-
-        abs = (TextView) findViewById(R.id.batting_ABs);
-        avg = (TextView) findViewById(R.id.batting_average);
-        hits = (TextView) findViewById(R.id.batting_hits);
-        ks = (TextView) findViewById(R.id.batting_ks);
-        hr = (TextView) findViewById(R.id.batting_hr);
-    }
-
-    public void updateInformation() {
-        ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
-        strikesTextView.setText(String.valueOf(pitchCounter.getStrikes()));
-    }
-
-    public void initSpinner() {
-        playerSpinner = (Spinner) findViewById(R.id.playersSpinner);
-        LinkedList<String> list = new LinkedList<>(
-                new DataBaseHelper(QuickBattingStatsActivity.this).getAllPlayersNames()
-        );
-        list.addFirst("no player selected");
+        List<String> list = new ArrayList<>(dataBaseHelper.getallBattersNames());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
@@ -118,261 +88,83 @@ public class QuickBattingStatsActivity extends AppCompatActivity implements View
 
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == 0) {
-
-                } else {
-                    playeratbat = new DataBaseHelper(QuickBattingStatsActivity.this).getPlayer(
-                            parentView.getSelectedItem().toString()
-                    );
-
-                    ArrayList<AtBats> listOfABs = new DataBaseHelper(QuickBattingStatsActivity.this)
-                            .getAllABsForPlayer(playeratbat.getPlayerID());
-                    double avgCount;
-                    int abcount = 0, hitstemp = 0, kscount = 0, hrcount = 0;
-                    for (AtBats x : listOfABs) {
-                        if (x.getOutcome() != AtBats.WALK && x.getOutcome() != AtBats.HIT_BY_PITCH) {
-                            abcount++;
-                        } else if (x.getOutcome() == 0 || x.getOutcome() == 1 ||
-                                x.getOutcome() == 2 || x.getOutcome() == 3) {
-                            hitstemp++;
-                        } else if (x.getOutcome() == 5) {
-                            kscount++;
-                        }
-                        if (x.getOutcome() == 3) {
-                            hrcount++;
-                        }
-                    }
-                    avg.setText(String.valueOf(hitstemp / ((double) (abcount))));
-                    hits.setText(String.valueOf(hitstemp));
-                    abs.setText(String.valueOf(abcount));
-                    ks.setText(String.valueOf(kscount));
-                    hr.setText(String.valueOf(hrcount));
-                }
+                player = dataBaseHelper.getPlayer(parentView.getSelectedItem().toString());
+                gameSpinnerAction();
+                fillTotalStats();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                //nothing
+
             }
         });
-        final DataBaseHelper dataBaseHelper = new DataBaseHelper(QuickBattingStatsActivity.this);
-        game = new Game();
-        /*#TODO we need to set the game id so that people know what game they got the stats from*/
-        game.setGameID(999);
-        final ArrayList<Game> gamelist = dataBaseHelper.getAllGames();
-        LinkedList<String> gamesNamesList = new LinkedList<>();
-        for (Game g:gamelist){
-            gamesNamesList.add(
-                    dataBaseHelper.getTeam(g.getAwayTeamID()).getName()
-                    +" Vs. "+
-                    dataBaseHelper.getTeam(g.getHomeTeamID()).getName() + " "+game.getGameID());
-        }
-        gameSpinner = (Spinner) findViewById(R.id.gameSpinner);
-        gamesNamesList.addFirst("New Game");
+    }
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,
-                list);
+    public void gameSpinnerAction(){
+        if(player == null){}else {
+            List<String> listOfGames = new ArrayList<String>();
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    listOfGames);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            gameSpinner.setAdapter(adapter1);
+            gameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        gameSpinner.setAdapter(adapter);
-
-        gameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    game = new Game();
-                    game.setGameID(0);
-                }else{
-                    game = dataBaseHelper.getGame(
-                            gamelist.get(position).getGameID()
-                    );
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    game = dataBaseHelper.getGame(parent.getSelectedItem().toString());
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.batting_ballbutton) {
-            if (pitchCounter.getBalls() == 3) {
-                atBats = new AtBats();
-                atBats.setOutcome(AtBats.WALK);
-                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                atBats.setBalls(4);
-                atBats.setStrikes(pitchCounter.getStrikes());
-                atBats.setGameID(game.getGameID());
-
-                new DataBaseHelper(QuickBattingStatsActivity.this).saveAtBat(atBats);
-                Toast.makeText(QuickBattingStatsActivity.this, "Stats Has Been Saved", Toast.LENGTH_SHORT).show();
-                pitchCounter.reset();
-            } else {
-                pitchCounter.hitball();
-            }
-            updateInformation();
-        } else if (v.getId() == R.id.batting_strikesbutton) {
-            if (pitchCounter.getStrikes() == 2) {
-                atBats = new AtBats();
-                atBats.setOutcome(AtBats.STRIKEOUT);
-                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                atBats.setBalls(pitchCounter.getBalls());
-                atBats.setStrikes(3);
-                atBats.setGameID(game.getGameID());
-
-                new DataBaseHelper(QuickBattingStatsActivity.this).saveAtBat(atBats);
-                Toast.makeText(QuickBattingStatsActivity.this, "Stats Has Been Saved", Toast.LENGTH_SHORT).show();
-                pitchCounter.reset();
-            } else {
-                pitchCounter.hitstrike();
-            }
-            updateInformation();
-        } else if(v.getId() == R.id.batting_foulballbutton){
-            pitchCounter.hitfoul();
-            updateInformation();
-        } else {
-            switch (v.getId()) {
-                case R.id.batting_singlebutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.SINGLE);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_doublebutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.DOUBLE);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_tripplebutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.TRIPLE);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_homerunbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.HOMERUN);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_fouloutbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.FOUL_OUT);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_groundoutbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.GROUNDOUT);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_flyoutbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.FLYOUT);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_lineoutbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.LINEOUT);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.advancerunnerbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.HOMERUN);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_hitByPitch:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.HIT_BY_PITCH);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_errorbutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.ERROR);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_fielderschoicebutton:
-                    atBats = new AtBats();
-                    atBats.setOutcome(AtBats.FIELDERS_CHOICE);
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-                    atBats.setBalls(pitchCounter.getBalls());
-                    atBats.setStrikes(pitchCounter.getStrikes()+1);
-                    atBats.setGameID(game.getGameID());
-                    saveInformation();
-                    break;
-                case R.id.batting_backhomebutton:
-                    Intent intent = new Intent(QuickBattingStatsActivity.this, HomePage.class);
-                    startActivity(intent);
-                    break;
-                default:
-
-                    break;
-            }
-
-
+                }
+            });
         }
     }
-    public void saveInformation(){
-        new DataBaseHelper(QuickBattingStatsActivity.this).saveAtBat(atBats);
-        Toast.makeText(QuickBattingStatsActivity.this, "Stats Has Been Saved", Toast.LENGTH_SHORT).show();
-        pitchCounter.reset();
-        updateInformation();
+
+    public void fillTotalStats(){
+        /*#TODO make sure that i add some functionality to
+        * the players need to be able to get the Stolen basses and caught Stealing*/
+        int totalPA =0;
+        int totalavg = 0;
+        int totalobp = 0;
+        int totalslg = 0;
+        int totalr = 0;
+        int totalh = 0;
+        int total1b = 0;
+        int total2b = 0;
+        int total3b = 0;
+        int totalhr = 0;
+        int totalsb = 0;
+        int totalcs = 0;
+        int totalab = 0;
+
+                ArrayList<AtBats> allabs = dataBaseHelper.getAllABsForPlayer(player.getPlayerID());
+        totalPA =totalab = allabs.size();
+        for (AtBats a:allabs){
+            if(a.getOutcome() == 0 ||a.getOutcome() == 1||a.getOutcome() == 2||
+                    a.getOutcome() == 3){totalh+=1;}
+            if(a.getOutcome() == AtBats.WALK ||a.getOutcome() == AtBats.HIT_BY_PITCH
+                    || a.getOutcome() == AtBats.ADVANCERUNNER){totalab--;}
+            if(a.getOutcome() == 0 ){total1b+=1;}
+            else if(a.getOutcome() == 1 ){total2b+=1;}
+            else if(a.getOutcome() == 2 ){total3b+=1;}
+            else if(a.getOutcome() == 3 ){totalhr+=1;}
+        }
+
+        abTextView.setText(String.valueOf(totalPA));
+        avgTextView.setText(String.format("%.3f",totalh/(double)(totalab)));
+        obpTextView.setText("N/A");
+        slgTextView.setText("N/A");
+        rTextView.setText("N/A");
+        hTextView.setText(String.valueOf(totalh));
+        singleTextView.setText(String.valueOf(total1b));
+        doubleTextView.setText(String.valueOf(total2b));
+        triplesTextView.setText(String.valueOf(total3b));
+        hrTextView.setText(String.valueOf(totalhr));
+        sbTextView.setText("N/A");
+        csTextView.setText("N/A");
     }
+
 }

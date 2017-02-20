@@ -53,6 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Load Team" />
+
+        <Button
+            android:id="@+id/HomePage_EditData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Database" />
     </LinearLayout>
 
 </RelativeLayout>

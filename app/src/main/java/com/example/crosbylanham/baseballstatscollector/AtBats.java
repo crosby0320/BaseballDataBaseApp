@@ -97,7 +97,7 @@ public class AtBats {
     public final String[] outcomePositions = {
             "Single", "double","triple","Homerun","Fly Out",
             "StrikeOut","WALK","Hit By Pitch","Error","Ground Out",
-            "Foul Out","Fielder Choice"
+            "Foul Out","","Fielder Choice","Line Out","Advanced Runner"
     };
     public final static int SINGLE = 0;
     public final static int DOUBLE = 1;
@@ -110,6 +110,8 @@ public class AtBats {
     public final static int ERROR =8;
     public final static int GROUNDOUT =9;
     public final static int FOUL_OUT= 10;
+
     public final static int FIELDERS_CHOICE =12;
     public final static int LINEOUT = 13;
+    public final static int ADVANCERUNNER = 14;
 }

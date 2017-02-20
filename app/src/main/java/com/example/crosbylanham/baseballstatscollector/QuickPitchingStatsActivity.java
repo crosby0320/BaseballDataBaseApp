@@ -2,7 +2,6 @@ package com.example.crosbylanham.baseballstatscollector;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,15 +15,12 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
 
     DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
 
-    TextView strikes;
-    TextView balls;
-    TextView pitches;
-    TextView hits;
-
-    Player player;
+    Player player = null;
     Game game;
 
-    PitchingStats totalstats;
+    TextView gamesPlayered,wins,losses,totalERA,GS,shutouts,saves;
+    TextView totalhits, totalHR,totalIP,totalR, totalER,totalBB,totalHBP;
+    TextView IP,H,Runs,Pitches,ER,BB,SO,WHIP,ERA;
 
     Spinner spinner,gamespiner;
 
@@ -33,19 +29,16 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitching_stats);
 
-        totalstats = new PitchingStats();
-
-        initTextViews();
-        spinnerAction();
+        initGameTextViews();
+        initTotalStats();
+        playerSpinnerAction();
     }
 
-    public void spinnerAction() {
+    public void playerSpinnerAction() {
         spinner = (Spinner) findViewById(R.id.pitchingPlayers);
         gamespiner = (Spinner) findViewById(R.id.PitchingStats_gamespinner);
 
-        List<String> list = new ArrayList<>(
-                dataBaseHelper.getAllPlayersNames()
-        );
+        List<String> list = new ArrayList<>(dataBaseHelper.getAllPlayersNames());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item,
@@ -60,66 +53,115 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 player = dataBaseHelper.getPlayer(parentView.getSelectedItem().toString());
-                getTotalStats();
-                fillinformation();
+                gameSpinnerAction();
+                fillTotalStats();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                totalstats = new PitchingStats();
-                fillinformation();
-            }
-        });
-
-        List<String> listOfGames = new ArrayList<String>(dataBaseHelper.getAllGamesForPlayer());
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                listOfGames);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gamespiner.setAdapter(adapter1);
-        gamespiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                game = dataBaseHelper.getGame(parent.getSelectedItem().toString());
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
+        //--------------------------------------------------------------------------------------------------------
     }
+    public void gameSpinnerAction(){
+        if(player == null){}else {
+            List<String> listOfGames = new ArrayList<String>(dataBaseHelper.getAllGamesNamesForPitcher(player.getPlayerID()));
 
-    public void initTextViews() {
-        strikes = (TextView) findViewById(R.id.strikes);
-        balls = (TextView) findViewById(R.id.balls);
-        pitches = (TextView) findViewById(R.id.pitches);
-        hits = (TextView) findViewById(R.id.hits);
-    }
+            ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    listOfGames);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            gamespiner.setAdapter(adapter1);
+            gamespiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-    public void fillinformation() {
-        strikes.setText(String.valueOf(totalstats.getStrikes()));
-        balls.setText(String.valueOf(totalstats.getBalls()));
-        pitches.setText(String.valueOf(totalstats.getPitchs()));
-        hits.setText(String.valueOf(totalstats.getHits()));
-    }
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    game = dataBaseHelper.getGame(parent.getSelectedItem().toString());
+                    fillGameTextFields();
+                }
 
-    public void getTotalStats() {
-        ArrayList<PitchingStats> stats = new ArrayList<>(
-                new DataBaseHelper(QuickPitchingStatsActivity.this)
-                        .getAllPitchingStatsForPlayer(player.PlayerID)
-        );
-        totalstats = new PitchingStats();
-        for (PitchingStats x : stats) {
-            Log.d("FROM DATABASE", String.valueOf(x.getPlayerID()));
-            Log.d("FROM DATABASE", String.valueOf(x.getBalls()));
-            Log.d("FROM DATABASE", String.valueOf(x.getPitchs()));
-            totalstats.strikes += x.getStrikes();
-            totalstats.balls += x.getBalls();
-            totalstats.pitchs += x.getPitchs();
-            totalstats.hits += x.getHits();
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         }
+    }
+
+    public void initGameTextViews() {
+        IP = (TextView) findViewById(R.id.PitchingStats_Game_IP);
+        H = (TextView) findViewById(R.id.PitchingStats_Game_H);
+        Runs = (TextView) findViewById(R.id.PitchingStats_Game_R);
+        Pitches = (TextView) findViewById(R.id.PitchingStats_Game_Pitches);
+        ER = (TextView) findViewById(R.id.PitchingStats_Game_ER);
+        BB = (TextView) findViewById(R.id.PitchingStats_Game_BB);
+        SO = (TextView) findViewById(R.id.PitchingStats_Game_SO);
+        WHIP = (TextView) findViewById(R.id.PitchingStats_Game_WHIP);
+        ERA = (TextView) findViewById(R.id.PitchingStats_Game_ERA);
+    }
+    public void initTotalStats(){
+        gamesPlayered = (TextView)findViewById(R.id.PitchingStats_games);
+        wins = (TextView)findViewById(R.id.PitchingStats_wins);
+        losses = (TextView)findViewById(R.id.PitchingStats_losses);
+        totalERA = (TextView)findViewById(R.id.PitchingStats_era);
+        GS = (TextView)findViewById(R.id.PitchingStats_gs);
+        shutouts = (TextView)findViewById(R.id.PitchingStats_shutouts);
+        saves = (TextView)findViewById(R.id.PitchingStats_saves);
+
+        totalhits = (TextView)findViewById(R.id.PitchingStats_hits);
+        totalHR = (TextView)findViewById(R.id.PitchingStats_Total_HRs);
+        totalIP = (TextView)findViewById(R.id.PitchingStats_Total_IP);
+        totalR = (TextView)findViewById(R.id.PitchingStats_Total_R);
+        totalER = (TextView)findViewById(R.id.PitchingStats_Total_ER);
+        totalBB = (TextView)findViewById(R.id.PitchingStats_Total_BB);
+        totalHBP = (TextView)findViewById(R.id.PitchingStats_Total_HBP);
+    }
+    public void fillGameTextFields() {
+        IP.setText(     "0"     );
+        H.setText(      "0"     );
+        Runs.setText(   "0"     );
+        Pitches.setText("0"  );
+        ER.setText(     "0"    );
+        BB.setText(     "0"    );
+        SO.setText(     "0"    );
+        WHIP.setText(   "0"    );
+        ERA.setText(    "0"     );
+    }
+    public void fillTotalStats(){
+        ArrayList<PitchingStats> allPitchingStats = dataBaseHelper.getAllPitchingStatsForPlayer(player.getPlayerID());
+        int gamesPlayed = allPitchingStats.size();
+        int countwins = 0;
+        int countlossses=0;
+        double ERA = 0;
+        int gs =0;
+        int shutout=0;
+        int countsaves=0;
+        int h=0;
+        int homeRuns = 0,walks = 0;
+        int outspitched=0;int runs =0;int er=0;int bb =0;int hbp=0;
+        for (PitchingStats x:allPitchingStats) {
+            homeRuns += x.getHomeRuns();
+            h += x.getHits();
+            walks+=x.getWalks();
+            hbp+=x.getHitsByPitch();
+            outspitched += x.getOutsPitched();
+        }
+        ERA = er/outspitched/3.0;/* #TODO i need to fix the stats so
+        that we can have innings pitched and total inings pitched */
+
+        gamesPlayered.setText(String.valueOf(gamesPlayed));
+        wins.setText("N/A");
+        losses.setText("N/A");
+        totalERA.setText(String.format("%.3f",ERA));
+        GS.setText("N/A");
+        shutouts.setText("N/A");
+        saves.setText("N/A");
+        totalhits.setText(String.valueOf(h));
+        totalHR.setText(String.valueOf(homeRuns));
+        totalIP.setText(String.format("%.3f",outspitched/3.0));
+        totalR.setText("0");
+        totalER.setText("N/A");
+        totalBB.setText(String.valueOf(walks));
+        totalHBP.setText(String.valueOf(hbp));
     }
 }

@@ -1,7 +1,6 @@
 package com.example.crosbylanham.baseballstatscollector;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +38,7 @@ public class HomePage extends AppCompatActivity {
         fullGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this,FullGame.class);
+                Intent intent = new Intent(HomePage.this,MakeTeam.class);
                 startActivity(intent);
             }
         });
@@ -48,7 +47,7 @@ public class HomePage extends AppCompatActivity {
         quickPitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this,PitcherGameStats.class);
+                Intent intent = new Intent(HomePage.this,QuickPitchingStatsGameActivity.class);
                 startActivity(intent);
             }
         });
@@ -57,7 +56,7 @@ public class HomePage extends AppCompatActivity {
         quickBattingStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this,QuickBattingStatsActivity.class);
+                Intent intent = new Intent(HomePage.this,QuickBattingStatsGameActivity.class);
                 startActivity(intent);
             }
         });

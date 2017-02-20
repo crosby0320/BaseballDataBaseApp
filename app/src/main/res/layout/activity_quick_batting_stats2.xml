@@ -12,273 +12,93 @@
     tools:context="com.example.crosbylanham.baseballstatscollector.QuickBattingStatsActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/playersSpinner"/>
+            android:id="@+id/BattingStats_playerSpinner"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5sp">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5sp">
+                <TextView android:text="AB" style="@style/statscolumns"/>
+                <TextView android:text="AVG" style="@style/statscolumns"/>
+                <TextView android:text="OBP" style="@style/statscolumns"/>
+                <TextView android:text="SLG" style="@style/statscolumns"/>
+                <TextView android:text="R" style="@style/statscolumns"/>
+                <TextView android:text="H" style="@style/statscolumns"/>
+                <TextView android:text="1B" style="@style/statscolumns"/>
+                <TextView android:text="2B" style="@style/statscolumns"/>
+                <TextView android:text="3B" style="@style/statscolumns"/>
+                <TextView android:text="HR" style="@style/statscolumns"/>
+                <TextView android:text="SB" style="@style/statscolumns"/>
+                <TextView android:text="CS" style="@style/statscolumns"/>
+        </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView android:id="@+id/BattingStats_AB" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_AVG" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_OBP" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_SLG" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_R" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_H" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_1B" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_2B" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_3B" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_HR" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_SB" style="@style/statscolumns"/>
+                <TextView android:id="@+id/BattingStats_CS" style="@style/statscolumns"/>
+            </TableRow>
+        </TableLayout>
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/gameSpinner"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Count"
-            style="@style/quickbattiongbuttontitle"/>
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-android:layout_weight="1"
-            android:textAlignment="viewEnd"
-            android:text="Balls:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0"
-            android:id="@+id/batting_balls"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-android:layout_weight="1"
-            android:textAlignment="viewEnd"
-            android:text="Strikes:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0"
-            android:id="@+id/batting_strikes"/>
-
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewEnd"
-                android:text="ABs:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:id="@+id/batting_ABs"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewEnd"
-                android:text="AVG:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:id="@+id/batting_average"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewEnd"
-                android:text="Hits:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:id="@+id/batting_hits"/>
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="viewEnd"
-            android:text="Ks:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:id="@+id/batting_ks"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="viewEnd"
-                android:text="HRs:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                android:id="@+id/batting_hr"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pitches"
-            style="@style/quickbattiongbuttontitle"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/quickbattingpage">
-
-            <Button
+            android:id="@+id/BattingStats_gameSpinner"/>
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Ball"
-                android:layout_weight="1"
-                android:id="@+id/batting_ballbutton"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Strike"
-                android:layout_weight="1"
-                android:id="@+id/batting_strikesbutton"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="foul"
-                android:layout_weight="1"
-                android:id="@+id/batting_foulballbutton"/>
-
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hits"
-            android:textAlignment="center"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/quickbattingpage">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Single"
-                android:id="@+id/batting_singlebutton"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Double"
-                android:id="@+id/batting_doublebutton"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Triple"
-                android:id="@+id/batting_tripplebutton"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="HomeRun"
-                android:id="@+id/batting_homerunbutton"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Outs"
-            android:textAlignment="center"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/quickbattingpage">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Foul Out"
-                android:id="@+id/batting_fouloutbutton"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Ground Out"
-                android:id="@+id/batting_groundoutbutton"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Fly Out"
-                android:id="@+id/batting_flyoutbutton"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Line Out"
-                android:id="@+id/batting_lineoutbutton"/>
-
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Misalanious"
-            android:textAlignment="center"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/quickbattingpage">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Advance Runner"
-                android:id="@+id/advancerunnerbutton"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="HBP"
-                android:id="@+id/batting_hitByPitch"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="FC"
-                android:id="@+id/batting_fielderschoicebutton"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="E!"
-                android:id="@+id/batting_errorbutton"/>
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back To Home"
-            android:id="@+id/batting_backhomebutton"/>
-
+                android:layout_height="match_parent">
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5sp">
+                    <TextView android:text="AB" style="@style/statscolumns"/>
+                    <TextView android:text="AVG" style="@style/statscolumns"/>
+                    <TextView android:text="OBP" style="@style/statscolumns"/>
+                    <TextView android:text="SLG" style="@style/statscolumns"/>
+                    <TextView android:text="R" style="@style/statscolumns"/>
+                    <TextView android:text="H" style="@style/statscolumns"/>
+                    <TextView android:text="1B" style="@style/statscolumns"/>
+                    <TextView android:text="2B" style="@style/statscolumns"/>
+                    <TextView android:text="3B" style="@style/statscolumns"/>
+                    <TextView android:text="HR" style="@style/statscolumns"/>
+                    <TextView android:text="SB" style="@style/statscolumns"/>
+                    <TextView android:text="CS" style="@style/statscolumns"/>
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView android:id="@+id/BattingStats_game_AB" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_AVG" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_OBP" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_SLG" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_R" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_H" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_1B" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_2B" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_3B" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_HR" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_SB" style="@style/statscolumns"/>
+                    <TextView android:id="@+id/BattingStats_game_CS" style="@style/statscolumns"/>
+                </TableRow>
+            </TableLayout>
     </LinearLayout>
 </RelativeLayout>
