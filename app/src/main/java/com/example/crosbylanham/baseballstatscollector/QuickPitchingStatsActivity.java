@@ -146,9 +146,10 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
             hbp+=x.getHitsByPitch();
             outspitched += x.getOutsPitched();
         }
-        ERA = er/outspitched/3.0;/* #TODO i need to fix the stats so
-        that we can have innings pitched and total inings pitched */
-
+        if(outspitched!= 0) {
+            ERA = er / outspitched / 3.0;/* #TODO i need to fix the stats so
+            that we can have innings pitched and total inings pitched */
+        }
         gamesPlayered.setText(String.valueOf(gamesPlayed));
         wins.setText("N/A");
         losses.setText("N/A");

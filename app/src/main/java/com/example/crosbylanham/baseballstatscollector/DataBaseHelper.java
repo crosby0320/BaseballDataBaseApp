@@ -170,6 +170,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             ATBATpitches                    + " INTEGER," +
             ATBAToutcome                    + " INTEGER"  +
             ");";
+    private static final String CREATEINNINGTABLE = "CREATE TABLE IF NOT EXISTS " + ATBATTableName +
+            "("+
+            INNINGid                      + " INTEGER PRIMARY KEY," +
+            INNINGgameid                  + " INTEGER," +
+            INNINGinningnumber            + " INTEGER," +
+            INNINGtop                     + " INTEGER," +
+            INNINGruns                    + " INTEGER" +
+            ");";
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
     public DataBaseHelper(Context context) {
@@ -184,6 +192,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATEGAMETBALE);
         db.execSQL(CREATEPITCHINGSTATSTABLE);
         db.execSQL(CREATEATBATTABLE);
+        db.execSQL(CREATEINNINGTABLE);
     }
 
     @Override
@@ -227,6 +236,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return getGame(gameid);
+    }
+    public long saveInning(Inning inning){
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(INNINGgameid      , inning.getGameID());
+        contentValues.put(INNINGinningnumber, inning.getInningNumber());
+        contentValues.put(INNINGtop         , inning.isHome());
+        contentValues.put(INNINGruns        ,inning.getRuns());
+
+        SQLiteDatabase db = getWritableDatabase();
+        long id = db.insert(INNINGTABLENAME,null,contentValues);
+        db.close();
+
+        return id;
     }
     public PitchingStats savePitchingStats(PitchingStats pitchingStats){
         ContentValues contentValues = new ContentValues();
@@ -426,14 +449,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(Query, null);
 
-        cursor.moveToFirst();
 
-        game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
-        game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
-        game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
-        game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
-        game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
+        if(cursor.moveToFirst()) {
 
+            game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
+            game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
+            game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
+            game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
+            game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
+        }
         db.close();
         return game;
     }
@@ -444,6 +468,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * "+
                 "FROM "+ ATBATTableName +" "+
                 "WHERE "+ATBATid+" = "+id+ ";";
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            AtBats a = new AtBats();
+            a.setAtBatID(cursor.getLong(cursor.getColumnIndex(ATBATplayeratbatid)));
+            a.setInningID(cursor.getLong(cursor.getColumnIndex(ATBATinnningid)));
+            a.setBalls(cursor.getInt(cursor.getColumnIndex(ATBATballs)));
+            a.setStrikes(cursor.getInt(cursor.getColumnIndex(ATBATstrikes)));
+            a.setOutcome(cursor.getInt(cursor.getColumnIndex(ATBAToutcome)));
+            cursor.moveToNext();
+        }
+        db.close();
+        return list;
+    }
+    public ArrayList<AtBats> getAllABsForPlayer(long id, long gameid){
+        ArrayList<AtBats> list = new ArrayList<>();
+
+        String query = "SELECT * "+
+                "FROM "+ ATBATTableName +" "+
+                "WHERE "+ATBATid+" = "+id+" "+
+                "AND "  +ATBATgameid +" = "+gameid+";";
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -571,36 +619,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return games;
     }
-
-    /*public ArrayList<AtBats> getAllAtBatsForPlayer(long id){
-        String query = "SELECT * "+
-                "FROM "+ATBATTableName + " "+
-                "WHERE "+ATBATplayeratbatid +" = "+id+";";
-
-        ArrayList<AtBats> list = new ArrayList<>();
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            AtBats a = new AtBats();
-
-            a.setAtBatID(       cursor.getLong(cursor.getColumnIndex(    ATBATid)));
-            a.setPlayerAtBatId(      cursor.getLong(cursor.getColumnIndex(    ATBATplayeratbatid)));
-            a.setGameID(        cursor.getLong(cursor.getColumnIndex(    ATBATgameid       )));
-            a.setInningID(     cursor.getLong(cursor.getColumnIndex(    ATBATinnningid    )));
-            a.setPitcherID( cursor.getLong(cursor.getColumnIndex(    ATBATpitcherid    )));
-            a.setBalls(       cursor.getInt(cursor.getColumnIndex(    ATBATballs        )));
-            a.setStrikes(         cursor.getInt(cursor.getColumnIndex(    ATBATstrikes      )));
-            a.setPitches(       cursor.getInt(cursor.getColumnIndex(    ATBATpitches      )));
-            a.setOutcome(       cursor.getInt(cursor.getColumnIndex(    ATBAToutcome      )));
-            list.add(a);
-            cursor.moveToNext();
-        }
-        db.close();
-        return list;
-    }*/
 
     public ArrayList<PitchingStats> getAllPitchingStatsForPlayer(long id){
         String Query = "SELECT * "+

@@ -15,6 +15,11 @@ public class Game {
 
     }
 
+    public void generateName(String awayTeamName, String homeTeamName){
+        name = "" + awayTeamName + " Vs. " + homeTeamName + " "+
+                new Datefunctions().getCurrentTimeAndDate();
+    }
+
     public long getGameID() {
         return GameID;
     }

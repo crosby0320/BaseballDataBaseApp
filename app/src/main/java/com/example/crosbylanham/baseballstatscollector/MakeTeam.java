@@ -16,6 +16,8 @@ public class MakeTeam extends AppCompatActivity {
     int[] awayteamids ={R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,
             R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1};
 
+    DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
+
     CheckBox checkBoxHome, checkBoxAway;
     int numberOfBattersHome;
     int numberOfBattersAway;
@@ -49,6 +51,9 @@ public class MakeTeam extends AppCompatActivity {
                 numberOfBattersAway = checkBoxAway.isChecked() ? 10 : 9;
                 ArrayList<Player>  homePlayers = getNamesForHomeTeam();
                 ArrayList<Player> awayPlayers = getNamesForAwayTeam();
+
+                saveTeams();
+
                 Intent intent = new Intent(MakeTeam.this,FullGame.class);
                 intent.putExtra("homeTeam",homePlayers);
                 intent.putExtra("homeTeamName",getHomeTeamName());
@@ -57,6 +62,13 @@ public class MakeTeam extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    public void saveTeams(){
+        Team hT = dataBaseHelper.getTeam(getHomeTeamName());
+        if(hT == null){dataBaseHelper.saveTeam(hT);}
+
+        Team aT = dataBaseHelper.getTeam(getAwayTeamName());
+        if(aT == null){dataBaseHelper.saveTeam(aT);}
     }
     public String getHomeTeamName(){
         String name = ((EditText)findViewById(R.id.hometeamname)).getText().toString();
@@ -76,7 +88,9 @@ public class MakeTeam extends AppCompatActivity {
             if(line.matches("")){
                 p = new Player("Player "+ (int)Math.random()*1000);
             }else {
-                p = new Player(line);
+                Player player = dataBaseHelper.getPlayer(line);
+                if(player == null){p = new Player(line);}
+                else{p = player;}
             }
             homeTeam.add(p);
         }
@@ -90,7 +104,9 @@ public class MakeTeam extends AppCompatActivity {
             if(line.matches("")){
                 p = new Player("Player "+ (int)Math.random()*1000);
             }else {
-                p = new Player(line);
+                Player player = dataBaseHelper.getPlayer(line);
+                if(player == null){p = new Player(line);}
+                else{p = player;}
             }
             awayTeam.add(p);
         }

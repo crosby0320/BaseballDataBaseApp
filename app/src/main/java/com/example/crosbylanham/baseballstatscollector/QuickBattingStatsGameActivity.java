@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class QuickBattingStatsGameActivity extends AppCompatActivity {
 
     TextView ballsTextView, strikesTextView;
@@ -94,16 +96,21 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
 
     public void updateInformation() {
         //ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
-        ballsTextView.setText("58");
+        ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
         strikesTextView.setText(String.valueOf(pitchCounter.getStrikes()));
 
         /*#TODO should i put in more stats that the players may need
         * or should i not do that to them like that.*/
-        abs.setText("0");
-        avg.setText("0");
-        hits.setText("");
-        ks.setText("");
-        hr.setText("");
+        if(playeratbat != null) {
+            ArrayList<AtBats> allatbats = dataBaseHelper.getAllABsForPlayer(playeratbat.PlayerID, game.GameID);
+            int ab = atBats.getAllAtBats(allatbats);
+            int hit = atBats.getallhits(allatbats);
+            abs.setText(String.valueOf(ab));
+            avg.setText(String.format("%.3f",hit/(double)ab));
+            hits.setText(String.valueOf(hit));
+            ks.setText(String.valueOf(atBats.getAllStrikeouts(allatbats)));
+            hr.setText(String.valueOf(atBats.getAllHomeruns(allatbats)));
+        }
     }
 
     public void setBallButtonAction() {
@@ -396,7 +403,10 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     }
 
     public void saveGame() {
-        game.setName(new Datefunctions().getCurrentTimeAndDate());
-        game = dataBaseHelper.saveGame(game);
+        game = dataBaseHelper.getGame(new Datefunctions().getCurrentTimeAndDate());
+        if(game == null) {
+            game.setName(new Datefunctions().getCurrentTimeAndDate());
+            game = dataBaseHelper.saveGame(game);
+        }
     }
 }
