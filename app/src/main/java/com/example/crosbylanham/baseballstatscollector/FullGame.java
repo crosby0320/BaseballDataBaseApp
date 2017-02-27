@@ -1,15 +1,18 @@
 package com.example.crosbylanham.baseballstatscollector;
 
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 class ScoreBoard {
-    public int awayScore=0;
+    public int awayScore = 0;
     public int homeScore = 0;
     public int homePositionAtBat = 0;
     public int awayPositionAtBat = 0;
@@ -17,6 +20,7 @@ class ScoreBoard {
     public int inningNumber = 1;
     public int outs = 0;
 }
+
 public class FullGame extends AppCompatActivity {
 
     DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
@@ -24,44 +28,65 @@ public class FullGame extends AppCompatActivity {
     ScoreBoard scoreBoard = new ScoreBoard();
     Game game;
 
-    String homeTeamName = (String) getIntent().getSerializableExtra("homeTeamName");
-    String awayTeamName = (String) getIntent().getSerializableExtra("awayTeamName");
-    ArrayList<Player> awayTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("awayTeam");
-    ArrayList<Player> homeTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("homeTeam");
+    String homeTeamName;
+    String awayTeamName;
+    ArrayList<Player> awayTeamPlayers,homeTeamPlayers;
 
-    TextView player1name = (TextView)findViewById(R.id.awayplayername1);
-    TextView player2name = (TextView)findViewById(R.id.awayplayername2);
-    TextView player3name = (TextView)findViewById(R.id.awayplayername3);
-    TextView player4name = (TextView)findViewById(R.id.awayplayernumber4);
-    TextView player5name = (TextView)findViewById(R.id.awayplayernumber5);
-    TextView player6name = (TextView)findViewById(R.id.awayplayernumber6);
-    TextView player7name = (TextView)findViewById(R.id.awayplayernumber7);
-    TextView player8name = (TextView)findViewById(R.id.awayplayernumber8);
-    TextView player9name = (TextView)findViewById(R.id.awayplayernumber9);
-    TextView player10name = (TextView)findViewById(R.id.awayplayernumber10);
+
+    TextView player1name = (TextView) findViewById(R.id.awayplayername1);
+    TextView player2name = (TextView) findViewById(R.id.awayplayername2);
+    TextView player3name = (TextView) findViewById(R.id.awayplayername3);
+    TextView player4name = (TextView) findViewById(R.id.awayplayernumber4);
+    TextView player5name = (TextView) findViewById(R.id.awayplayernumber5);
+    TextView player6name = (TextView) findViewById(R.id.awayplayernumber6);
+    TextView player7name = (TextView) findViewById(R.id.awayplayernumber7);
+    TextView player8name = (TextView) findViewById(R.id.awayplayernumber8);
+    TextView player9name = (TextView) findViewById(R.id.awayplayernumber9);
+    TextView player10name = (TextView) findViewById(R.id.awayplayernumber10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_game);
+
+        homeTeamName =  getIntent().getStringExtra("homeTeamName");
+        awayTeamName =  getIntent().getStringExtra("awayTeamName");
+        awayTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("awayTeam");
+        homeTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("homeTeam");
+
+        player1name = (TextView) findViewById(R.id.awayplayername1);
+        player2name = (TextView) findViewById(R.id.awayplayername2);
+        player3name = (TextView) findViewById(R.id.awayplayername3);
+        player4name = (TextView) findViewById(R.id.awayplayernumber4);
+        player5name = (TextView) findViewById(R.id.awayplayernumber5);
+        player6name = (TextView) findViewById(R.id.awayplayernumber6);
+        player7name = (TextView) findViewById(R.id.awayplayernumber7);
+        player8name = (TextView) findViewById(R.id.awayplayernumber8);
+        player9name = (TextView) findViewById(R.id.awayplayernumber9);
+        player10name = (TextView) findViewById(R.id.awayplayernumber10);
+
+        initButton();
         game = createGameFillGameInformation();
         startGame();
     }
 
-    public void startGame(){
+    public void startGame() {
+        int extrainningnumberchecker = 1;
+        while (scoreBoard.inningNumber < 10 || scoreBoard.awayScore == scoreBoard.homeScore) {
 
-        while(scoreBoard.inningNumber <10 && scoreBoard.awayScore != scoreBoard.homeScore){
-            Inning inning = saveInningInformation(game,false);
-            while (scoreBoard.top){
+            int inningscores = 0;
+            Inning inning = saveInningInformation(game, false);
+            while (scoreBoard.top) {
                 Player playerAtBat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
                 setAtbatplayername(playerAtBat.getName());
                 AtBats atBat = waitForOutCome();
                 saveOutCome(playerAtBat, atBat, inning);
-                if (scoreBoard.outs == 3){
+                if (scoreBoard.outs == 3) {
                     pitchCounter.reset();
                     scoreBoard.outs = 0;
                     scoreBoard.top = !scoreBoard.top;
                 }
+                extrainningnumberchecker++;
             }
             /*#TODO update inning score*/
             dataBaseHelper.saveInning(inning);
@@ -69,11 +94,12 @@ public class FullGame extends AppCompatActivity {
 
             //--------------------------------------------------------------------------------
 
-            while(!scoreBoard.top){
+            while (!scoreBoard.top) {
             }
         }
     }
-    public Inning saveInningInformation(Game game,boolean areTheyHome){
+
+    public Inning saveInningInformation(Game game, boolean areTheyHome) {
         Inning inning = new Inning();
         inning.setGameID(game.getGameID());
         inning.setHome(areTheyHome);
@@ -81,18 +107,22 @@ public class FullGame extends AppCompatActivity {
         inning.setInningID(dataBaseHelper.saveInning(inning));
         return inning;
     }
-    public void setAtbatplayername(String playerName){
-        ((TextView)findViewById(R.id.personAtHomePlate)).setText(playerName);
+
+    public void setAtbatplayername(String playerName) {
+        ((TextView) findViewById(R.id.personAtHomePlate)).setText(playerName);
     }
-    public void setFirstBasePlayer(String playerName){
-        ((TextView)findViewById(R.id.personAtHomePlate)).setText(playerName);
+
+    public void setFirstBasePlayer(String playerName) {
+        ((TextView) findViewById(R.id.personAtHomePlate)).setText(playerName);
     }
-    public void atBatFinished(){
+
+    public void atBatFinished() {
         fillTeamNames(awayTeamPlayers);
         Player atbat = getPersonAtBat();
         setAtbatplayername(atbat.getName());
     }
-    public void fillTeamNames(ArrayList<Player> awayTeamPlayers){
+
+    public void fillTeamNames(ArrayList<Player> awayTeamPlayers) {
         player1name.setText(awayTeamPlayers.get(0).getName());
         player2name.setText(awayTeamPlayers.get(1).getName());
         player3name.setText(awayTeamPlayers.get(2).getName());
@@ -102,18 +132,20 @@ public class FullGame extends AppCompatActivity {
         player7name.setText(awayTeamPlayers.get(6).getName());
         player8name.setText(awayTeamPlayers.get(7).getName());
         player9name.setText(awayTeamPlayers.get(8).getName());
-        if(awayTeamPlayers.size() == 10){
+        if (awayTeamPlayers.size() == 10) {
             player10name.setText(awayTeamPlayers.get(9).getName());
         }
     }
-    public Player getPersonAtBat(){
-        if(scoreBoard.top){
+
+    public Player getPersonAtBat() {
+        if (scoreBoard.top) {
             return awayTeamPlayers.get(scoreBoard.awayPositionAtBat++);
-        }else{
+        } else {
             return homeTeamPlayers.get(scoreBoard.homePositionAtBat++);
         }
     }
-    public void saveOutCome(Player playerAtBats,AtBats atBats, Inning inning){
+
+    public void saveOutCome(Player playerAtBats, AtBats atBats, Inning inning) {
 
         atBats.setBalls(pitchCounter.getBalls());
         atBats.setGameID(game.getGameID());
@@ -125,19 +157,22 @@ public class FullGame extends AppCompatActivity {
 
         dataBaseHelper.saveAtBat(atBats);
     }
+
     boolean outcome = true;
-    public AtBats waitForOutCome(){
+
+    public AtBats waitForOutCome() {
         AtBats atBats = new AtBats();
-        Log.d("Full game","Going to start waiting for an out come");
-        while(outcome){
-            /*#TODO wait for outcome
+        Log.d("Full game", "Going to start waiting for an out come");
+        while (outcome) {
+            /* #TODO wait for outcome
             * i just have to remember to make sure that i wait for the outcome*/
         }
         outcome = true;
         scoreBoard.outs += atBats.howManyOuts();
         return atBats;
     }
-    public Game createGameFillGameInformation(){
+
+    public Game createGameFillGameInformation() {
         Game game = new Game();
 
         game.setAwayTeamID(dataBaseHelper.getTeam(awayTeamName).getTeamid());
@@ -146,5 +181,28 @@ public class FullGame extends AppCompatActivity {
         game.generateName(homeTeamName, awayTeamName);
 
         return game;
+    }
+
+    Button ballButton,strikesButton,foulButton,
+    singleButton,doubleButton,tripleButton,homerunButton,
+    foulOutButton,groundOutButton,flyOutButton,lineOutButton,
+    advanceRunnerButton,hBPButton,fieldersChoiceButton,errorButton;
+
+    public void initButton() {
+        ballButton = (Button) findViewById(R.id.FullGame_Balls);
+        strikesButton = (Button) findViewById(R.id.FullGame_Strikes);
+        foulButton = (Button) findViewById(R.id.FullGame_Fouls);
+        singleButton = (Button) findViewById(R.id.FullGame_Singles);
+        doubleButton = (Button) findViewById(R.id.FullGame_Double);
+        tripleButton = (Button) findViewById(R.id.FullGame_Triple);
+        homerunButton = (Button) findViewById(R.id.FullGame_HomeRun);
+        foulOutButton = (Button) findViewById(R.id.FullGame_FoulOut);
+        groundOutButton = (Button) findViewById(R.id.FullGame_GroundOut);
+        flyOutButton = (Button) findViewById(R.id.FullGame_FoulOut);
+        lineOutButton = (Button) findViewById(R.id.FullGame_LineOut);
+        advanceRunnerButton = (Button) findViewById(R.id.FullGame_AdvanceRunner);
+        hBPButton = (Button) findViewById(R.id.FullGame_HBP);
+        fieldersChoiceButton = (Button) findViewById(R.id.FullGame_FC);
+        errorButton = (Button) findViewById(R.id.FullGame_E);
     }
 }

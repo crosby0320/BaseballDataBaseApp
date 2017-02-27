@@ -18,41 +18,15 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/fullgamebutton"
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Pitching" />
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/quickpitchlink"
+        <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="batting" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Team"
-            android:id="@+id/quickbattingstatsbutton"/>
+            android:layout_height="wrap_content"/>
 
 
-        <Button
-            android:id="@+id/homepage_checkstatsbutton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Game" />
 
-        <Button
-            android:id="@+id/ViewTablesButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ABs" />
     </LinearLayout>
-
 </RelativeLayout>

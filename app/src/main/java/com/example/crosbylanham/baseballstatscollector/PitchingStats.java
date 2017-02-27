@@ -1,12 +1,16 @@
 package com.example.crosbylanham.baseballstatscollector;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by crosbylanham on 1/30/17.
  */
 
-public class PitchingStats implements Serializable{
+public class PitchingStats implements Serializable {
     long PitchingStatsID;
     long GameID;
     long TeamID;
@@ -29,25 +33,198 @@ public class PitchingStats implements Serializable{
     int looking;
     int gapper;
     int untouched;
-    int outsPitched;
+    int outsPitched;   //if there is an out we need to record this
+    int runs;
+
     public PitchingStats() {
     }
 
     //------------------------------------------------------------------------
-    public void swingAndAMiss(){pitchs++;untouched++;strikes++;}
-    public void foul(){pitchs++;strikes++;foulBalls++;}
-    public void ball(){pitchs++;balls++;}
-    public void looking(){pitchs++;strikes++;untouched++;}
-    public void grounderhit(){pitchs++;hits++;groundHits++;}
-    public void grounderout(){pitchs++;hits++;groundOuts++;outsPitched++;}
-    public void linerhit(){pitchs++;hits++;lineHits++;}
-    public void linerout(){pitchs++;hits++;lineOuts++;outsPitched++;}
-    public void flyout(){pitchs++;hits++;flyOut++;outsPitched++;}
-    public void gapper(){pitchs++;hits++;gapper++;}
-    public void homerun(){pitchs++;hits++;homeRuns++;}
-    public void hitByPitch(){pitchs++;hitsByPitch++;}
-    public void hitStrikeout(){strikouts++;outsPitched++;}
+    public void swingAndAMiss() {
+        pitchs++;
+        untouched++;
+        strikes++;
+    }
+
+    public void foul() {
+        pitchs++;
+        strikes++;
+        foulBalls++;
+    }
+
+    public void ball() {
+        pitchs++;
+        balls++;
+    }
+
+    public void looking() {
+        pitchs++;
+        strikes++;
+        untouched++;
+    }
+
+    public void grounderhit() {
+        pitchs++;
+        hits++;
+        groundHits++;
+    }
+
+    public void grounderout() {
+        pitchs++;
+        hits++;
+        groundOuts++;
+        outsPitched++;
+    }
+
+    public void linerhit() {
+        pitchs++;
+        hits++;
+        lineHits++;
+    }
+
+    public void linerout() {
+        pitchs++;
+        hits++;
+        lineOuts++;
+        outsPitched++;
+    }
+
+    public void flyout() {
+        pitchs++;
+        hits++;
+        flyOut++;
+        outsPitched++;
+    }
+
+    public void gapper() {
+        pitchs++;
+        hits++;
+        gapper++;
+    }
+
+    public void homerun() {
+        pitchs++;
+        hits++;
+        homeRuns++;
+        runs++;
+    }
+
+    public void hitByPitch() {
+        pitchs++;
+        hitsByPitch++;
+    }
+
+    public void hitStrikeout() {
+
+        strikouts++;
+        outsPitched++;
+    }
+
+    public void hitruns() {
+        runs++;
+    }
     //------------------------------------------------------------------------
+
+
+    public double getERA(ArrayList<PitchingStats> list){
+        Log.d("Get ERA ","geting total hits "+getTotalHits(list));
+        Log.d("Get ERA ","geting total outs "+getTotalOuts(list));
+        Log.d("Get ERA ","geting total innings oitched "+(getTotalOuts(list)/3.0));
+        return (9*getTotalHits(list))/(getTotalOuts(list)/3.0);
+    }
+    public double getWHIP(ArrayList<PitchingStats> list){
+        return getTotalWalks(list)+getTotalHits(list)/getTotalOuts(list)/3.0;
+    }
+
+    public int getTotalOuts(ArrayList<PitchingStats> list) {
+        int totalouts = 0;
+        for (PitchingStats game : list) {
+            totalouts += game.getOutsPitched();
+        }
+        return totalouts;
+    }
+
+    public int getTotalShutOuts(ArrayList<PitchingStats> list){
+        int shutouts=0;
+        for(PitchingStats x:list){
+            if(x.getRuns() == 0){shutouts++;}
+        }
+        return shutouts;
+    }
+
+    public int getTotalHits(ArrayList<PitchingStats> list) {
+        int totalhits = 0;
+        for (PitchingStats game : list) {
+            totalhits += game.getHits();
+        }
+        return totalhits;
+    }
+
+    public int getTotalPitches(ArrayList<PitchingStats> list) {
+        int totalPitches = 0;
+        for (PitchingStats game : list) {
+            totalPitches += game.getPitchs();
+        }
+        return totalPitches;
+    }
+
+    public int getTotalBB(ArrayList<PitchingStats> list) {
+        int totalBB = 0;
+        for (PitchingStats game : list) {
+            totalBB += game.getWalks();
+        }
+        return totalBB;
+    }
+
+    public int getTotalSO(ArrayList<PitchingStats> list) {
+        int totalSO = 0;
+        for (PitchingStats game : list) {
+            totalSO += game.getStrikouts();
+        }
+        return totalSO;
+    }
+
+    public int getTotalHomeRuns(ArrayList<PitchingStats> list) {
+        int totalHomeRunes = 0;
+        for (PitchingStats game : list) {
+            totalHomeRunes += game.getHomeRuns();
+        }
+        return totalHomeRunes;
+    }
+
+    public int getTotalWalks(ArrayList<PitchingStats> list) {
+        int totalWalks = 0;
+        for (PitchingStats game : list) {
+            totalWalks += game.getWalks();
+        }
+        return totalWalks;
+    }
+
+    public int getTotalHBP(ArrayList<PitchingStats> list) {
+        int totalHitByPitches = 0;
+        for (PitchingStats game : list) {
+            totalHitByPitches += game.getHitsByPitch();
+        }
+        return totalHitByPitches;
+    }
+
+    public int getTotalRuns(ArrayList<PitchingStats> list) {
+        int totalruns = 0;
+        for (PitchingStats game : list) {
+            totalruns += game.getRuns();
+        }
+        return totalruns;
+    }
+    //---------------------------------------------------------------------------------------
+
+
+    public int getRuns() {
+        return runs;
+    }
+
+    public void setRuns(int runs) {
+        this.runs = runs;
+    }
 
     public long getPitchingStatsID() {
         return PitchingStatsID;
@@ -81,9 +258,13 @@ public class PitchingStats implements Serializable{
         this.pitchs = pitchs;
     }
 
-    public int getOutsPitched() {return outsPitched;}
+    public int getOutsPitched() {
+        return outsPitched;
+    }
 
-    public void setOutsPitched(int outsPitched) {this.outsPitched = outsPitched;}
+    public void setOutsPitched(int outsPitched) {
+        this.outsPitched = outsPitched;
+    }
 
     public int getBalls() {
         return balls;
@@ -221,7 +402,9 @@ public class PitchingStats implements Serializable{
         this.untouched = untouched;
     }
 
-    public long getTeamID() {return TeamID;}
+    public long getTeamID() {
+        return TeamID;
+    }
 
     public void setTeamID(long teamID) {
         TeamID = teamID;

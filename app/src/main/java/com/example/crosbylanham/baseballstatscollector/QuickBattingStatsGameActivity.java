@@ -95,7 +95,6 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     }
 
     public void updateInformation() {
-        //ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
         ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
         strikesTextView.setText(String.valueOf(pitchCounter.getStrikes()));
 
@@ -386,19 +385,21 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
         updateInformation();
         initSpinners();
         ((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField)).setText("");
-        Toast.makeText(QuickBattingStatsGameActivity.this, "You information has been saved!", Toast.LENGTH_SHORT);
+        Toast.makeText(QuickBattingStatsGameActivity.this, "You information has been saved for player ! " + playeratbat.getPlayerID(), Toast.LENGTH_SHORT).show();
     }
 
     public Player getPlayer() {
         if (((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
                 .getText().toString().matches("")) {
-            return dataBaseHelper.getPlayer(playerspinner.getSelectedItem().toString());
+            playeratbat = dataBaseHelper.getPlayer(playerspinner.getSelectedItem().toString());
+            return playeratbat;
         } else {
             playeratbat = new Player();
             playeratbat.setName(
                     ((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
                             .getText().toString());
-            return dataBaseHelper.savePlayer(playeratbat);
+            playeratbat = dataBaseHelper.savePlayer(playeratbat);
+            return playeratbat;
         }
     }
 

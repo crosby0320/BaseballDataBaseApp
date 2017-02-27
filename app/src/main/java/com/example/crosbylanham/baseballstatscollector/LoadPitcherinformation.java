@@ -115,6 +115,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
                     //-------------------saveing inforamtion ---------------------------------
                     Player player = getPlayer();
                     Log.d("save player action","player name = "+player.getName());
+                    Log.d("save player action","player id = "+player.getPlayerID());
                     Team team = getTeam();
                     Log.d("save player action","team name = "+team.getName());
                     Team opp = getOpponent();
@@ -130,7 +131,7 @@ public class LoadPitcherinformation extends AppCompatActivity {
                             game.setHomeTeamID(team.getTeamid());
                             game.setAwayTeamID(opp.getTeamid());
                         }
-
+                        game.generateName(team.getName(),opp.getName());
                         game = dataBaseHelper.saveGame(game);
 
                         pitchingStats.setPlayerID(player.getPlayerID());

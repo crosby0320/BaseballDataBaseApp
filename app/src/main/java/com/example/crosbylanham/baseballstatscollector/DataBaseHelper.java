@@ -23,8 +23,8 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     //----------------Variables static --------------------------------------
-    static final String databaseName = "BaseballDataBase.db";
-    static final int version = 1;
+    private static final String databaseName = "BaseballDataBase.db";
+    private static final int version = 1;
     //------------------------At Bat Table information-----------------------
     static final String ATBATTableName          = "AtBat";
     static final String ATBATid                 = "AtBatID";
@@ -106,7 +106,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     static final String PITCHINGSTATSlooking            = "Looking";
     static final String PITCHINGSTATSgaper              = "Gapper";
     static final String PITCHINGSTATSuntouched          = "Untounched";
-    static final String PITCHINGSTATSoutspitched        = "Outs Pitched";
+    static final String PITCHINGSTATSruns               = "Runs";
+    static final String PITCHINGSTATSoutspitched        = "OutsPitched";
     //------------------------Pplayer Information ---------------------------
     static final String PLAYERINFOTABLEBNAME    = "Player";
     static final String PLAYERINFOid            = "PlayerID";
@@ -156,6 +157,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             PITCHINGSTATSlooking            + " INTEGER," +
             PITCHINGSTATSgaper              + " INTEGER," +
             PITCHINGSTATSoutspitched        + " INTEGER," +
+            PITCHINGSTATSruns        + " INTEGER," +
             PITCHINGSTATSuntouched          + " INTEGER"  +
             ");";
     private static final String CREATEATBATTABLE = "CREATE TABLE IF NOT EXISTS " + ATBATTableName +
@@ -209,6 +211,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.insert(PLAYERINFOTABLEBNAME,null,contentvalues);
         db.close();
+
+        Log.d("Save player database", "Saving player name "+p.getName());
+        Log.d("Save player database","and the players id is "+getPlayer(p.getName()).getPlayerID());
+
         return getPlayer(p.getName());
     }
     public Team saveTeam(Team team){
@@ -275,13 +281,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(PITCHINGSTATSlooking          , pitchingStats.getLooking());
         contentValues.put(PITCHINGSTATSgaper            , pitchingStats.getGapper());
         contentValues.put(PITCHINGSTATSoutspitched      , pitchingStats.getOutsPitched());
+        contentValues.put(PITCHINGSTATSruns             , pitchingStats.getRuns());
         contentValues.put(PITCHINGSTATSuntouched        , pitchingStats.getUntouched());
 
         SQLiteDatabase db = getWritableDatabase();
         long pitchingStatsID = db.insert(PITCHINGSTATSTABLENAME,null,contentValues);
         db.close();
 
-        pitchingStats.setPitchingStatsID(pitchingStatsID);
+        Log.d("Saving player stats","Player id is "+pitchingStatsID );
+        Log.d("Saving player stats" , PITCHINGSTATSgameid           + pitchingStats.getGameID());
+        Log.d("Saving player stats" , PITCHINGSTATSteamid           + pitchingStats.getTeamID());
+        Log.d("Saving player stats" , PITCHINGSTATSplayerid         + pitchingStats.getPlayerID());
+        Log.d("Saving player stats" , PITCHINGSTATSpitches          + pitchingStats.getPitchs());
+        Log.d("Saving player stats" , PITCHINGSTATSballs            + pitchingStats.getBalls());
+        Log.d("Saving player stats" , PITCHINGSTATSstrikes          + pitchingStats.getStrikes());
+        Log.d("Saving player stats" , PITCHINGSTATShits             + pitchingStats.getHits());
+        Log.d("Saving player stats" , PITCHINGSTATSstrikeouts       + pitchingStats.getStrikouts());
+        Log.d("Saving player stats" , PITCHINGSTATSputouts          + pitchingStats.getPutouts());
+        Log.d("Saving player stats" , PITCHINGSTATSwalks            + pitchingStats.getWalks());
+        Log.d("Saving player stats" , PITCHINGSTATShitsbypitch      + pitchingStats.getHitsByPitch());
+        Log.d("Saving player stats" , PITCHINGSTATShomerun          + pitchingStats.getHomeRuns());
+        Log.d("Saving player stats" , PITCHINGSTATSfoulballs        + pitchingStats.getFoulBalls());
+        Log.d("Saving player stats" , PITCHINGSTATSgroundouts       + pitchingStats.getGroundOuts());
+        Log.d("Saving player stats" , PITCHINGSTATSoutspitched       + pitchingStats.getOutsPitched());
 
         return pitchingStats;
     }
@@ -383,18 +405,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "FROM " + TEAMTABLENAME +" "+
                 "WHERE "+ TEAMname + " = \"" + name +"\" ;";
 
-        Team team = new Team();
+        Team team = null;
 
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery(Query, null);
 
-        cursor.moveToFirst();
+        if(cursor.moveToFirst()) {
 
-        team.setTeamid( cursor.getLong(cursor.getColumnIndex(TEAMid)));
-        team.setName(cursor.getString(cursor.getColumnIndex(TEAMname)));
-        team.setLocation(cursor.getString(cursor.getColumnIndex(TEAMloaction)));
-        team.setMascot(cursor.getString(cursor.getColumnIndex(TEAMmascot)));
-
+            team.setTeamid(cursor.getLong(cursor.getColumnIndex(TEAMid)));
+            team.setName(cursor.getString(cursor.getColumnIndex(TEAMname)));
+            team.setLocation(cursor.getString(cursor.getColumnIndex(TEAMloaction)));
+            team.setMascot(cursor.getString(cursor.getColumnIndex(TEAMmascot)));
+        }
         db.close();
         return team;
     }
@@ -417,6 +439,52 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.close();
         return team;
+    }
+    public PitchingStats getPitchingStats(long playerID,long gameID){
+        String Query = "SELECT * "+
+                "FROM " + PITCHINGSTATSTABLENAME +" "+
+                "WHERE "+ PITCHINGSTATSplayerid + " = " + playerID +" "+
+                "AND "  + PITCHINGSTATSgameid+" = " + gameID + " ;";
+
+
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery(Query, null);
+
+        cursor.moveToFirst();
+        PitchingStats pitchingStats = new PitchingStats();
+
+        pitchingStats.setPitchingStatsID(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitchingstatsid )));
+        pitchingStats.setGameID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSgameid          )));
+        pitchingStats.setTeamID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSteamid          )));
+        pitchingStats.setPlayerID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSplayerid        )));
+        pitchingStats.setPitchs(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitches         )));
+        pitchingStats.setBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSballs           )));
+        pitchingStats.setStrikes(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikes         )));
+        pitchingStats.setHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShits            )));
+        pitchingStats.setStrikouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikeouts      )));
+        pitchingStats.setPutouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSputouts         )));
+        pitchingStats.setWalks(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSwalks           )));
+        pitchingStats.setHitsByPitch(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShitsbypitch     )));
+        pitchingStats.setHomeRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShomerun         )));
+        pitchingStats.setFoulBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSfoulballs       )));
+        pitchingStats.setGroundOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundouts      )));
+        pitchingStats.setGroundHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundhits      )));
+        pitchingStats.setLineOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlineouts        )));
+        pitchingStats.setLineHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlinehits        )));
+        pitchingStats.setFlyOut(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSflyouts         )));
+        pitchingStats.setLooking(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlooking         )));
+        pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgaper           )));
+        pitchingStats.setOutsPitched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSoutspitched           )));
+        pitchingStats.setUntouched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSuntouched       )));
+        pitchingStats.setRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSruns       )));
+
+        cursor.moveToNext();
+
+        db.close();
+        return pitchingStats;
+
+
+
     }
     public Game getGame(long id){
         String Query = "SELECT * "+
@@ -658,6 +726,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgaper           )));
             pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSoutspitched           )));
             pitchingStats.setUntouched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSuntouched       )));
+            pitchingStats.setRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSruns       )));
 
             cursor.moveToNext();
             list.add(pitchingStats);

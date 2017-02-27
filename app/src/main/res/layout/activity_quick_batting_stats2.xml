@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5sp">
+                <TextView android:text="PA" style="@style/statscolumns"/>
                 <TextView android:text="AB" style="@style/statscolumns"/>
                 <TextView android:text="AVG" style="@style/statscolumns"/>
                 <TextView android:text="OBP" style="@style/statscolumns"/>
@@ -45,6 +46,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <TextView android:id="@+id/BattingStats_PA" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_AB" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_AVG" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_OBP" style="@style/statscolumns"/>
@@ -70,6 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5sp">
+                    <TextView android:text="PA" style="@style/statscolumns"/>
                     <TextView android:text="AB" style="@style/statscolumns"/>
                     <TextView android:text="AVG" style="@style/statscolumns"/>
                     <TextView android:text="OBP" style="@style/statscolumns"/>
@@ -86,6 +89,7 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <TextView android:id="@+id/BattingStats_game_PA" style="@style/statscolumns"/>
                     <TextView android:id="@+id/BattingStats_game_AB" style="@style/statscolumns"/>
                     <TextView android:id="@+id/BattingStats_game_AVG" style="@style/statscolumns"/>
                     <TextView android:id="@+id/BattingStats_game_OBP" style="@style/statscolumns"/>

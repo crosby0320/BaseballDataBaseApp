@@ -21,6 +21,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     Button gapperhit;
     Button homeRunButton;
     Button hitByPitchButton;
+    Button runs;
     PitchingStats pitchingstats;
     PitchCounter pitchCounter;
     TextView totalPitches;
@@ -62,6 +63,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         setLinerOutButtonAction();
         setFlyOutButtonAction();
         setHitByPitchButtonAction();
+        setRuns();
     }
 
     //--------------------------action buttons---------------------------------
@@ -84,6 +86,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
                 pitchingstats.swingAndAMiss();
                 if (pitchCounter.getStrikes() == 2) {
                     int x = pitchingstats.getStrikouts();
+                    pitchingstats.outsPitched++;
                     pitchingstats.setStrikouts(++x);
                 }
                 pitchCounter.calledStrike();
@@ -125,6 +128,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
                 pitchingstats.looking();
                 if(pitchCounter.getStrikes() == 2){
                     pitchingstats.hitStrikeout();
+                    pitchingstats.outsPitched++;
                 }
                 pitchCounter.calledStrike();
                 updateInningStatsCounter();
@@ -183,7 +187,8 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pitchingstats.grounderout();
-                pitchCounter.hit();
+                pitchCounter.hitout();
+                pitchingstats.outsPitched++;
                 updateInningStatsCounter();
                 updateTotalGameStatsCounter();
             }
@@ -194,7 +199,8 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pitchingstats.linerout();
-                pitchCounter.hit();
+                pitchCounter.hitout();
+                pitchingstats.outsPitched++;
                 updateInningStatsCounter();
                 updateTotalGameStatsCounter();
             }
@@ -205,7 +211,8 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pitchingstats.flyout();
-                pitchCounter.hit();
+                pitchCounter.hitout();
+                pitchingstats.outsPitched++;
                 updateInningStatsCounter();
                 updateTotalGameStatsCounter();
             }
@@ -220,6 +227,14 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
                 pitchCounter.hit();
                 updateInningStatsCounter();
                 updateTotalGameStatsCounter();
+            }
+        });
+    }
+    public void setRuns(){
+        runs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pitchingstats.hitruns();
             }
         });
     }
@@ -242,6 +257,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         flyOut = (Button) findViewById(R.id.outGapperButton);
         //--------------------------------------------------------------------
         hitByPitchButton = (Button) findViewById(R.id.hitByPitch);
+        runs = (Button) findViewById(R.id.PitchingStatsRuns);
     }
 
     public void initTotalTextViews() {

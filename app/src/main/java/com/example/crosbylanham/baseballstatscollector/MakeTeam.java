@@ -3,6 +3,7 @@ package com.example.crosbylanham.baseballstatscollector;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -52,32 +53,38 @@ public class MakeTeam extends AppCompatActivity {
                 ArrayList<Player>  homePlayers = getNamesForHomeTeam();
                 ArrayList<Player> awayPlayers = getNamesForAwayTeam();
 
-                saveTeams();
+                saveTeams(getHomeTeamName(),getAwayTeamName());
 
                 Intent intent = new Intent(MakeTeam.this,FullGame.class);
                 intent.putExtra("homeTeam",homePlayers);
-                intent.putExtra("homeTeamName",getHomeTeamName());
+                intent.putExtra("homeTeamName",hT.getName());
                 intent.putExtra("awayTeam",awayPlayers);
-                intent.putExtra("awayTeamName",getAwayTeamName());
+                intent.putExtra("awayTeamName",aT.getName());
                 startActivity(intent);
             }
         });
     }
-    public void saveTeams(){
-        Team hT = dataBaseHelper.getTeam(getHomeTeamName());
-        if(hT == null){dataBaseHelper.saveTeam(hT);}
 
-        Team aT = dataBaseHelper.getTeam(getAwayTeamName());
-        if(aT == null){dataBaseHelper.saveTeam(aT);}
+    Team hT,aT;
+    public void saveTeams(String home, String away){
+        hT = dataBaseHelper.getTeam(home);
+        if(hT == null){hT = new Team();hT.setName(home);hT=dataBaseHelper.saveTeam(hT);}
+        aT = dataBaseHelper.getTeam(away);
+        if(aT == null){aT = new Team();aT.setName(away);aT=dataBaseHelper.saveTeam(aT);}
     }
+
     public String getHomeTeamName(){
         String name = ((EditText)findViewById(R.id.hometeamname)).getText().toString();
-        if(name.matches("")){return "TeamName " + Math.random()*1000;
+        if(name.matches("")){
+            Log.d("No Home Team ","No Home Team Name was found");
+            return "TeamName " + Math.random()*1000;
         }else{return name;}
     }
     public String getAwayTeamName(){
         String name = ((EditText)findViewById(R.id.awayteamname)).getText().toString();
-        if(name.matches("")){return "TeamName " + Math.random()*1000;
+        if(name.matches("")){
+            Log.d("No away Team ","No away Team away was found");
+            return "TeamName " + Math.random()*1000;
         }else{return name;}
     }
     public ArrayList<Player> getNamesForHomeTeam(){

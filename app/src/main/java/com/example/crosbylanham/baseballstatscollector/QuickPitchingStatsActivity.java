@@ -2,6 +2,7 @@ package com.example.crosbylanham.baseballstatscollector;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -117,52 +118,35 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
         totalHBP = (TextView)findViewById(R.id.PitchingStats_Total_HBP);
     }
     public void fillGameTextFields() {
-        IP.setText(     "0"     );
-        H.setText(      "0"     );
-        Runs.setText(   "0"     );
-        Pitches.setText("0"  );
-        ER.setText(     "0"    );
-        BB.setText(     "0"    );
-        SO.setText(     "0"    );
-        WHIP.setText(   "0"    );
-        ERA.setText(    "0"     );
+        PitchingStats p = dataBaseHelper.getPitchingStats(player.getPlayerID(),game.getGameID());
+        IP.setText(         String.format("%.1f",(p.getOutsPitched()/3.0))     );
+        H.setText(          String.valueOf(p.getHits())     );
+        Runs.setText(       String.valueOf(p.getRuns())     );
+        Pitches.setText(    String.valueOf(p.getPitchs())     );
+        BB.setText(         String.valueOf(p.getWalks())    );
+        SO.setText(         String.valueOf(p.getStrikouts())   );
+        WHIP.setText(       String.format("%.3f",(p.getWalks()+p.getHits())/(p.getOutsPitched()/3.0))    );
+        ERA.setText(        String.format("%.3f",(9*p.getRuns()/(p.getOutsPitched()/3.0)))    );
+        Log.d("ERA", "9 * runs "+p.getRuns()+" / outs pitched "+p.getOutsPitched());
+        Log.d("ERA", "9 * runs "+p.getRuns()+" / inningspitched "+ (p.getOutsPitched()/3.0));
+        Log.d("ERA", "So total is "+(9*p.getRuns()/(p.getOutsPitched()/3.0)));
     }
     public void fillTotalStats(){
-        ArrayList<PitchingStats> allPitchingStats = dataBaseHelper.getAllPitchingStatsForPlayer(player.getPlayerID());
-        int gamesPlayed = allPitchingStats.size();
-        int countwins = 0;
-        int countlossses=0;
-        double ERA = 0;
-        int gs =0;
-        int shutout=0;
-        int countsaves=0;
-        int h=0;
-        int homeRuns = 0,walks = 0;
-        int outspitched=0;int runs =0;int er=0;int bb =0;int hbp=0;
-        for (PitchingStats x:allPitchingStats) {
-            homeRuns += x.getHomeRuns();
-            h += x.getHits();
-            walks+=x.getWalks();
-            hbp+=x.getHitsByPitch();
-            outspitched += x.getOutsPitched();
-        }
-        if(outspitched!= 0) {
-            ERA = er / outspitched / 3.0;/* #TODO i need to fix the stats so
-            that we can have innings pitched and total inings pitched */
-        }
-        gamesPlayered.setText(String.valueOf(gamesPlayed));
-        wins.setText("N/A");
-        losses.setText("N/A");
-        totalERA.setText(String.format("%.3f",ERA));
-        GS.setText("N/A");
-        shutouts.setText("N/A");
-        saves.setText("N/A");
-        totalhits.setText(String.valueOf(h));
-        totalHR.setText(String.valueOf(homeRuns));
-        totalIP.setText(String.format("%.3f",outspitched/3.0));
-        totalR.setText("0");
-        totalER.setText("N/A");
-        totalBB.setText(String.valueOf(walks));
-        totalHBP.setText(String.valueOf(hbp));
+        ArrayList<PitchingStats> list = dataBaseHelper.getAllPitchingStatsForPlayer(player.getPlayerID());
+        int gamesPlayed = list.size();
+        PitchingStats p = new PitchingStats();
+        gamesPlayered.setText(  String.valueOf(gamesPlayed));
+        wins.setText(           "N/A");
+        losses.setText(         "N/A");
+        totalERA.setText(       String.format("%.3f",p.getERA(list)));
+        GS.setText(             "N/A");
+        shutouts.setText(       String.valueOf(p.getTotalShutOuts(list)));
+        saves.setText(          "N/A");
+        totalhits.setText(      String.valueOf(p.getTotalHits(list)));
+        totalHR.setText(        String.valueOf(p.getTotalHomeRuns(list)));
+        totalIP.setText(        String.format("%.1f",p.getOutsPitched()/3.0));
+        totalER.setText(        String.format("%d",p.getTotalRuns(list)));
+        totalBB.setText(        String.valueOf(p.getTotalWalks(list)));
+        totalHBP.setText(       String.valueOf(p.getTotalHBP(list)));
     }
 }

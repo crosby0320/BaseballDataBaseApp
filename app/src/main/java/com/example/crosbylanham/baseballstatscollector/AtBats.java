@@ -22,7 +22,7 @@ public class AtBats {
     public AtBats(){
 
     }
-
+    //-------------------------------helper methods for collecting stats
     public int howManyOuts(){
         if(Outcome == FLYOUT || Outcome == STRIKEOUT ||Outcome == GROUNDOUT||
                 Outcome == FOUL_OUT || Outcome == FIELDERS_CHOICE || Outcome == LINEOUT){
@@ -31,7 +31,6 @@ public class AtBats {
             return 0;
         }
     }
-
     public int getAllAtBats(ArrayList<AtBats> allatbats){
         int total = allatbats.size();
         for (AtBats x:allatbats) {
@@ -70,7 +69,25 @@ public class AtBats {
         }
         return strikeouts;
     }
-
+    public int getAllHBP(ArrayList<AtBats> allatbats){
+        int hitByPitch = 0 ;
+        for (AtBats x:allatbats) {
+            if(x.getOutcome() == AtBats.HIT_BY_PITCH){
+                hitByPitch++;
+            }
+        }
+        return hitByPitch;
+    }
+    public int getAllBaseOnBalls(ArrayList<AtBats> allatbats){
+        int walks = 0 ;
+        for (AtBats x:allatbats) {
+            if(x.getOutcome() == AtBats.WALK){
+                walks++;
+            }
+        }
+        return walks;
+    }
+    //--------------------------getters and setters----------------
     public long getGameID() {
         return gameID;
     }
