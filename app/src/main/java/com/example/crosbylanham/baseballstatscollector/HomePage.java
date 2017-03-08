@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+
+import com.google.firebase.crash.FirebaseCrash;
 
 public class HomePage extends AppCompatActivity {
     @Override
@@ -75,8 +78,8 @@ public class HomePage extends AppCompatActivity {
         viewTablesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(HomePage.this,whattablemenu.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(HomePage.this,EditorInfo.class);
+                startActivity(intent);
             }
         });
     }

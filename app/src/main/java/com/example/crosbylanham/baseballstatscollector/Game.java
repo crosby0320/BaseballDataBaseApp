@@ -5,14 +5,17 @@ package com.example.crosbylanham.baseballstatscollector;
  */
 
 public class Game {
-    long GameID;
-    long HomeTeamID;
-    long AwayTeamID;
-    String Description;
+    String gameID;
+    String homeTeamID;
+    String awayTeamID;
+    String description;
     String name;
 
     public Game() {
-
+        homeTeamID = "";
+        awayTeamID = "";
+        description = "";
+        name = "";
     }
 
     public void generateName(String awayTeamName, String homeTeamName){
@@ -20,34 +23,35 @@ public class Game {
                 new Datefunctions().getCurrentTimeAndDate();
     }
 
-    public long getGameID() {
-        return GameID;
+    public String getGameID() {
+        return gameID;
     }
 
-    public void setGameID(long gameID) {
-        GameID = gameID;
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
     }
 
-    public long getHomeTeamID() {
-        return HomeTeamID;
+    public String getHomeTeamID() {
+        return homeTeamID;
     }
 
-    public void setHomeTeamID(long homeTeamID) {HomeTeamID = homeTeamID;}
+    public void setHomeTeamID(String homeTeamID) {
+        this.homeTeamID = homeTeamID;}
 
-    public long getAwayTeamID() {
-        return AwayTeamID;
+    public String getAwayTeamID() {
+        return awayTeamID;
     }
 
-    public void setAwayTeamID(long awayTeamID) {
-        AwayTeamID = awayTeamID;
+    public void setAwayTeamID(String awayTeamID) {
+        this.awayTeamID = awayTeamID;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getName() {

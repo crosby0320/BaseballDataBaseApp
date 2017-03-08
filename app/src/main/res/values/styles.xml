@@ -102,7 +102,8 @@
         <item name="android:textAlignment">center</item>
     </style>
     <style name="statscolumns">
-        <item name="android:paddingRight">5sp</item>
+        <item name="android:padding">5sp</item>
+        <item name="android:layout_weight">1</item>
     </style>
     <style name="buttonSmallText">
         <item name="android:layout_width">match_parent</item>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.crosbylanham.baseballstatscollector.EditHome">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/EditTable_PLayerInfoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Player Information" />
+
+        <Button
+            android:id="@+id/EditTable_AtBatButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AtBat" />
+
+        <Button
+            android:id="@+id/EditTable_GameButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Game" />
+
+        <Button
+            android:id="@+id/EditTable_PitchongStatsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pitching Stats" />
+
+        <Button
+            android:id="@+id/EditTable_TeamButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team Information" />
+
+    </LinearLayout>
+</RelativeLayout>

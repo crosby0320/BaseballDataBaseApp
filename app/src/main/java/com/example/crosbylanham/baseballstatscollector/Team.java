@@ -5,10 +5,10 @@ package com.example.crosbylanham.baseballstatscollector;
  */
 
 public class Team {
-    long teamid;
+    String teamID;
     String name;
     String location;
-    String Mascot;
+    String mascot;
 
     public Team() {
     }
@@ -17,12 +17,10 @@ public class Team {
         this.name = name;
     }
 
-    public long getTeamid() {
-        return teamid;
-    }
+    public String getTeamID() {return teamID;}
 
-    public void setTeamid(long teamid) {
-        this.teamid = teamid;
+    public void setTeamID(String teamID) {
+        this.teamID = teamID;
     }
 
     public String getName() {
@@ -42,10 +40,10 @@ public class Team {
     }
 
     public String  getMascot() {
-        return Mascot;
+        return mascot;
     }
 
     public void setMascot(String mascot) {
-        Mascot = mascot;
+        this.mascot = mascot;
     }
 }

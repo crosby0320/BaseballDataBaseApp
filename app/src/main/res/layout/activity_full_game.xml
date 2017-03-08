@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/textView34"
+                        android:layout_alignStart="@+id/FullGame_SecondBaseRunner"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
                         android:background="@android:color/white"
@@ -198,10 +198,11 @@
                         android:layout_marginTop="160dp"
                         android:background="@android:color/white"
                         android:text="Player"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:id="@+id/FullGame_FirstBaseRunner" />
                     <!-- third base player -->
                     <TextView
-                        android:id="@+id/thirdbasebplayer"
+                        android:id="@+id/FullGame_ThirdBaseRunner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -212,7 +213,7 @@
                         android:textColor="@android:color/black" />
 
                     <TextView
-                        android:id="@+id/textView34"
+                        android:id="@+id/FullGame_SecondBaseRunner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -246,7 +247,8 @@
                     <TextView
                         android:paddingRight="5dp"
                         android:text="0"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"
+                        android:id="@+id/fullGame_ScoreBoard_Ball" />
 
                     <TextView
                         android:paddingRight="5dp"
@@ -256,7 +258,8 @@
                     <TextView
                         android:paddingRight="5dp"
                         android:text="0"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"
+                        android:id="@+id/fullGame_ScoreBoard_Strikes" />
 
                     <TextView
                         android:paddingRight="5dp"
@@ -266,7 +269,8 @@
                     <TextView
                         android:paddingRight="5dp"
                         android:text="0"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"
+                        android:id="@+id/fullGame_ScoreBoard_Outs" />
 
                     <TextView
                         android:paddingRight="5dp"

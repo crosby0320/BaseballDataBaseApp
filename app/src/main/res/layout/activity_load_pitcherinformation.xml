@@ -33,7 +33,7 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Playerspinner"
+                android:id="@+id/LoadPitcher_Player"
                 android:layout_weight=".5"/>
         </LinearLayout>
 
@@ -78,7 +78,7 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/TeamSpinner1"
+                android:id="@+id/LoadPitcher_TeamSpinner1"
                 android:layout_weight=".5"/>
         </LinearLayout>
 
@@ -98,7 +98,7 @@
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/TeamSpinner2"
+                android:id="@+id/LoadPitcher_TeamSpinner2"
                 android:layout_weight=".5"/>
         </LinearLayout>
 

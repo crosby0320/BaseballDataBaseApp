@@ -3,7 +3,6 @@ package com.example.crosbylanham.baseballstatscollector;
 import android.util.Log;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -11,10 +10,10 @@ import java.util.ArrayList;
  */
 
 public class PitchingStats implements Serializable {
-    long PitchingStatsID;
-    long GameID;
-    long TeamID;
-    long playerID;
+    String pitchingStatsID;
+    String gameID;
+    String teamID;
+    String playerID;
     int pitchs;
     int balls;
     int strikes;
@@ -35,6 +34,7 @@ public class PitchingStats implements Serializable {
     int untouched;
     int outsPitched;   //if there is an out we need to record this
     int runs;
+    int earnedRuns;
 
     public PitchingStats() {
     }
@@ -107,6 +107,7 @@ public class PitchingStats implements Serializable {
         hits++;
         homeRuns++;
         runs++;
+        earnedRuns++;
     }
 
     public void hitByPitch() {
@@ -226,27 +227,27 @@ public class PitchingStats implements Serializable {
         this.runs = runs;
     }
 
-    public long getPitchingStatsID() {
-        return PitchingStatsID;
+    public String getPitchingStatsID() {
+        return pitchingStatsID;
     }
 
-    public void setPitchingStatsID(long pitchingStatsID) {
-        PitchingStatsID = pitchingStatsID;
+    public void setPitchingStatsID(String pitchingStatsID) {
+        this.pitchingStatsID = pitchingStatsID;
     }
 
-    public long getGameID() {
-        return GameID;
+    public String getGameID() {
+        return gameID;
     }
 
-    public void setGameID(long gameID) {
-        GameID = gameID;
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
     }
 
-    public long getPlayerID() {
+    public String getPlayerID() {
         return playerID;
     }
 
-    public void setPlayerID(long playerID) {
+    public void setPlayerID(String playerID) {
         this.playerID = playerID;
     }
 
@@ -402,11 +403,11 @@ public class PitchingStats implements Serializable {
         this.untouched = untouched;
     }
 
-    public long getTeamID() {
-        return TeamID;
+    public String getTeamID() {
+        return teamID;
     }
 
-    public void setTeamID(long teamID) {
-        TeamID = teamID;
+    public void setTeamID(String teamID) {
+        this.teamID = teamID;
     }
 }

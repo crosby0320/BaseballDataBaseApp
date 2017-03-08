@@ -22,6 +22,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     Button homeRunButton;
     Button hitByPitchButton;
     Button runs;
+    Button earnRunButton;
     PitchingStats pitchingstats;
     PitchCounter pitchCounter;
     TextView totalPitches;
@@ -64,6 +65,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         setFlyOutButtonAction();
         setHitByPitchButtonAction();
         setRuns();
+        setEarnRunButton();
     }
 
     //--------------------------action buttons---------------------------------
@@ -230,6 +232,16 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
             }
         });
     }
+    public void setEarnRunButton(){
+        earnRunButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pitchingstats.earnedRuns++;
+                updateInningStatsCounter();
+                updateTotalGameStatsCounter();
+            }
+        });
+    }
     public void setRuns(){
         runs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +270,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         //--------------------------------------------------------------------
         hitByPitchButton = (Button) findViewById(R.id.hitByPitch);
         runs = (Button) findViewById(R.id.PitchingStatsRuns);
+        earnRunButton = (Button) findViewById(R.id.PitchingStats_EarnedRun);
     }
 
     public void initTotalTextViews() {

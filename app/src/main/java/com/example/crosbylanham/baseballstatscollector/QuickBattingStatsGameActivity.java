@@ -2,14 +2,22 @@ package com.example.crosbylanham.baseballstatscollector;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -28,9 +36,10 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     Player playeratbat = new Player();
     Game game;
 
+    ArrayList<Player> list;
+
     Spinner playerspinner;
     boolean neverBeenSaved = true;
-    DataBaseHelper dataBaseHelper = new DataBaseHelper(QuickBattingStatsGameActivity.this);
     PitchCounter pitchCounter;
 
     @Override
@@ -50,14 +59,29 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     public void initSpinners() {
         playerspinner = (Spinner) findViewById(R.id.quickBattingStats_playerSpinner);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+        list = new ArrayList<>();
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
                 QuickBattingStatsGameActivity.this,
-                android.R.layout.simple_spinner_item,
-                dataBaseHelper.getAllPlayersNames());
+                android.R.layout.simple_spinner_item);
+
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playerspinner.setAdapter(spinnerArrayAdapter);
 
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference(DataBaseHelper.PLAYERINFOTABLEBNAME);
+        dr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot x:dataSnapshot.getChildren()){
+                    spinnerArrayAdapter.add(x.getValue(Player.class).getName());
+                    list.add(x.getValue(Player.class));
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void initButton() {
@@ -97,19 +121,6 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     public void updateInformation() {
         ballsTextView.setText(String.valueOf(pitchCounter.getBalls()));
         strikesTextView.setText(String.valueOf(pitchCounter.getStrikes()));
-
-        /*#TODO should i put in more stats that the players may need
-        * or should i not do that to them like that.*/
-        if(playeratbat != null) {
-            ArrayList<AtBats> allatbats = dataBaseHelper.getAllABsForPlayer(playeratbat.PlayerID, game.GameID);
-            int ab = atBats.getAllAtBats(allatbats);
-            int hit = atBats.getallhits(allatbats);
-            abs.setText(String.valueOf(ab));
-            avg.setText(String.format("%.3f",hit/(double)ab));
-            hits.setText(String.valueOf(hit));
-            ks.setText(String.valueOf(atBats.getAllStrikeouts(allatbats)));
-            hr.setText(String.valueOf(atBats.getAllHomeruns(allatbats)));
-        }
     }
 
     public void setBallButtonAction() {
@@ -119,8 +130,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 if (pitchCounter.getBalls() == 3) {
                     atBats.setBalls(pitchCounter.getBalls() + 1);
                     atBats.setStrikes(pitchCounter.getStrikes());
-                    atBats.setOutcome(AtBats.WALK);
-                    atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                    atBats.setOutcome(AtBatInformation.WALK);
+                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
                     atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
 
                     saveInformation();
@@ -140,8 +151,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                     atBats.setBalls(pitchCounter.getBalls());
                     atBats.setStrikes(pitchCounter.getStrikes() + 1);
                     atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                    atBats.setOutcome(AtBats.STRIKEOUT);
-                    atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                    atBats.setOutcome(AtBatInformation.STRIKEOUT);
+                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                     saveInformation();
                 } else {
@@ -169,8 +180,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.SINGLE);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.SINGLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -184,8 +195,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.DOUBLE);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.DOUBLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -199,8 +210,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.TRIPLE);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.TRIPLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -214,8 +225,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.HOMERUN);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.HOMERUN);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -229,8 +240,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.FOUL_OUT);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.FOUL_OUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -245,8 +256,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.GROUNDOUT);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.GROUNDOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -260,8 +271,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.FLYOUT);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.FLYOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -275,8 +286,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.LINEOUT);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.LINEOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -290,8 +301,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.ADVANCERUNNER);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.ADVANCERUNNER);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -305,8 +316,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.HIT_BY_PITCH);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.HIT_BY_PITCH);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -320,8 +331,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.ERROR);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.ERROR);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -335,8 +346,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
                 atBats.setBalls(pitchCounter.getBalls());
                 atBats.setStrikes(pitchCounter.getStrikes() + 1);
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                atBats.setOutcome(AtBats.FIELDERS_CHOICE);
-                atBats.setPlayerAtBatId(getPlayer().getPlayerID());
+                atBats.setOutcome(AtBatInformation.FIELDERS_CHOICE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 saveInformation();
             }
@@ -379,35 +390,40 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
             saveGame();
             neverBeenSaved = false;
         }
+        getPlayerThatIsSelected();
         atBats.setGameID(game.getGameID());
-        dataBaseHelper.saveAtBat(atBats);
+        new DataBaseHelper().saveAtBat(atBats);
         pitchCounter.reset();
         updateInformation();
         initSpinners();
         ((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField)).setText("");
-        Toast.makeText(QuickBattingStatsGameActivity.this, "You information has been saved for player ! " + playeratbat.getPlayerID(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(QuickBattingStatsGameActivity.this, "You information has been saved for player ! " + playeratbat.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    public Player getPlayer() {
-        if (((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
+    public void getPlayerThatIsSelected(){
+        if(((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
                 .getText().toString().matches("")) {
-            playeratbat = dataBaseHelper.getPlayer(playerspinner.getSelectedItem().toString());
-            return playeratbat;
-        } else {
-            playeratbat = new Player();
-            playeratbat.setName(
-                    ((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
-                            .getText().toString());
-            playeratbat = dataBaseHelper.savePlayer(playeratbat);
-            return playeratbat;
+            playerspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    playeratbat = list.get(position);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }else {
+            playeratbat = new DataBaseHelper().savePlayer(new Player(((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField)).getText().toString()));
         }
     }
 
     public void saveGame() {
-        game = dataBaseHelper.getGame(new Datefunctions().getCurrentTimeAndDate());
         if(game == null) {
             game.setName(new Datefunctions().getCurrentTimeAndDate());
-            game = dataBaseHelper.saveGame(game);
+            game = new DataBaseHelper().saveGame(game);
         }
     }
 }

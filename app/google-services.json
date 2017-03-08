@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "42580582408",
+    "firebase_url": "https://baseball-stats-app-10f59.firebaseio.com",
+    "project_id": "baseball-stats-app-10f59",
+    "storage_bucket": "baseball-stats-app-10f59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42580582408:android:fea6c62a6650662d",
+        "android_client_info": {
+          "package_name": "com.example.crosbylanham.baseballstatscollector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42580582408-vf5sl5hca8bmh0jl2v72gvftbsretq7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATit3hcEl3LDXBu92Dw30R_4WePse8Hm4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,29 +7,29 @@ import java.io.Serializable;
  */
 
 public class Player implements Serializable{
-    long PlayerID;
-    String Name;
+    String playerID;
+    String name;
 
     public Player() {
     }
 
     public Player(String name) {
-        Name = name;
+        this.name = name;
     }
 
-    public long getPlayerID() {
-        return PlayerID;
+    public String getPlayerID() {
+        return playerID;
     }
 
-    public void setPlayerID(long playerID) {
-        PlayerID = playerID;
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 }

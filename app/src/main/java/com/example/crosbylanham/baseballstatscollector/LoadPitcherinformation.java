@@ -3,6 +3,7 @@ package com.example.crosbylanham.baseballstatscollector;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.PITCHINGSTATSTABLENAME;
+import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.PLAYERINFOTABLEBNAME;
+import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.TEAMTABLENAME;
 
 public class LoadPitcherinformation extends AppCompatActivity {
     Spinner playersSpinner;
@@ -24,15 +36,12 @@ public class LoadPitcherinformation extends AppCompatActivity {
     EditText teamname;
     EditText opponentname;
 
-    DataBaseHelper dataBaseHelper;
-
     PitchingStats pitchingStats;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_pitcherinformation);
 
-        dataBaseHelper = new DataBaseHelper(LoadPitcherinformation.this);
         pitchingStats = (PitchingStats) getIntent().getSerializableExtra("Stats");
 
         initRadioButton();
@@ -52,33 +61,19 @@ public class LoadPitcherinformation extends AppCompatActivity {
 
     //-----------------------spinners -----------------------------------------------------
     public void setPlayersSpinnerAction() {
-        playersSpinner = (Spinner) findViewById(R.id.Playerspinner);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                LoadPitcherinformation.this,
-                android.R.layout.simple_spinner_item,
-                new DataBaseHelper(LoadPitcherinformation.this).getAllPlayersNames());
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        playersSpinner.setAdapter(spinnerArrayAdapter);
+        playersSpinner = (Spinner) findViewById(R.id.LoadPitcher_Player);
+        fillspinnerplayer(playersSpinner);
     }
 
+
     public void setTeamsSpinnerAction() {
-        teamsSpinner = (Spinner) findViewById(R.id.TeamSpinner1);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                LoadPitcherinformation.this,
-                android.R.layout.simple_spinner_item,
-                new DataBaseHelper(LoadPitcherinformation.this).getTeamNames());
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        teamsSpinner.setAdapter(spinnerArrayAdapter);
+        teamsSpinner = (Spinner) findViewById(R.id.LoadPitcher_TeamSpinner1);
+        fillspinnerTeam(teamsSpinner);
     }
 
     public void setTeamsSpinner2Action() {
-        teamsSpinner2 = (Spinner) findViewById(R.id.TeamSpinner2);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                LoadPitcherinformation.this,
-                android.R.layout.simple_spinner_item,
-                new DataBaseHelper(LoadPitcherinformation.this).getTeamNames());
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        teamsSpinner2.setAdapter(spinnerArrayAdapter);
+        teamsSpinner2 = (Spinner) findViewById(R.id.LoadPitcher_TeamSpinner2);
+        fillspinnerTeam(teamsSpinner2);
     }
     //---------------------button actions -------------------------------------------------
 
@@ -87,8 +82,8 @@ public class LoadPitcherinformation extends AppCompatActivity {
         saveplayersinformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(playername.getText().toString() == "" || playername.getText() == null){
-                    Log.d("save player action","player name was null");
                     if (playersSpinner.getSelectedItem() == null){
                         Toast.makeText(
                                 LoadPitcherinformation.this,
@@ -113,38 +108,40 @@ public class LoadPitcherinformation extends AppCompatActivity {
                     }
                 }else {
                     //-------------------saveing inforamtion ---------------------------------
-                    Player player = getPlayer();
-                    Log.d("save player action","player name = "+player.getName());
-                    Log.d("save player action","player id = "+player.getPlayerID());
-                    Team team = getTeam();
-                    Log.d("save player action","team name = "+team.getName());
-                    Team opp = getOpponent();
-                    Log.d("save player action","opp name = "+opp.getName());
-                    int home = homeTeamOrNot();
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
+                    if(playername.getText().toString().matches("")) {
 
-                    if (home != -1) {
-                        Game game = new Game();
-                        if (home == 1){
-                            game.setAwayTeamID(team.getTeamid());
-                            game.setHomeTeamID(opp.getTeamid());
-                        }else {
-                            game.setHomeTeamID(team.getTeamid());
-                            game.setAwayTeamID(opp.getTeamid());
-                        }
-                        game.generateName(team.getName(),opp.getName());
-                        game = dataBaseHelper.saveGame(game);
+                        Log.d("its empty ","retreving data");
+                        Query query = myRef.orderByChild("name").equalTo(playersSpinner.getSelectedItem().toString());
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Iterable<DataSnapshot> itds = dataSnapshot.getChildren();
+                                Player p = new Player("Unknown");
+                                for (DataSnapshot x:itds){
+                                    Log.d("Player info",x.getValue(Player.class).getName());
+                                    p = x.getValue(Player.class);
+                                }
+                                pitchingStats.setPlayerID(p.getPlayerID());
+                                new DataBaseHelper().savePitchingStats(pitchingStats);
+                            }
 
-                        pitchingStats.setPlayerID(player.getPlayerID());
-                        dataBaseHelper.savePitchingStats(pitchingStats);
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
+                            }
+                        });
+                    }else{
+                        Player info = new DataBaseHelper().savePlayer(new Player(playername.getText().toString()));
+                        Game g = new Game();g.setName(new Datefunctions().getCurrentTimeAndDate());
+                        Game gameinfo = new DataBaseHelper().saveGame(g);
+                        pitchingStats.setPlayerID(info.getPlayerID());
+                        pitchingStats.setGameID(gameinfo.getGameID());
+                        new DataBaseHelper().savePitchingStats(pitchingStats);
+                    }
                         Intent intent = new Intent(LoadPitcherinformation.this, HomePage.class);
                         startActivity(intent);
-                    }else{
-                        Toast.makeText(
-                                LoadPitcherinformation.this,
-                                "You must let us know who the Home team is.",
-                                Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });
@@ -162,41 +159,6 @@ public class LoadPitcherinformation extends AppCompatActivity {
             home = -1;
         }
         return home;
-    }
-
-    public Player getPlayer(){
-        Log.d("Playername", String.valueOf(playername));
-        Log.d("Playername", String.valueOf(playername.getText()));
-        Log.d("Playername",playername.getText().toString());
-        if(playername.getText().toString().matches("")){
-            String name = playersSpinner.getSelectedItem().toString();
-            return new DataBaseHelper(LoadPitcherinformation.this).getPlayer(name);
-        }else{
-            Log.d("PlayerInformation",playername.getText().toString());
-            String name = playername.getText().toString();
-            Log.i("Name of player ",name+" is the name of the player being saved");
-            return new DataBaseHelper(LoadPitcherinformation.this).savePlayer(new Player(name));
-        }
-    }
-
-    public Team getTeam(){
-        if (teamname.getText().toString().matches("")){
-            String name = teamsSpinner.getSelectedItem().toString();
-            return new DataBaseHelper(LoadPitcherinformation.this).getTeam(name);
-        }else{
-            String name = teamname.getText().toString();
-            return new DataBaseHelper(LoadPitcherinformation.this).saveTeam(new Team(name));
-        }
-    }
-
-    public Team getOpponent(){
-        if (opponentname.getText().toString().matches("")){
-            String name = teamsSpinner2.getSelectedItem().toString();
-            return new DataBaseHelper(LoadPitcherinformation.this).getTeam(name);
-        }else{
-            String name = opponentname.getText().toString();
-            return new DataBaseHelper(LoadPitcherinformation.this).saveTeam(new Team(name));
-        }
     }
 
     RadioButton radioButtonHome;
@@ -223,4 +185,45 @@ public class LoadPitcherinformation extends AppCompatActivity {
                 break;
     }
 }
+    public void fillspinnerplayer(Spinner playersSpinner){
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
+        final ArrayAdapter<String> array = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot child:children){
+                    array.add(child.getValue(Player.class).getName());
+                }
+            }
+
+            @Override public void onCancelled(DatabaseError databaseError) {}});
+        playersSpinner.setAdapter(array);
+    }
+    public void fillspinnerTeam(Spinner playersSpinner) {
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(DataBaseHelper.TEAMTABLENAME);
+        final ArrayAdapter<String> array = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for (DataSnapshot child : children) {
+                    array.add(child.getValue(Team.class).getName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        playersSpinner.setAdapter(array);
+    }
 }

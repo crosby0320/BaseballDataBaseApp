@@ -5,8 +5,8 @@ package com.example.crosbylanham.baseballstatscollector;
  */
 
 public class Inning {
-    long inningID;
-    long GameID;
+    String inningID;
+    String gameID;
     int inningNumber;
     boolean home;
     int runs;
@@ -14,7 +14,7 @@ public class Inning {
     public Inning() {
     }
 
-    public void setInningID(long inningID) {
+    public void setInningID(String inningID) {
         this.inningID = inningID;
     }
 
@@ -26,20 +26,16 @@ public class Inning {
         this.runs = runs;
     }
 
-    public long getInningID() {
+    public String getInningID() {
         return inningID;
     }
 
-    public void setInningID(int inningID) {
-        this.inningID = inningID;
+    public String getGameID() {
+        return gameID;
     }
 
-    public long getGameID() {
-        return GameID;
-    }
-
-    public void setGameID(long gameID) {
-        GameID = gameID;
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
     }
 
     public int getInningNumber() {

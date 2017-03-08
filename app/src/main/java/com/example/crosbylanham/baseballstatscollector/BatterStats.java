@@ -5,10 +5,10 @@ package com.example.crosbylanham.baseballstatscollector;
  */
 
 public class BatterStats {
-    int battingstatsID;
-    int PlayerID;
-    int GameID;
-    int TeamID;
+    String battingstatsID;
+    String playerID;
+    String gameID;
+    String teamID;
     int ab;
     int runs;
     int hits;
@@ -24,36 +24,36 @@ public class BatterStats {
     int BB;
     int SO;
 
-    public int getBattingstatsID() {
+    public String getBattingstatsID() {
         return battingstatsID;
     }
 
-    public void setBattingstatsID(int battingstatsID) {
+    public void setBattingstatsID(String battingstatsID) {
         this.battingstatsID = battingstatsID;
     }
 
-    public int getPlayerID() {
-        return PlayerID;
+    public String getPlayerID() {
+        return playerID;
     }
 
-    public void setPlayerID(int playerID) {
-        PlayerID = playerID;
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
     }
 
-    public int getGameID() {
-        return GameID;
+    public String getGameID() {
+        return gameID;
     }
 
-    public void setGameID(int gameID) {
-        GameID = gameID;
+    public void setGameID(String gameID) {
+        this.gameID = gameID;
     }
 
-    public int getTeamID() {
-        return TeamID;
+    public String getTeamID() {
+        return teamID;
     }
 
-    public void setTeamID(int teamID) {
-        TeamID = teamID;
+    public void setTeamID(String teamID) {
+        this.teamID = teamID;
     }
 
     public int getAb() {

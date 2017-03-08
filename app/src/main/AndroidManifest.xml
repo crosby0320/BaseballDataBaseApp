@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.crosbylanham.baseballstatscollector">
+    package="com.example.crosbylanham.baseballstatscollector">
 
     <application
         android:allowBackup="true"
@@ -10,25 +10,25 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SplashscreenActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".FullGame"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".HomePage"/>
-        <activity android:name=".LoadPitcherinformation"/>
-        <activity android:name=".MakeTeam"/>
-        <activity android:name=".QuickPitchingStatsGameActivity"/>
-        <activity android:name=".ViewStats"/>
-        <activity android:name=".QuickPitchingStatsActivity"/>
-        <activity android:name=".WhosLombo"/>
-        <activity android:name=".QuickBattingStatsGameActivity"/>
-        <activity android:name=".whattablemenu"/>
-        <activity android:name=".QuickBattingStatsActivity">
-        </activity>
+            android:screenOrientation="landscape" />
+        <activity android:name=".HomePage" />
+        <activity android:name=".LoadPitcherinformation" />
+        <activity android:name=".MakeTeam" />
+        <activity android:name=".QuickPitchingStatsGameActivity" />
+        <activity android:name=".ViewStats" />
+        <activity android:name=".QuickPitchingStatsActivity" />
+        <activity android:name=".WhosLombo" />
+        <activity android:name=".QuickBattingStatsGameActivity" />
+        <activity android:name=".QuickBattingStatsActivity" />
+        <activity android:name=".edit.EditHome" />
+        <activity android:name=".EditHome" />
     </application>
 
 </manifest>

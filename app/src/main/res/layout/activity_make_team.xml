@@ -14,7 +14,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:id="@+id/r"
@@ -50,21 +52,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Visitor" />
-
-                <CheckBox
-                    android:id="@+id/awayDHCheckbox"
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DH" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Starters" />
+                    android:textSize="10sp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Starters" />
+
+                    <CheckBox
+                        android:id="@+id/awayDHCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5sp"
+                        android:text="DH" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -72,17 +87,15 @@
                         android:id="@+id/awayplayer1"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber1"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinneraway1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -90,17 +103,15 @@
                         android:id="@+id/awayplayer2"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber2"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinneraway2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -108,19 +119,16 @@
                         android:id="@+id/awayplayer3"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber3"
-                        style="@style/saveteamnames.number" />
-
                     <Spinner
                         android:id="@+id/spinneraway3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -128,19 +136,16 @@
                         android:id="@+id/awayplayer4"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber4"
-                        style="@style/saveteamnames.number" />
-
                     <Spinner
                         android:id="@+id/spinneraway4"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -148,18 +153,15 @@
                         android:id="@+id/awayplayer5"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber5"
-                        style="@style/saveteamnames.number" />
-
                     <Spinner
                         android:id="@+id/spinneraway5"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -167,18 +169,15 @@
                         android:id="@+id/awayplayer6"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber6"
-                        style="@style/saveteamnames.number" />
-
                     <Spinner
                         android:id="@+id/spinneraway6"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -186,18 +185,15 @@
                         android:id="@+id/awayplayer7"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber7"
-                        style="@style/saveteamnames.number" />
-
                     <Spinner
                         android:id="@+id/spinneraway7"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -205,17 +201,15 @@
                         android:id="@+id/awayplayer8"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber8"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinneraway8"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -223,18 +217,16 @@
                         android:id="@+id/awayplayer9"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber9"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinneraway9"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/awayplayer10Layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -242,13 +234,11 @@
                         android:id="@+id/awayplayer10"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/awaynumber10"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinneraway10"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -282,20 +272,33 @@
                     android:layout_height="wrap_content"
                     android:text="Home" />
 
-                <CheckBox
-                    android:id="@+id/homeDHCheckbox"
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="DH" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Starters" />
+                    android:textSize="10sp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Starters" />
+
+                    <CheckBox
+                        android:id="@+id/homeDHCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5sp"
+                        android:text="DH" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -303,17 +306,15 @@
                         android:id="@+id/homeplayer1"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber1"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -321,17 +322,15 @@
                         android:id="@+id/homeplayer2"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber2"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -339,17 +338,15 @@
                         android:id="@+id/homeplayer3"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber3"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -357,17 +354,15 @@
                         android:id="@+id/homeplayer4"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber4"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome4"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -375,17 +370,15 @@
                         android:id="@+id/homeplayer5"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber5"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome5"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -393,17 +386,15 @@
                         android:id="@+id/homeplayer6"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber6"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome6"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -411,17 +402,15 @@
                         android:id="@+id/homeplayer7"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber7"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome7"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -429,17 +418,15 @@
                         android:id="@+id/homeplayer8"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber8"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome8"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -447,18 +434,16 @@
                         android:id="@+id/homeplayer9"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber9"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome9"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/homeplayer10Layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
@@ -466,13 +451,11 @@
                         android:id="@+id/homeplayer10"
                         style="@style/saveteamnames.names" />
 
-                    <EditText
-                        android:id="@+id/homenumber10"
-                        style="@style/saveteamnames.number" />
                     <Spinner
                         android:id="@+id/spinnerhome10"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 

@@ -1,737 +1,549 @@
 package com.example.crosbylanham.baseballstatscollector;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
-import java.lang.reflect.Array;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
-/**
- * instructions for adding new element to table
- *
- *  set name to table
- *  set colum name
- *  and to on create
- *  adjest saveing and getting
- *  adjust class
- */
-
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper {
 
     //----------------Variables static --------------------------------------
-    private static final String databaseName = "BaseballDataBase.db";
-    private static final int version = 1;
     //------------------------At Bat Table information-----------------------
     static final String ATBATTableName          = "AtBat";
-    static final String ATBATid                 = "AtBatID";
-    static final String ATBATplayeratbatid      = "PlayerAtBatID";
-    static final String ATBATgameid             = "GameID";
-    static final String ATBATinnningid          = "InningID";
-    static final String ATBATpitcherid          = "PitcherID";
-    static final String ATBATballs              = "Balls";
-    static final String ATBATstrikes            = "Strikes";
-    static final String ATBATpitches            = "Pitches";
-    static final String ATBAToutcome            = "OutCome";
     //------------------------inning information-----------------------------
     static final String INNINGTABLENAME     = "Inning";
-    static final String INNINGid            = "InningID";
-    static final String INNINGgameid        = "GameId";
-    static final String INNINGinningnumber  = "InningNumber";
-    static final String INNINGtop           = "Top";
-    static final String INNINGruns          = "Runs";
     //----------------------Game --------------------------------------------
     static final String GAMETABLENAME   = "Game";
-    static final String GAMEid          = "GameID";
-    static final String GAMEhometeam    = "HomeTeamID";
-    static final String GAMEawayteam    = "AwayTeamID";
-    static final String GAMEdescription = "Description";
-    static final String GAMEname        = "Name";
     //----------------------Team --------------------------------------------
     static final String TEAMTABLENAME   = "Team";
-    static final String TEAMid          = "TeamID";
-    static final String TEAMname        = "Name";
-    static final String TEAMloaction    = "Location";
-    static final String TEAMmascot      = "Mascot";
     //---------------------Line Up-------------------------------------------
     static final String LINEUPTABLENAME     = "LineUP";
-    static final String LINEUPid            = "LineUpID";
-    static final String LINEUPteamid        = "LineUpTeamID";
     //------------------------- linker to line up ---------------------------
 
     //------------------------BattingStats ----------------------------------
     static final String BATTINGSTATSTableName   = "BattingStats";
-    static final String BATTINGSTATSid          = "BattingStatsID";
-    static final String BATTINGSTATSplayerid    = "PlayerID";
-    static final String BATTINGSTATSgameid      = "GameID";
-    static final String BATTINGSTATSteamid      = "TeamID";
-    static final String BATTINGSTATSab          = "AB";
-    static final String BATTINGSTATSruns        = "Runs";
-    static final String BATTINGSTATShits        = "Hits";
-    static final String BATTINGSTATSsingles     = "Singles";
-    static final String BATTINGSTATSdoubles     = "Doubles";
-    static final String BATTINGSTATStriples     = "Triples";
-    static final String BATTINGSTATShomeruns    = "HomeRuns";
-    static final String BATTINGSTATSstrikes     = "Strikes";
-    static final String BATTINGSTATSballs       = "Balls";
-    static final String BATTINGSTATSrbis        = "RBIs";
-    static final String BATTINGSTATSSB          = "SB";
-    static final String BATTINGSTATSCS          = "CS";
-    static final String BATTINGSTATSBB          = "BB";
-    static final String BATTINGSTATSSO          = "SO";
     //-----------------------Pitching Stats----------------------------------
     static final String PITCHINGSTATSTABLENAME          = "Pitchingstats";
-    static final String PITCHINGSTATSpitchingstatsid    = "PitchingStatsID";
-    static final String PITCHINGSTATSgameid             = "GameID";
-    static final String PITCHINGSTATSteamid             = "TeamID";
-    static final String PITCHINGSTATSplayerid           = "PlayerID";
-    static final String PITCHINGSTATSpitches            = "Pitches";
-    static final String PITCHINGSTATSballs              = "Balls";
-    static final String PITCHINGSTATSstrikes            = "Strikes";
-    static final String PITCHINGSTATShits               = "Hits";
-    static final String PITCHINGSTATSstrikeouts         = "Strikeouts";
-    static final String PITCHINGSTATSputouts            = "PutOuts";
-    static final String PITCHINGSTATSwalks              = "Walks";
-    static final String PITCHINGSTATShitsbypitch        = "HitByPitch";
-    static final String PITCHINGSTATShomerun            = "HomeRuns";
-    static final String PITCHINGSTATSfoulballs          = "FouldBalls";
-    static final String PITCHINGSTATSgroundouts         = "GroundOuts";
-    static final String PITCHINGSTATSgroundhits         = "GrounHits";
-    static final String PITCHINGSTATSlineouts           = "LineOuts";
-    static final String PITCHINGSTATSlinehits           = "LineHits";
-    static final String PITCHINGSTATSflyouts            = "FlyOuts";
-    static final String PITCHINGSTATSlooking            = "Looking";
-    static final String PITCHINGSTATSgaper              = "Gapper";
-    static final String PITCHINGSTATSuntouched          = "Untounched";
-    static final String PITCHINGSTATSruns               = "Runs";
-    static final String PITCHINGSTATSoutspitched        = "OutsPitched";
     //------------------------Pplayer Information ---------------------------
     static final String PLAYERINFOTABLEBNAME    = "Player";
-    static final String PLAYERINFOid            = "PlayerID";
-    static final String PLAYERINFOname          = "PlayerName";
-    //----------------------creating tables commands-----------------------------------
-    private static final String CREATEPLAYERTBALE = "CREATE TABLE IF NOT EXISTS " + PLAYERINFOTABLEBNAME    +
-            "(" +
-            PLAYERINFOid        + " INTEGER PRIMARY KEY," +
-            PLAYERINFOname      + " TEXT" +
-            ");";
-    private static final String CREATETEAMTBALE = "CREATE TABLE IF NOT EXISTS " + TEAMTABLENAME    +
-            "(" +
-            TEAMid        + " INTEGER PRIMARY KEY," +
-            TEAMname      + " TEXT," +
-            TEAMloaction      + " TEXT," +
-            TEAMmascot      + " TEXT" +
-            ");";
-    private static final String CREATEGAMETBALE = "CREATE TABLE IF NOT EXISTS " + GAMETABLENAME    +
-            "(" +
-            GAMEid              + " INTEGER PRIMARY KEY," +
-            GAMEhometeam        + " TEXT," +
-            GAMEawayteam        + " TEXT," +
-            GAMEname            + " TEXT," +
-            GAMEdescription     + " TEXT" +
-            ");";
-    private static final String CREATEPITCHINGSTATSTABLE = "CREATE TABLE IF NOT EXISTS " + PITCHINGSTATSTABLENAME    +
-            "(" +
-            PITCHINGSTATSpitchingstatsid    + " INTEGER PRIMARY KEY," +
-            PITCHINGSTATSgameid             + " INTEGER," +
-            PITCHINGSTATSteamid             + " INTEGER," +
-            PITCHINGSTATSplayerid           + " INTEGER," +
-            PITCHINGSTATSpitches            + " INTEGER," +
-            PITCHINGSTATSballs              + " INTEGER," +
-            PITCHINGSTATSstrikes            + " INTEGER," +
-            PITCHINGSTATShits               + " INTEGER," +
-            PITCHINGSTATSstrikeouts         + " INTEGER," +
-            PITCHINGSTATSputouts            + " INTEGER," +
-            PITCHINGSTATSwalks              + " INTEGER," +
-            PITCHINGSTATShitsbypitch        + " INTEGER," +
-            PITCHINGSTATShomerun            + " INTEGER," +
-            PITCHINGSTATSfoulballs          + " INTEGER," +
-            PITCHINGSTATSgroundouts         + " INTEGER," +
-            PITCHINGSTATSgroundhits         + " INTEGER," +
-            PITCHINGSTATSlineouts           + " INTEGER," +
-            PITCHINGSTATSlinehits           + " INTEGER," +
-            PITCHINGSTATSflyouts            + " INTEGER," +
-            PITCHINGSTATSlooking            + " INTEGER," +
-            PITCHINGSTATSgaper              + " INTEGER," +
-            PITCHINGSTATSoutspitched        + " INTEGER," +
-            PITCHINGSTATSruns        + " INTEGER," +
-            PITCHINGSTATSuntouched          + " INTEGER"  +
-            ");";
-    private static final String CREATEATBATTABLE = "CREATE TABLE IF NOT EXISTS " + ATBATTableName +
-            "("+
-            ATBATid                         + " INTEGER PRIMARY KEY," +
-            ATBATplayeratbatid              + " INTEGER," +
-            ATBATgameid                     + " INTEGER," +
-            ATBATinnningid                  + " INTEGER," +
-            ATBATpitcherid                  + " INTEGER," +
-            ATBATballs                      + " INTEGER," +
-            ATBATstrikes                    + " INTEGER," +
-            ATBATpitches                    + " INTEGER," +
-            ATBAToutcome                    + " INTEGER"  +
-            ");";
-    private static final String CREATEINNINGTABLE = "CREATE TABLE IF NOT EXISTS " + ATBATTableName +
-            "("+
-            INNINGid                      + " INTEGER PRIMARY KEY," +
-            INNINGgameid                  + " INTEGER," +
-            INNINGinningnumber            + " INTEGER," +
-            INNINGtop                     + " INTEGER," +
-            INNINGruns                    + " INTEGER" +
-            ");";
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
-    public DataBaseHelper(Context context) {
-        super(context, databaseName, null, version);
-        Log.i("Database Operations", "Created opened the database");
-    }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATEPLAYERTBALE);
-        db.execSQL(CREATETEAMTBALE);
-        db.execSQL(CREATEGAMETBALE);
-        db.execSQL(CREATEPITCHINGSTATSTABLE);
-        db.execSQL(CREATEATBATTABLE);
-        db.execSQL(CREATEINNINGTABLE);
-    }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public DataBaseHelper() {}
 
     //-------------------saving information------------------------------------------
     public Player savePlayer(Player p){
-        ContentValues contentvalues = new ContentValues();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
+        DatabaseReference r = myRef.push();
 
-        contentvalues.put(PLAYERINFOname       , p.getName());
-
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert(PLAYERINFOTABLEBNAME,null,contentvalues);
-        db.close();
-
-        Log.d("Save player database", "Saving player name "+p.getName());
-        Log.d("Save player database","and the players id is "+getPlayer(p.getName()).getPlayerID());
-
-        return getPlayer(p.getName());
+        p.setPlayerID(r.getKey());
+        r.setValue(p);
+        return p;
     }
     public Team saveTeam(Team team){
-        ContentValues contentValues = new ContentValues();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TEAMTABLENAME);
+        DatabaseReference r = myRef.push();
 
-        contentValues.put(TEAMname      , team.getName());
-        contentValues.put(TEAMloaction  , team.getLocation());
-        contentValues.put(TEAMmascot    , team.getMascot());
-
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert(TEAMTABLENAME,null,contentValues);
-        db.close();
-        return getTeam(team.getName());
+        team.setTeamID(r.getKey());
+        r.setValue(team);
+        return team;
     }
     public Game saveGame(Game game){
-        ContentValues contentValues = new ContentValues();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GAMETABLENAME);
+        DatabaseReference r = myRef.push();
 
-        contentValues.put(GAMEhometeam      , game.getHomeTeamID());
-        contentValues.put(GAMEawayteam      , game.getAwayTeamID());
-        contentValues.put(GAMEdescription   , game.getDescription());
-        contentValues.put(GAMEname          , game.getName());
-
-        SQLiteDatabase db = getWritableDatabase();
-        long gameid = db.insert(GAMETABLENAME,null,contentValues);
-        db.close();
-
-        return getGame(gameid);
+        game.setGameID(r.getKey());
+        r.setValue(game);
+        return game;
     }
-    public long saveInning(Inning inning){
-        ContentValues contentValues = new ContentValues();
+    public Inning saveInning(Inning inning){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(INNINGTABLENAME);
+        DatabaseReference r = myRef.push();
 
-        contentValues.put(INNINGgameid      , inning.getGameID());
-        contentValues.put(INNINGinningnumber, inning.getInningNumber());
-        contentValues.put(INNINGtop         , inning.isHome());
-        contentValues.put(INNINGruns        ,inning.getRuns());
-
-        SQLiteDatabase db = getWritableDatabase();
-        long id = db.insert(INNINGTABLENAME,null,contentValues);
-        db.close();
-
-        return id;
+        inning.setInningID(r.getKey());
+        r.setValue(inning);
+        return inning;
     }
     public PitchingStats savePitchingStats(PitchingStats pitchingStats){
-        ContentValues contentValues = new ContentValues();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PITCHINGSTATSTABLENAME);
+        DatabaseReference r = myRef.push();
 
-        contentValues.put(PITCHINGSTATSgameid           , pitchingStats.getGameID());
-        contentValues.put(PITCHINGSTATSteamid           , pitchingStats.getTeamID());
-        contentValues.put(PITCHINGSTATSplayerid         , pitchingStats.getPlayerID());
-        contentValues.put(PITCHINGSTATSpitches          , pitchingStats.getPitchs());
-        contentValues.put(PITCHINGSTATSballs            , pitchingStats.getBalls());
-        contentValues.put(PITCHINGSTATSstrikes          , pitchingStats.getStrikes());
-        contentValues.put(PITCHINGSTATShits             , pitchingStats.getHits());
-        contentValues.put(PITCHINGSTATSstrikeouts       , pitchingStats.getStrikouts());
-        contentValues.put(PITCHINGSTATSputouts          , pitchingStats.getPutouts());
-        contentValues.put(PITCHINGSTATSwalks            , pitchingStats.getWalks());
-        contentValues.put(PITCHINGSTATShitsbypitch      , pitchingStats.getHitsByPitch());
-        contentValues.put(PITCHINGSTATShomerun          , pitchingStats.getHomeRuns());
-        contentValues.put(PITCHINGSTATSfoulballs        , pitchingStats.getFoulBalls());
-        contentValues.put(PITCHINGSTATSgroundouts       , pitchingStats.getGroundOuts());
-        contentValues.put(PITCHINGSTATSgroundhits       , pitchingStats.getGroundHits());
-        contentValues.put(PITCHINGSTATSlineouts         , pitchingStats.getLineOuts());
-        contentValues.put(PITCHINGSTATSlinehits         , pitchingStats.getLineHits());
-        contentValues.put(PITCHINGSTATSflyouts          , pitchingStats.getFlyOut());
-        contentValues.put(PITCHINGSTATSlooking          , pitchingStats.getLooking());
-        contentValues.put(PITCHINGSTATSgaper            , pitchingStats.getGapper());
-        contentValues.put(PITCHINGSTATSoutspitched      , pitchingStats.getOutsPitched());
-        contentValues.put(PITCHINGSTATSruns             , pitchingStats.getRuns());
-        contentValues.put(PITCHINGSTATSuntouched        , pitchingStats.getUntouched());
-
-        SQLiteDatabase db = getWritableDatabase();
-        long pitchingStatsID = db.insert(PITCHINGSTATSTABLENAME,null,contentValues);
-        db.close();
-
-        Log.d("Saving player stats","Player id is "+pitchingStatsID );
-        Log.d("Saving player stats" , PITCHINGSTATSgameid           + pitchingStats.getGameID());
-        Log.d("Saving player stats" , PITCHINGSTATSteamid           + pitchingStats.getTeamID());
-        Log.d("Saving player stats" , PITCHINGSTATSplayerid         + pitchingStats.getPlayerID());
-        Log.d("Saving player stats" , PITCHINGSTATSpitches          + pitchingStats.getPitchs());
-        Log.d("Saving player stats" , PITCHINGSTATSballs            + pitchingStats.getBalls());
-        Log.d("Saving player stats" , PITCHINGSTATSstrikes          + pitchingStats.getStrikes());
-        Log.d("Saving player stats" , PITCHINGSTATShits             + pitchingStats.getHits());
-        Log.d("Saving player stats" , PITCHINGSTATSstrikeouts       + pitchingStats.getStrikouts());
-        Log.d("Saving player stats" , PITCHINGSTATSputouts          + pitchingStats.getPutouts());
-        Log.d("Saving player stats" , PITCHINGSTATSwalks            + pitchingStats.getWalks());
-        Log.d("Saving player stats" , PITCHINGSTATShitsbypitch      + pitchingStats.getHitsByPitch());
-        Log.d("Saving player stats" , PITCHINGSTATShomerun          + pitchingStats.getHomeRuns());
-        Log.d("Saving player stats" , PITCHINGSTATSfoulballs        + pitchingStats.getFoulBalls());
-        Log.d("Saving player stats" , PITCHINGSTATSgroundouts       + pitchingStats.getGroundOuts());
-        Log.d("Saving player stats" , PITCHINGSTATSoutspitched       + pitchingStats.getOutsPitched());
-
+        pitchingStats.setPitchingStatsID(r.getKey());
+        r.setValue(pitchingStats);
         return pitchingStats;
     }
-    public long saveAtBat(AtBats ab){
-        ContentValues contentValues = new ContentValues();
+    public AtBats saveAtBat(AtBats ab){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(ATBATTableName);
+        DatabaseReference r = myRef.push();
 
-        contentValues.put(ATBATplayeratbatid        , ab.getPlayerAtBatId());
-        contentValues.put(ATBATgameid               , ab.getGameID());
-        contentValues.put(ATBATinnningid            , ab.getInningID());
-        contentValues.put(ATBATpitcherid            , ab.getPitcherID());
-        contentValues.put(ATBATballs                , ab.getBalls());
-        contentValues.put(ATBATstrikes              , ab.getStrikes());
-        contentValues.put(ATBATpitches              , ab.getPitches());
-        contentValues.put(ATBAToutcome              , ab.getOutcome());
-
-        SQLiteDatabase db = getWritableDatabase();
-        long atbatid = db.insert(ATBATTableName,null,contentValues);
-        db.close();
-
-        return atbatid;
+        ab.setAtBatID(r.getKey());
+        r.setValue(ab);
+        return ab;
     }
     //--------------------getting from database-------------------------------------
-    public Player getPlayer(String name){
-        String Query = "SELECT * "+
-                "FROM " + PLAYERINFOTABLEBNAME +" "+
-                "WHERE "+ PLAYERINFOname +" = \"" + name +"\" ;";
 
-        Player player = new Player();
-        Log.d("Database comand", Query);
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+    ArrayList<Player> playersArrayList;
+    ArrayList<Team> teamArrayList;
+    ArrayList<AtBats> atBatsArrayList;
+    ArrayList<Game> gameArrayList;
+    ArrayList<Inning> inningArrayList;
+    ArrayList<PitchingStats> pitchingStatsArrayList;
+    ArrayList<String> strings;
+    ArrayList<String> strings2;
 
-        cursor.moveToFirst();
+    public Player getPlayerByName(String name){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
 
-        player.setPlayerID(cursor.getLong(cursor.getColumnIndex(PLAYERINFOid)));
-        player.setName(cursor.getString(cursor.getColumnIndex(PLAYERINFOname)));
+        playersArrayList = new ArrayList<>();
 
-        db.close();
-        return player;
-    }
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-    public Player getPlayer(long id){
-        String Query = "SELECT * "+
-                "FROM " + PLAYERINFOTABLEBNAME +" "+
-                "WHERE "+ PLAYERINFOid +" = " + id +" ;";
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-        Player player = new Player();
-        Log.d("Database comand", Query);
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot child:children){
+                    playersArrayList.add(child.getValue(Player.class));
+                }
+            }
 
-        cursor.moveToFirst();
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
 
-        player.setPlayerID(cursor.getLong(cursor.getColumnIndex(PLAYERINFOid)));
-        player.setName(cursor.getString(cursor.getColumnIndex(PLAYERINFOname)));
-
-        db.close();
-        return player;
-    }
-
-    public ArrayList<String> getTeamNames(){
-        String Query = "SELECT * "+
-                "FROM " + TEAMTABLENAME +" "+
-                "ORDER BY "+ TEAMname +" ;";
-
-        ArrayList<String> names = new ArrayList<>();
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            names.add(cursor.getString(cursor.getColumnIndex(TEAMname)));
-            cursor.moveToNext();
+        for(Player x:playersArrayList){
+            if (x.getName().equals(name)){return x;}
         }
-        db.close();
-        return names;
+        return null;
     }
-    public ArrayList<String> getAllPlayersNames() {
-        String Query = "SELECT " + PLAYERINFOname + " "+
-                "FROM " + PLAYERINFOTABLEBNAME +" "+
-                "ORDER BY "+ PLAYERINFOname +";";
+    public Player getPlayerByID(String id){
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
 
-        ArrayList<String> names = new ArrayList<>();
+            playersArrayList = new ArrayList<>();
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            names.add(cursor.getString(cursor.getColumnIndex(PLAYERINFOname)));
-            cursor.moveToNext();
+                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    for(DataSnapshot child:children){
+                        playersArrayList.add(child.getValue(Player.class));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("nonn", "Failed to read value.", error.toException());
+                }
+            });
+
+            for(Player x:playersArrayList){
+                if (x.getPlayerID().equals(id)){return x;}
+            }
+            return null;
+    }
+    public Team getTeamByName(String name){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TEAMTABLENAME);
+
+        teamArrayList = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    teamArrayList.add(child.getValue(Team.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+        for (Team x:teamArrayList) {
+            if(x.getName().trim().equals(name.trim())){return x;}
         }
-        db.close();
-        return names;
+        return null;
     }
-    public Team getTeam(String name){
-        String Query = "SELECT * "+
-                "FROM " + TEAMTABLENAME +" "+
-                "WHERE "+ TEAMname + " = \"" + name +"\" ;";
+    public Team getTeamByID(String id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TEAMTABLENAME);
 
-        Team team = null;
+        teamArrayList = new ArrayList<>();
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        if(cursor.moveToFirst()) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-            team.setTeamid(cursor.getLong(cursor.getColumnIndex(TEAMid)));
-            team.setName(cursor.getString(cursor.getColumnIndex(TEAMname)));
-            team.setLocation(cursor.getString(cursor.getColumnIndex(TEAMloaction)));
-            team.setMascot(cursor.getString(cursor.getColumnIndex(TEAMmascot)));
+                for(DataSnapshot child:children){
+                    teamArrayList.add(child.getValue(Team.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+        for (Team x:teamArrayList) {
+            if(x.getTeamID().equals(id)){return x;}
         }
-        db.close();
-        return team;
-    }
-    public Team getTeam(long id){
-        String Query = "SELECT * "+
-                "FROM " + TEAMTABLENAME +" "+
-                "WHERE "+ TEAMid + " = " + id +" ;";
 
-        Team team = new Team();
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        cursor.moveToFirst();
-
-        team.setTeamid(cursor.getLong(cursor.getColumnIndex(TEAMid)));
-        team.setName(cursor.getString(cursor.getColumnIndex(TEAMname)));
-        team.setLocation(cursor.getString(cursor.getColumnIndex(TEAMloaction)));
-        team.setMascot(cursor.getString(cursor.getColumnIndex(TEAMmascot)));
-
-        db.close();
-        return team;
-    }
-    public PitchingStats getPitchingStats(long playerID,long gameID){
-        String Query = "SELECT * "+
-                "FROM " + PITCHINGSTATSTABLENAME +" "+
-                "WHERE "+ PITCHINGSTATSplayerid + " = " + playerID +" "+
-                "AND "  + PITCHINGSTATSgameid+" = " + gameID + " ;";
-
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        cursor.moveToFirst();
-        PitchingStats pitchingStats = new PitchingStats();
-
-        pitchingStats.setPitchingStatsID(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitchingstatsid )));
-        pitchingStats.setGameID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSgameid          )));
-        pitchingStats.setTeamID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSteamid          )));
-        pitchingStats.setPlayerID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSplayerid        )));
-        pitchingStats.setPitchs(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitches         )));
-        pitchingStats.setBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSballs           )));
-        pitchingStats.setStrikes(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikes         )));
-        pitchingStats.setHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShits            )));
-        pitchingStats.setStrikouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikeouts      )));
-        pitchingStats.setPutouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSputouts         )));
-        pitchingStats.setWalks(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSwalks           )));
-        pitchingStats.setHitsByPitch(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShitsbypitch     )));
-        pitchingStats.setHomeRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShomerun         )));
-        pitchingStats.setFoulBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSfoulballs       )));
-        pitchingStats.setGroundOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundouts      )));
-        pitchingStats.setGroundHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundhits      )));
-        pitchingStats.setLineOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlineouts        )));
-        pitchingStats.setLineHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlinehits        )));
-        pitchingStats.setFlyOut(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSflyouts         )));
-        pitchingStats.setLooking(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlooking         )));
-        pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgaper           )));
-        pitchingStats.setOutsPitched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSoutspitched           )));
-        pitchingStats.setUntouched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSuntouched       )));
-        pitchingStats.setRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSruns       )));
-
-        cursor.moveToNext();
-
-        db.close();
-        return pitchingStats;
-
-
-
-    }
-    public Game getGame(long id){
-        String Query = "SELECT * "+
-                "FROM " + GAMETABLENAME +" "+
-                "WHERE "+ GAMEid + " = " + id +" ;";
-
-        Game game = new Game();
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        cursor.moveToFirst();
-
-        game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
-        game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
-        game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
-        game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
-        game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
-
-        db.close();
-        return game;
+        return null;
     }
     public Game getGame(String gameName){
-        String Query = "SELECT * "+
-                "FROM " + GAMETABLENAME +" "+
-                "WHERE "+ GAMEname + " = \"" + gameName +"\" ;";
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GAMETABLENAME);
 
-        Game game = new Game();
+        gameArrayList= new ArrayList<>();
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-        if(cursor.moveToFirst()) {
-
-            game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
-            game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
-            game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
-            game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
-            game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
-        }
-        db.close();
-        return game;
-    }
-
-    public ArrayList<AtBats> getAllABsForPlayer(long id){
-        ArrayList<AtBats> list = new ArrayList<>();
-
-        String query = "SELECT * "+
-                "FROM "+ ATBATTableName +" "+
-                "WHERE "+ATBATid+" = "+id+ ";";
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            AtBats a = new AtBats();
-            a.setAtBatID(cursor.getLong(cursor.getColumnIndex(ATBATplayeratbatid)));
-            a.setInningID(cursor.getLong(cursor.getColumnIndex(ATBATinnningid)));
-            a.setBalls(cursor.getInt(cursor.getColumnIndex(ATBATballs)));
-            a.setStrikes(cursor.getInt(cursor.getColumnIndex(ATBATstrikes)));
-            a.setOutcome(cursor.getInt(cursor.getColumnIndex(ATBAToutcome)));
-            cursor.moveToNext();
-        }
-        db.close();
-        return list;
-    }
-    public ArrayList<AtBats> getAllABsForPlayer(long id, long gameid){
-        ArrayList<AtBats> list = new ArrayList<>();
-
-        String query = "SELECT * "+
-                "FROM "+ ATBATTableName +" "+
-                "WHERE "+ATBATid+" = "+id+" "+
-                "AND "  +ATBATgameid +" = "+gameid+";";
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            AtBats a = new AtBats();
-            a.setAtBatID(cursor.getLong(cursor.getColumnIndex(ATBATplayeratbatid)));
-            a.setInningID(cursor.getLong(cursor.getColumnIndex(ATBATinnningid)));
-            a.setBalls(cursor.getInt(cursor.getColumnIndex(ATBATballs)));
-            a.setStrikes(cursor.getInt(cursor.getColumnIndex(ATBATstrikes)));
-            a.setOutcome(cursor.getInt(cursor.getColumnIndex(ATBAToutcome)));
-            cursor.moveToNext();
-        }
-        db.close();
-        return list;
-    }
-
-    public ArrayList<String> getallBattersNames(){
-        ArrayList<String> list = new ArrayList<>();
-
-        String query = "SELECT * "+
-                "FROM "+ ATBATTableName +";";
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            String id = cursor.getString(cursor.getColumnIndex(ATBATplayeratbatid));
-            if(!list.contains(id)){
-                list.add(id);
+                for(DataSnapshot child:children){
+                    gameArrayList.add(child.getValue(Game.class));
+                }
             }
-            cursor.moveToNext();
-        }
-        db.close();
-        ArrayList<String> battersNames = new ArrayList<>();
-        for (String id:list){
-            battersNames.add(getPlayer(Long.valueOf(id)).getName());
-        }
-        return battersNames;
-    }
-
-    public ArrayList<String> getAllGamesNamesForPitcher(long id){
-        ArrayList<String> gameNames = new ArrayList<String>();
-
-        String Query = "SELECT "+PITCHINGSTATSgameid+" "+
-                "FROM " + PITCHINGSTATSTABLENAME +" "+
-                "WHERE " +PITCHINGSTATSplayerid + " = " + id + " ;";
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            String name = cursor.getString(cursor.getColumnIndex(PITCHINGSTATSgameid));
-            if(!gameNames.contains(name)){
-                gameNames.add(name);
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
             }
-            cursor.moveToNext();
-        }
-        db.close();
-        return gameNames;
-    }
+        });
 
+        for (Game x:gameArrayList) {
+            if(x.getName().equals(gameName)){return x;}
+        }
+        return null;
+    }
+    public Game getgameByID(String id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GAMETABLENAME);
+
+        gameArrayList= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    gameArrayList.add(child.getValue(Game.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        for (Game x:gameArrayList) {
+            if(x.getGameID().equals(id)){return x;}
+        }
+        return null;
+    }
+    public PitchingStats getPitchingStats(String playerID,String gameID){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PITCHINGSTATSTABLENAME);
+
+        pitchingStatsArrayList= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    pitchingStatsArrayList.add(child.getValue(PitchingStats.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        for (PitchingStats x:pitchingStatsArrayList) {
+            if(x.getPlayerID().equals(playerID) &&
+                    x.getGameID().equals(gameID)){return x;}
+        }
+        return null;
+    }
+    public ArrayList<String> getAllTeamNames(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TEAMTABLENAME);
+
+        strings = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot child:children){
+                    strings.add(child.getValue(Team.class).getName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+        return strings;
+    }
+    public ArrayList<String> getAllPlayersNames() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
+
+        strings = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot child:children){
+                    strings.add(child.getValue(Player.class).getName());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+        return strings;
+    }
+    public ArrayList<AtBats> getAllAtBatsForPlayerByID(final String id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(ATBATTableName);
+
+        atBatsArrayList= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    if(child.getValue(AtBats.class).getAtBatID().equals(id)){
+                        atBatsArrayList.add(child.getValue(AtBats.class));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        return atBatsArrayList;
+    }
+    public ArrayList<AtBats> getAllABsForPlayerBYIDGAME(final String id, final String gameid){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(ATBATTableName);
+
+        atBatsArrayList= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    if(child.getValue(AtBats.class).getAtBatID().equals(id) &&
+                            child.getValue(AtBats.class).getGameID().equals(gameid)){
+                        atBatsArrayList.add(child.getValue(AtBats.class));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        return atBatsArrayList;
+    }
+    public ArrayList<String> getAllBattersNames(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(ATBATTableName);
+
+        strings = new ArrayList<>();
+        strings2 = new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for(DataSnapshot child:children){
+                    if(strings2.contains(child.getValue(AtBats.class))) {
+                        strings2.add(child.getValue(AtBats.class).getPlayerAtBatId());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
+
+        for(String x:strings2){
+            strings.add(getPlayerByID(x).getName());
+        }
+
+        return strings;
+    }
+    public ArrayList<String> getAllGamesNamesForPitcher(final String id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PITCHINGSTATSTABLENAME);
+
+        strings= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    if(child.getValue(PitchingStats.class).getPlayerID().equals(id)){
+                        strings.add(child.getValue(PitchingStats.class).getPitchingStatsID());
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+        for(String x:strings){strings2.add(getgameByID(x).getName());}
+        return strings2;
+    }
     public ArrayList<String> getAllGameNames(){
-        String Query = "SELECT "+GAMEname+" "+
-                "FROM " + GAMETABLENAME +" ;";
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GAMETABLENAME);
 
-        ArrayList<String> names = new ArrayList<>();
+        gameArrayList= new ArrayList<>();
+        strings = new ArrayList<>();
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            names.add(cursor.getString(cursor.getColumnIndex(GAMEname)));
-            cursor.moveToNext();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    gameArrayList.add(child.getValue(Game.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        for (Game x:gameArrayList) {
+            strings.add(x.getName());
         }
-        db.close();
-        return names;
-    }
-
-    public ArrayList<String > getAllTeamNames(){
-        ArrayList<String> names = new ArrayList<>();
-
-        String query = "SELECT "+TEAMname + " " +
-                "FROM "+TEAMTABLENAME+";";
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            names.add(
-                    cursor.getString(cursor.getColumnIndex(TEAMname))
-            );
-            cursor.moveToNext();
-        }
-        db.close();
-
-        return names;
+        return strings;
     }
     public ArrayList<Game> getAllGames(){
-        ArrayList<Game> games = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GAMETABLENAME);
 
-        String query = "SELECT "+ "* " +
-                "FROM "+GAMETABLENAME+";";
+        gameArrayList= new ArrayList<>();
 
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            Game game = new Game();
-            game.setGameID(cursor.getLong(cursor.getColumnIndex(GAMEid)));
-            game.setHomeTeamID(cursor.getInt(cursor.getColumnIndex(GAMEhometeam)));
-            game.setAwayTeamID(cursor.getInt(cursor.getColumnIndex(GAMEawayteam)));
-            game.setDescription(cursor.getString(cursor.getColumnIndex(GAMEdescription)));
-            game.setName(cursor.getString(cursor.getColumnIndex(GAMEname)));
-            games.add(game);
-            cursor.moveToNext();
-        }
-        db.close();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-        return games;
+                for(DataSnapshot child:children){
+                    gameArrayList.add(child.getValue(Game.class));
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        return gameArrayList;
+    }
+    public ArrayList<PitchingStats> getAllPitchingStatsForPlayer(final String id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(PITCHINGSTATSTABLENAME);
+
+        pitchingStatsArrayList= new ArrayList<>();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for(DataSnapshot child:children){
+                    if(child.getValue(PitchingStats.class).playerID.equals(id)) {
+                        pitchingStatsArrayList.add(child.getValue(PitchingStats.class));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w("nonn", "Failed to read value.", error.toException());
+            }
+        });
+
+        return pitchingStatsArrayList;
     }
 
-    public ArrayList<PitchingStats> getAllPitchingStatsForPlayer(long id){
-        String Query = "SELECT * "+
-                "FROM " + PITCHINGSTATSTABLENAME +" "+
-                "WHERE "+ PITCHINGSTATSplayerid + " = " + id +" ;";
-
-
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.rawQuery(Query, null);
-
-        ArrayList<PitchingStats> list = new ArrayList<>();
-
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            PitchingStats pitchingStats = new PitchingStats();
-
-            pitchingStats.setPitchingStatsID(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitchingstatsid )));
-            pitchingStats.setGameID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSgameid          )));
-            pitchingStats.setTeamID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSteamid          )));
-            pitchingStats.setPlayerID(cursor.getLong(cursor.getColumnIndex(PITCHINGSTATSplayerid        )));
-            pitchingStats.setPitchs(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSpitches         )));
-            pitchingStats.setBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSballs           )));
-            pitchingStats.setStrikes(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikes         )));
-            pitchingStats.setHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShits            )));
-            pitchingStats.setStrikouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSstrikeouts      )));
-            pitchingStats.setPutouts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSputouts         )));
-            pitchingStats.setWalks(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSwalks           )));
-            pitchingStats.setHitsByPitch(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShitsbypitch     )));
-            pitchingStats.setHomeRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATShomerun         )));
-            pitchingStats.setFoulBalls(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSfoulballs       )));
-            pitchingStats.setGroundOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundouts      )));
-            pitchingStats.setGroundHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgroundhits      )));
-            pitchingStats.setLineOuts(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlineouts        )));
-            pitchingStats.setLineHits(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlinehits        )));
-            pitchingStats.setFlyOut(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSflyouts         )));
-            pitchingStats.setLooking(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSlooking         )));
-            pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSgaper           )));
-            pitchingStats.setGapper(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSoutspitched           )));
-            pitchingStats.setUntouched(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSuntouched       )));
-            pitchingStats.setRuns(cursor.getInt(cursor.getColumnIndex(PITCHINGSTATSruns       )));
-
-            cursor.moveToNext();
-            list.add(pitchingStats);
-        }
-        db.close();
-        return list;
-    }
 }

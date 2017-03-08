@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pitchingPlayers"
+            android:padding="5sp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center">
 
@@ -99,7 +100,8 @@
             android:layout_centerHorizontal="true"/>
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/PitchingStats_GameStatsTable">
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -113,19 +115,6 @@
                 <TextView android:text="SO" style="@style/statscolumns"/>
                 <TextView android:text="WHIP" style="@style/statscolumns"/>
                 <TextView android:text="ERA" style="@style/statscolumns"/>
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView android:id="@+id/PitchingStats_Game_IP" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_H" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_R" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_Pitches" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_ER" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_BB" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_SO" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_WHIP" style="@style/statscolumns"/>
-                <TextView android:id="@+id/PitchingStats_Game_ERA" style="@style/statscolumns"/>
             </TableRow>
         </TableLayout>
     </LinearLayout>

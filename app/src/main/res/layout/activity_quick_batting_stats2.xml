@@ -40,9 +40,7 @@
                 <TextView android:text="2B" style="@style/statscolumns"/>
                 <TextView android:text="3B" style="@style/statscolumns"/>
                 <TextView android:text="HR" style="@style/statscolumns"/>
-                <TextView android:text="SB" style="@style/statscolumns"/>
-                <TextView android:text="CS" style="@style/statscolumns"/>
-        </TableRow>
+            </TableRow>
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -57,13 +55,39 @@
                 <TextView android:id="@+id/BattingStats_2B" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_3B" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_HR" style="@style/statscolumns"/>
-                <TextView android:id="@+id/BattingStats_SB" style="@style/statscolumns"/>
-                <TextView android:id="@+id/BattingStats_CS" style="@style/statscolumns"/>
             </TableRow>
         </TableLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Last 4 Games"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5sp">
+                <TextView android:text="PA" style="@style/statscolumns"/>
+                <TextView android:text="AB" style="@style/statscolumns"/>
+                <TextView android:text="AVG" style="@style/statscolumns"/>
+                <TextView android:text="OBP" style="@style/statscolumns"/>
+                <TextView android:text="SLG" style="@style/statscolumns"/>
+                <TextView android:text="R" style="@style/statscolumns"/>
+                <TextView android:text="H" style="@style/statscolumns"/>
+                <TextView android:text="1B" style="@style/statscolumns"/>
+                <TextView android:text="2B" style="@style/statscolumns"/>
+                <TextView android:text="3B" style="@style/statscolumns"/>
+                <TextView android:text="HR" style="@style/statscolumns"/>
+            </TableRow>
+
+        </TableLayout>
+
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="20sp"
             android:id="@+id/BattingStats_gameSpinner"/>
             <TableLayout
                 android:layout_width="match_parent"
@@ -71,11 +95,12 @@
                 <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5sp">
+                    android:padding="5sp"
+                    android:id="@+id/BattingStats_SpecificGame">
+                    <TextView android:text="Game" style="@style/statscolumns"/>
                     <TextView android:text="PA" style="@style/statscolumns"/>
                     <TextView android:text="AB" style="@style/statscolumns"/>
                     <TextView android:text="AVG" style="@style/statscolumns"/>
-                    <TextView android:text="OBP" style="@style/statscolumns"/>
                     <TextView android:text="SLG" style="@style/statscolumns"/>
                     <TextView android:text="R" style="@style/statscolumns"/>
                     <TextView android:text="H" style="@style/statscolumns"/>
@@ -83,8 +108,6 @@
                     <TextView android:text="2B" style="@style/statscolumns"/>
                     <TextView android:text="3B" style="@style/statscolumns"/>
                     <TextView android:text="HR" style="@style/statscolumns"/>
-                    <TextView android:text="SB" style="@style/statscolumns"/>
-                    <TextView android:text="CS" style="@style/statscolumns"/>
                 </TableRow>
                 <TableRow
                     android:layout_width="match_parent"
@@ -100,8 +123,6 @@
                     <TextView android:id="@+id/BattingStats_game_2B" style="@style/statscolumns"/>
                     <TextView android:id="@+id/BattingStats_game_3B" style="@style/statscolumns"/>
                     <TextView android:id="@+id/BattingStats_game_HR" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_SB" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_CS" style="@style/statscolumns"/>
                 </TableRow>
             </TableLayout>
     </LinearLayout>

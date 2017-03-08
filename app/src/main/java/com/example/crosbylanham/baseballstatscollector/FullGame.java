@@ -1,17 +1,17 @@
 package com.example.crosbylanham.baseballstatscollector;
 
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 class ScoreBoard {
+    public ScoreBoard(){}
     public int awayScore = 0;
     public int homeScore = 0;
     public int homePositionAtBat = 0;
@@ -23,26 +23,27 @@ class ScoreBoard {
 
 public class FullGame extends AppCompatActivity {
 
-    DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
     PitchCounter pitchCounter = new PitchCounter();
-    ScoreBoard scoreBoard = new ScoreBoard();
-    Game game;
+    ScoreBoard scoreBoard;
+    Game game;AtBats atBats;Player playeratbat;
 
-    String homeTeamName;
-    String awayTeamName;
+    String homeTeamName,homeTeamID;
+    String awayTeamName,awayTeamID;
     ArrayList<Player> awayTeamPlayers,homeTeamPlayers;
 
+    ImageView topInning,bottomInning;
 
-    TextView player1name = (TextView) findViewById(R.id.awayplayername1);
-    TextView player2name = (TextView) findViewById(R.id.awayplayername2);
-    TextView player3name = (TextView) findViewById(R.id.awayplayername3);
-    TextView player4name = (TextView) findViewById(R.id.awayplayernumber4);
-    TextView player5name = (TextView) findViewById(R.id.awayplayernumber5);
-    TextView player6name = (TextView) findViewById(R.id.awayplayernumber6);
-    TextView player7name = (TextView) findViewById(R.id.awayplayernumber7);
-    TextView player8name = (TextView) findViewById(R.id.awayplayernumber8);
-    TextView player9name = (TextView) findViewById(R.id.awayplayernumber9);
-    TextView player10name = (TextView) findViewById(R.id.awayplayernumber10);
+
+    TextView player1name ;
+    TextView player2name ;
+    TextView player3name ;
+    TextView player4name ;
+    TextView player5name ;
+    TextView player6name ;
+    TextView player7name ;
+    TextView player8name ;
+    TextView player9name ;
+    TextView player10name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,37 @@ public class FullGame extends AppCompatActivity {
         awayTeamName =  getIntent().getStringExtra("awayTeamName");
         awayTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("awayTeam");
         homeTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("homeTeam");
+        awayTeamID = getIntent().getStringExtra("awayTeamId");
+        homeTeamID = getIntent().getStringExtra("homeTeamId");
 
+        topInning = (ImageView)findViewById(R.id.FullGame_toparow);
+        bottomInning = (ImageView)findViewById(R.id.FullGame_buttomArow);
+
+        saveGameinformation();
+        initButton();
+        initButtonActions();
+        initTextViews();
+        fillTeamNames(awayTeamPlayers);
+        atBats = new AtBats();
+        bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
+        scoreBoard = new ScoreBoard();
+    }
+
+    public void saveInformation(){
+
+        if(scoreBoard.top){
+            bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
+            fillTeamNames(awayTeamPlayers);
+            setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat).toString());
+            playeratbat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
+            scoreBoard.awayPositionAtBat = (scoreBoard.awayPositionAtBat +1) % awayTeamPlayers.size();
+            atBats = new AtBats();
+        }else{
+
+        }
+    }
+
+    public void initTextViews(){
         player1name = (TextView) findViewById(R.id.awayplayername1);
         player2name = (TextView) findViewById(R.id.awayplayername2);
         player3name = (TextView) findViewById(R.id.awayplayername3);
@@ -64,48 +95,14 @@ public class FullGame extends AppCompatActivity {
         player8name = (TextView) findViewById(R.id.awayplayernumber8);
         player9name = (TextView) findViewById(R.id.awayplayernumber9);
         player10name = (TextView) findViewById(R.id.awayplayernumber10);
-
-        initButton();
-        game = createGameFillGameInformation();
-        startGame();
     }
 
-    public void startGame() {
-        int extrainningnumberchecker = 1;
-        while (scoreBoard.inningNumber < 10 || scoreBoard.awayScore == scoreBoard.homeScore) {
-
-            int inningscores = 0;
-            Inning inning = saveInningInformation(game, false);
-            while (scoreBoard.top) {
-                Player playerAtBat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
-                setAtbatplayername(playerAtBat.getName());
-                AtBats atBat = waitForOutCome();
-                saveOutCome(playerAtBat, atBat, inning);
-                if (scoreBoard.outs == 3) {
-                    pitchCounter.reset();
-                    scoreBoard.outs = 0;
-                    scoreBoard.top = !scoreBoard.top;
-                }
-                extrainningnumberchecker++;
-            }
-            /*#TODO update inning score*/
-            dataBaseHelper.saveInning(inning);
-            inning = new Inning();
-
-            //--------------------------------------------------------------------------------
-
-            while (!scoreBoard.top) {
-            }
-        }
-    }
-
-    public Inning saveInningInformation(Game game, boolean areTheyHome) {
-        Inning inning = new Inning();
-        inning.setGameID(game.getGameID());
-        inning.setHome(areTheyHome);
-        inning.setInningNumber(scoreBoard.inningNumber);
-        inning.setInningID(dataBaseHelper.saveInning(inning));
-        return inning;
+    public void saveGameinformation() {
+        game = new Game();
+        game.setAwayTeamID(awayTeamID);
+        game.setHomeTeamID(homeTeamID);
+        game.generateName(awayTeamName,homeTeamName);
+        game = new DataBaseHelper().saveGame(game);
     }
 
     public void setAtbatplayername(String playerName) {
@@ -113,13 +110,13 @@ public class FullGame extends AppCompatActivity {
     }
 
     public void setFirstBasePlayer(String playerName) {
-        ((TextView) findViewById(R.id.personAtHomePlate)).setText(playerName);
+        ((TextView) findViewById(R.id.FullGame_FirstBaseRunner)).setText(playerName);
     }
-
-    public void atBatFinished() {
-        fillTeamNames(awayTeamPlayers);
-        Player atbat = getPersonAtBat();
-        setAtbatplayername(atbat.getName());
+    public void setSecondBasePlayer(String playerName){
+        ((TextView) findViewById(R.id.FullGame_SecondBaseRunner)).setText(playerName);
+    }
+    public void setThirdBasePlayer(String playerName){
+        ((TextView) findViewById(R.id.FullGame_ThirdBaseRunner)).setText(playerName);
     }
 
     public void fillTeamNames(ArrayList<Player> awayTeamPlayers) {
@@ -135,52 +132,6 @@ public class FullGame extends AppCompatActivity {
         if (awayTeamPlayers.size() == 10) {
             player10name.setText(awayTeamPlayers.get(9).getName());
         }
-    }
-
-    public Player getPersonAtBat() {
-        if (scoreBoard.top) {
-            return awayTeamPlayers.get(scoreBoard.awayPositionAtBat++);
-        } else {
-            return homeTeamPlayers.get(scoreBoard.homePositionAtBat++);
-        }
-    }
-
-    public void saveOutCome(Player playerAtBats, AtBats atBats, Inning inning) {
-
-        atBats.setBalls(pitchCounter.getBalls());
-        atBats.setGameID(game.getGameID());
-        atBats.setInningID(inning.getInningID());
-        atBats.setStrikes(pitchCounter.strikes);
-        atBats.setPlayerAtBatId(playerAtBats.getPlayerID());
-        atBats.setPitches(pitchCounter.totalAtBatPitches);
-        atBats.setPitcherID(0);/*#TODO make sure to add the pitchers information*/
-
-        dataBaseHelper.saveAtBat(atBats);
-    }
-
-    boolean outcome = true;
-
-    public AtBats waitForOutCome() {
-        AtBats atBats = new AtBats();
-        Log.d("Full game", "Going to start waiting for an out come");
-        while (outcome) {
-            /* #TODO wait for outcome
-            * i just have to remember to make sure that i wait for the outcome*/
-        }
-        outcome = true;
-        scoreBoard.outs += atBats.howManyOuts();
-        return atBats;
-    }
-
-    public Game createGameFillGameInformation() {
-        Game game = new Game();
-
-        game.setAwayTeamID(dataBaseHelper.getTeam(awayTeamName).getTeamid());
-        game.setHomeTeamID(dataBaseHelper.getTeam(homeTeamName).getTeamid());
-
-        game.generateName(homeTeamName, awayTeamName);
-
-        return game;
     }
 
     Button ballButton,strikesButton,foulButton,
@@ -205,4 +156,265 @@ public class FullGame extends AppCompatActivity {
         fieldersChoiceButton = (Button) findViewById(R.id.FullGame_FC);
         errorButton = (Button) findViewById(R.id.FullGame_E);
     }
+
+    public void updateInformation(){
+        ((TextView)findViewById(R.id.fullGame_ScoreBoard_Ball)).setText(pitchCounter.balls);
+        ((TextView)findViewById(R.id.fullGame_ScoreBoard_Strikes)).setText(pitchCounter.strikes);
+        ((TextView)findViewById(R.id.fullGame_ScoreBoard_Outs)).setText(pitchCounter.outs);
+    }
+
+
+    public void initButtonActions(){
+        setBallButtonAction();
+        setStrikeAction();
+        setFoulBallAction();
+        setSingleAction();
+        setDoublesAction();
+        setTripleAction();
+        setHomeRunAction();
+        setFoulOutAction();
+        setGroundOutAction();
+        setFlyOutAction();
+        setLineOutAction();
+        setAdvancedrunnerAction();
+        setHbpAction();
+        setFcAction();
+        setEAction();
+    }
+
+    public void setBallButtonAction() {
+        ballButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pitchCounter.getBalls() == 3) {
+                    atBats.setBalls(pitchCounter.getBalls() + 1);
+                    atBats.setStrikes(pitchCounter.getStrikes());
+                    atBats.setOutcome(AtBatInformation.WALK);
+                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+                    atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                } else {
+                    pitchCounter.calledBall();
+                }
+                updateInformation();
+            }
+        });
+    }
+
+    public void setStrikeAction() {
+        strikesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pitchCounter.getStrikes() == 2) {
+                    atBats.setBalls(pitchCounter.getBalls());
+                    atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                    atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                    atBats.setOutcome(AtBatInformation.STRIKEOUT);
+                    atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+                } else {
+                    pitchCounter.calledStrike();
+                }
+                updateInformation();
+            }
+        });
+    }
+
+    public void setFoulBallAction() {
+        foulButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pitchCounter.foulAction();
+                updateInformation();
+            }
+        });
+    }
+
+    public void setSingleAction() {
+        singleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.SINGLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                setFirstBasePlayer(playeratbat.getName());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setDoublesAction() {
+        doubleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.DOUBLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                setSecondBasePlayer(playeratbat.getName());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setTripleAction() {
+        tripleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.TRIPLE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                setThirdBasePlayer(playeratbat.getName());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setHomeRunAction() {
+        homerunButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.HOMERUN);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setFoulOutAction() {
+        foulOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.FOUL_OUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+
+    }
+
+    public void setGroundOutAction() {
+        groundOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.GROUNDOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setFlyOutAction() {
+        flyOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.FLYOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setLineOutAction() {
+        lineOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.LINEOUT);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setAdvancedrunnerAction() {
+        advanceRunnerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.ADVANCERUNNER);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setHbpAction() {
+        hBPButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.HIT_BY_PITCH);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setEAction() {
+        errorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.ERROR);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
+    public void setFcAction() {
+        fieldersChoiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                atBats.setBalls(pitchCounter.getBalls());
+                atBats.setStrikes(pitchCounter.getStrikes() + 1);
+                atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
+                atBats.setOutcome(AtBatInformation.FIELDERS_CHOICE);
+                atBats.setPlayerAtBatId(playeratbat.getPlayerID());
+
+                saveInformation();
+            }
+        });
+    }
+
 }

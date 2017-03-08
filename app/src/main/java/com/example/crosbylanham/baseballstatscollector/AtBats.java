@@ -1,31 +1,25 @@
 package com.example.crosbylanham.baseballstatscollector;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by crosbylanham on 1/30/17.
- */
-
 public class AtBats {
-    long atBatID;
-    long inningID;
-    long gameID;
-    long pitcherID;
-    long PlayerAtBatId;
+    String atBatID;
+    String inningID;
+    String gameID;
+    String pitcherID;
+    String playerAtBatId;
+    String description;
     int pitches;
-    int Balls;
-    int Strikes;
-    int Outcome;
+    int balls;
+    int strikes;
+    int outcome;
 
 
-    public AtBats(){
-
-    }
-    //-------------------------------helper methods for collecting stats
+    public AtBats(){}
+    //-------------------------------helper methods for collecting stats ----------------------
     public int howManyOuts(){
-        if(Outcome == FLYOUT || Outcome == STRIKEOUT ||Outcome == GROUNDOUT||
-                Outcome == FOUL_OUT || Outcome == FIELDERS_CHOICE || Outcome == LINEOUT){
+        if(outcome == AtBatInformation.FLYOUT || outcome == AtBatInformation.STRIKEOUT || outcome == AtBatInformation.GROUNDOUT||
+                outcome == AtBatInformation.FOUL_OUT || outcome == AtBatInformation.FIELDERS_CHOICE || outcome == AtBatInformation.LINEOUT){
             return 1;
         }else{
             return 0;
@@ -34,8 +28,8 @@ public class AtBats {
     public int getAllAtBats(ArrayList<AtBats> allatbats){
         int total = allatbats.size();
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.WALK||x.getOutcome() == AtBats.HIT_BY_PITCH||
-                    x.getOutcome() == AtBats.ADVANCERUNNER){
+            if(x.getOutcome() == AtBatInformation.WALK||x.getOutcome() == AtBatInformation.HIT_BY_PITCH||
+                    x.getOutcome() == AtBatInformation.ADVANCERUNNER){
                 total--;
             }
         }
@@ -44,8 +38,8 @@ public class AtBats {
     public int getallhits(ArrayList<AtBats> allatbats){
         int hits = 0 ;
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.SINGLE || x.getOutcome() == AtBats.DOUBLE
-                    ||x.getOutcome() == AtBats.TRIPLE || x.getOutcome() == AtBats.HOMERUN){
+            if(x.getOutcome() == AtBatInformation.SINGLE || x.getOutcome() == AtBatInformation.DOUBLE
+                    ||x.getOutcome() == AtBatInformation.TRIPLE || x.getOutcome() == AtBatInformation.HOMERUN){
                 hits++;
             }
         }
@@ -54,7 +48,7 @@ public class AtBats {
     public int getAllStrikeouts(ArrayList<AtBats> allatbats){
         int strikeouts = 0 ;
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.STRIKEOUT){
+            if(x.getOutcome() == AtBatInformation.STRIKEOUT){
                 strikeouts++;
             }
         }
@@ -63,7 +57,7 @@ public class AtBats {
     public int getAllHomeruns(ArrayList<AtBats> allatbats){
         int strikeouts = 0 ;
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.HOMERUN){
+            if(x.getOutcome() == AtBatInformation.HOMERUN){
                 strikeouts++;
             }
         }
@@ -72,7 +66,7 @@ public class AtBats {
     public int getAllHBP(ArrayList<AtBats> allatbats){
         int hitByPitch = 0 ;
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.HIT_BY_PITCH){
+            if(x.getOutcome() == AtBatInformation.HIT_BY_PITCH){
                 hitByPitch++;
             }
         }
@@ -81,26 +75,26 @@ public class AtBats {
     public int getAllBaseOnBalls(ArrayList<AtBats> allatbats){
         int walks = 0 ;
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBats.WALK){
+            if(x.getOutcome() == AtBatInformation.WALK){
                 walks++;
             }
         }
         return walks;
     }
     //--------------------------getters and setters----------------
-    public long getGameID() {
+    public String getGameID() {
         return gameID;
     }
 
-    public void setGameID(long gameID) {
+    public void setGameID(String gameID) {
         this.gameID = gameID;
     }
 
-    public long getPitcherID() {
+    public String getPitcherID() {
         return pitcherID;
     }
 
-    public void setPitcherID(long pitcherID) {
+    public void setPitcherID(String pitcherID) {
         this.pitcherID = pitcherID;
     }
 
@@ -111,74 +105,53 @@ public class AtBats {
     public void setPitches(int pitches) {
         this.pitches = pitches;
     }
-    public long getAtBatID() {
+    public String getAtBatID() {
         return atBatID;
     }
 
-    public void setAtBatID(long atBatID) {
+    public void setAtBatID(String atBatID) {
         this.atBatID = atBatID;
     }
 
-    public long getInningID() {
+    public String getInningID() {
         return inningID;
     }
 
-    public void setInningID(long inningID) {
+    public void setInningID(String inningID) {
         this.inningID = inningID;
     }
 
-    public long getPlayerAtBatId() {
-        return PlayerAtBatId;
+    public String getPlayerAtBatId() {
+        return playerAtBatId;
     }
 
-    public void setPlayerAtBatId(long playerAtBatId) {
-        PlayerAtBatId = playerAtBatId;
+    public void setPlayerAtBatId(String playerAtBatId) {
+        this.playerAtBatId = playerAtBatId;
     }
 
     public int getBalls() {
-        return Balls;
+        return balls;
     }
 
     public void setBalls(int balls) {
-        Balls = balls;
+        this.balls = balls;
     }
 
     public int getStrikes() {
-        return Strikes;
+        return strikes;
     }
 
     public void setStrikes(int strikes) {
-        Strikes = strikes;
+        this.strikes = strikes;
     }
 
     public int getOutcome() {
-        return Outcome;
+        return outcome;
     }
 
     public void setOutcome(int outcome) {
-        Outcome = outcome;
+        this.outcome = outcome;
+        this.description = AtBatInformation.outcomePositions[outcome];
     }
 
-    public String[] getOutcomePositions() {return outcomePositions;}
-    public final String[] outcomePositions = {
-            "Single", "double","triple","Homerun","Fly Out",
-            "StrikeOut","WALK","Hit By Pitch","Error","Ground Out",
-            "Foul Out","","Fielder Choice","Line Out","Advanced Runner"
-    };
-
-    public final static int SINGLE = 0;
-    public final static int DOUBLE = 1;
-    public final static int TRIPLE = 2;
-    public final static int HOMERUN = 3;
-    public final static int FLYOUT = 4;
-    public final static int STRIKEOUT = 5;
-    public final static int WALK = 6;
-    public final static int HIT_BY_PITCH = 7;
-    public final static int ERROR = 8;
-    public final static int GROUNDOUT = 9;
-    public final static int FOUL_OUT= 10;
-
-    public final static int FIELDERS_CHOICE =12;
-    public final static int LINEOUT = 13;
-    public final static int ADVANCERUNNER = 14;
 }
