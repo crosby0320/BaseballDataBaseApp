@@ -36,9 +36,6 @@
                 <TextView android:text="SLG" style="@style/statscolumns"/>
                 <TextView android:text="R" style="@style/statscolumns"/>
                 <TextView android:text="H" style="@style/statscolumns"/>
-                <TextView android:text="1B" style="@style/statscolumns"/>
-                <TextView android:text="2B" style="@style/statscolumns"/>
-                <TextView android:text="3B" style="@style/statscolumns"/>
                 <TextView android:text="HR" style="@style/statscolumns"/>
             </TableRow>
             <TableRow
@@ -51,9 +48,6 @@
                 <TextView android:id="@+id/BattingStats_SLG" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_R" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_H" style="@style/statscolumns"/>
-                <TextView android:id="@+id/BattingStats_1B" style="@style/statscolumns"/>
-                <TextView android:id="@+id/BattingStats_2B" style="@style/statscolumns"/>
-                <TextView android:id="@+id/BattingStats_3B" style="@style/statscolumns"/>
                 <TextView android:id="@+id/BattingStats_HR" style="@style/statscolumns"/>
             </TableRow>
         </TableLayout>

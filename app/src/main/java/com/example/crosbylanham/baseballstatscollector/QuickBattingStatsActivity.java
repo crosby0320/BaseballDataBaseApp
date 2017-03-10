@@ -56,7 +56,7 @@ class BatStatsCalculator{
         totalavg    = totalh/(double)totalab;
         totalobp    = (totalh + totalBB + totalHBP)/
                 (double)(totalab + totalBB + totalHBP );
-        totalslg    = (total1b + total2b*2 + total3b * 3 + totalhr * 4)/
+        totalslg    = (total1b + total2b * 2 + total3b * 3 + totalhr * 4)/
                 (double)(totalab);
     }
 }
@@ -66,8 +66,7 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
     Spinner playerSpinner,gameSpinner;
 
     TextView paTextView,abTextView,avgTextView,obpTextView,slgTextView,
-            rTextView,hTextView,singleTextView,doubleTextView,triplesTextView,
-            hrTextView;
+            rTextView,hTextView,hrTextView;
 
     TextView gamepaTextView,gameabTextView,gameavgTextView,gameobpTextView,gameslgTextView,
             gamerTextView,gamehTextView,gamesingleTextView,gamedoubleTextView,gametriplesTextView,
@@ -95,9 +94,6 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
         slgTextView     = (TextView)findViewById(R.id.BattingStats_SLG);
         rTextView       = (TextView)findViewById(R.id.BattingStats_R);
         hTextView       = (TextView)findViewById(R.id.BattingStats_H);
-        singleTextView  = (TextView)findViewById(R.id.BattingStats_1B);
-        doubleTextView  = (TextView)findViewById(R.id.BattingStats_2B);
-        triplesTextView = (TextView)findViewById(R.id.BattingStats_3B);
         hrTextView      = (TextView)findViewById(R.id.BattingStats_HR);
     }
 
@@ -175,9 +171,6 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
         slgTextView.setText(String.format("%.3f",bs.totalslg));
         rTextView.setText(String.valueOf(bs.totalr));
         hTextView.setText(String.valueOf(bs.totalh));
-        singleTextView.setText(String.valueOf(bs.total1b));
-        doubleTextView.setText(String.valueOf(bs.total2b));
-        triplesTextView.setText(String.valueOf(bs.total3b));
         hrTextView.setText(String.valueOf(bs.totalhr));
     }
 

@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout style="@style/playernamescollum">
-
-    <TextView
-        style="@style/fullgameplayernames.number"/>
-
-    <TextView
-        style="@style/fullgameplayernames.name"/>
+    <TextView style="@style/fullgameplayernames.name"/>
 </LinearLayout>

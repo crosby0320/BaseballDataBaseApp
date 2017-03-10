@@ -11,13 +11,10 @@
         <activity android:name=".SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FullGame"
-            android:screenOrientation="landscape" />
+        <activity android:name=".FullGame" android:screenOrientation="landscape" />
         <activity android:name=".HomePage" />
         <activity android:name=".LoadPitcherinformation" />
         <activity android:name=".MakeTeam" />
@@ -27,7 +24,6 @@
         <activity android:name=".WhosLombo" />
         <activity android:name=".QuickBattingStatsGameActivity" />
         <activity android:name=".QuickBattingStatsActivity" />
-        <activity android:name=".edit.EditHome" />
         <activity android:name=".EditHome" />
     </application>
 

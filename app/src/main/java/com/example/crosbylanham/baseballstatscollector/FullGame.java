@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class FullGame extends AppCompatActivity {
 
     ImageView topInning,bottomInning;
 
+    TextView[] baseRunners;
 
     TextView player1name ;
     TextView player2name ;
@@ -64,6 +66,7 @@ public class FullGame extends AppCompatActivity {
         initButton();
         initButtonActions();
         initTextViews();
+        initBaseRunners();
         fillTeamNames(awayTeamPlayers);
         atBats = new AtBats();
         bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
@@ -82,6 +85,13 @@ public class FullGame extends AppCompatActivity {
         }else{
 
         }
+    }
+
+    public void initBaseRunners(){
+        baseRunners[0] = (TextView)findViewById(R.id.FullGame_HomePlate);
+        baseRunners[1] = (TextView)findViewById(R.id.FullGame_FirstBase);
+        baseRunners[2] = (TextView)findViewById(R.id.FullGame_SecondBase);
+        baseRunners[3] = (TextView)findViewById(R.id.FullGame_ThirdBase);
     }
 
     public void initTextViews(){
@@ -106,17 +116,26 @@ public class FullGame extends AppCompatActivity {
     }
 
     public void setAtbatplayername(String playerName) {
-        ((TextView) findViewById(R.id.personAtHomePlate)).setText(playerName);
+        baseRunners[0].setVisibility(View.VISIBLE);
+        baseRunners[0].setText(playerName);
     }
 
     public void setFirstBasePlayer(String playerName) {
-        ((TextView) findViewById(R.id.FullGame_FirstBaseRunner)).setText(playerName);
+        baseRunners[1].setVisibility(View.VISIBLE);
+        baseRunners[1].setText(playerName);
     }
     public void setSecondBasePlayer(String playerName){
-        ((TextView) findViewById(R.id.FullGame_SecondBaseRunner)).setText(playerName);
+        baseRunners[2].setVisibility(View.VISIBLE);
+        baseRunners[2].setText(playerName);
     }
     public void setThirdBasePlayer(String playerName){
-        ((TextView) findViewById(R.id.FullGame_ThirdBaseRunner)).setText(playerName);
+        baseRunners[3].setVisibility(View.VISIBLE);
+        baseRunners[3].setText(playerName);
+    }
+    public void removeAllBaseRunners(){
+        for (TextView x:baseRunners){
+            x.setVisibility(View.GONE);
+        }
     }
 
     public void fillTeamNames(ArrayList<Player> awayTeamPlayers) {
@@ -131,6 +150,11 @@ public class FullGame extends AppCompatActivity {
         player9name.setText(awayTeamPlayers.get(8).getName());
         if (awayTeamPlayers.size() == 10) {
             player10name.setText(awayTeamPlayers.get(9).getName());
+            LinearLayout l = (LinearLayout)findViewById(R.id.FullGame_LastName);
+            l.setVisibility(LinearLayout.VISIBLE);
+        }else{
+            LinearLayout l = (LinearLayout)findViewById(R.id.FullGame_LastName);
+            l.setVisibility(LinearLayout.GONE);
         }
     }
 

@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class MakeTeam extends AppCompatActivity {
     Spinner[] playerListSpinners;
     Player defa = new Player();
     ArrayList<Player> listOfPlayers;
+    TextView[] baseRunners;
 
 
     @Override
@@ -97,18 +99,18 @@ public class MakeTeam extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){((LinearLayout)findViewById(R.id.awayplayer10Layout))
-                        .setVisibility(LinearLayout.INVISIBLE);}
+                        .setVisibility(LinearLayout.VISIBLE);}
                 else {((LinearLayout)findViewById(R.id.awayplayer10Layout))
-                            .setVisibility(LinearLayout.VISIBLE);}
+                            .setVisibility(LinearLayout.INVISIBLE);}
             }
         });
         checkBoxHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){((LinearLayout)findViewById(R.id.homeplayer10Layout))
-                        .setVisibility(LinearLayout.INVISIBLE);}
-                else {((LinearLayout)findViewById(R.id.homeplayer10Layout))
                         .setVisibility(LinearLayout.VISIBLE);}
+                else {((LinearLayout)findViewById(R.id.homeplayer10Layout))
+                        .setVisibility(LinearLayout.INVISIBLE);}
             }
         });
     }
