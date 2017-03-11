@@ -22,7 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Stats {
-    public Stats() {
+    ArrayList<PitchingStats> allstats = new ArrayList<>();
+    public Stats(ArrayList<PitchingStats> allstats) {
+        this.allstats = allstats;
+    }
+    public void calcStats(){
+        gamesplayed = allstats.size();
+
+            for (PitchingStats x : allstats) {
+                totalhits += x.getHits();
+                putouts += x.getOutsPitched();
+                totalhr += x.getHomeRuns();
+                walks += x.getWalks();
+                totalhbp += x.getHitsByPitch();
+                totalEarnedRuns += x.earnedRuns;
+                if (x.runs == 0) {
+                    shutouts++;
+                }
+            }
     }
 
     int gamesplayed, wins, losses, totalERA, gs, shutouts, saves, totalhits, totalhr,
@@ -34,8 +51,6 @@ class Stats {
 }
 
 public class QuickPitchingStatsActivity extends AppCompatActivity {
-
-    DataBaseHelper dataBaseHelper = new DataBaseHelper();
 
     Player player = null;
     Game game;
@@ -104,7 +119,7 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
                             pitchingStatsArrayList.add(x.getValue(PitchingStats.class));
                         }
                         //----------------------- calculating stats -----
-                        Stats stats = calculateStats(pitchingStatsArrayList);
+                        Stats stats = new Stats(pitchingStatsArrayList);
                         fillTotalStats(stats);
                         //------------------------------------------
                     }
@@ -159,24 +174,5 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
         totalER.setText(String.format("%d", stats.totalEarnedRuns));
         totalBB.setText(String.valueOf(stats.walks));
         totalHBP.setText(String.valueOf(stats.totalhbp));
-    }
-
-    public Stats calculateStats(ArrayList<PitchingStats> list) {
-        Stats stats = new Stats();
-        stats.gamesplayed = list.size();
-
-        for (PitchingStats x : list) {
-            stats.totalhits += x.getHits();
-            stats.putouts += x.getPutouts();
-            stats.totalhr += x.getHomeRuns();
-            stats.walks += x.getWalks();
-            stats.totalhbp += x.getHitsByPitch();
-            stats.totalEarnedRuns += x.earnedRuns;
-            if (x.runs == 0) {
-                stats.shutouts++;
-            }
-        }
-
-        return stats;
     }
 }

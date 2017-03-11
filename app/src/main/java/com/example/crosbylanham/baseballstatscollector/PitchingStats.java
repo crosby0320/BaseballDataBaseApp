@@ -19,7 +19,6 @@ public class PitchingStats implements Serializable {
     int strikes;
     int hits;
     private int strikouts;
-    int putouts;
     int walks;
     int hitsByPitch;
     int homeRuns;
@@ -297,14 +296,6 @@ public class PitchingStats implements Serializable {
 
     public void setStrikouts(int strikouts) {
         this.strikouts = strikouts;
-    }
-
-    public int getPutouts() {
-        return putouts;
-    }
-
-    public void setPutouts(int putouts) {
-        this.putouts = putouts;
     }
 
     public int getWalks() {

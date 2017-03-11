@@ -51,7 +51,7 @@ public class FullGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_game);
-
+        baseRunners = new TextView[4];
         homeTeamName =  getIntent().getStringExtra("homeTeamName");
         awayTeamName =  getIntent().getStringExtra("awayTeamName");
         awayTeamPlayers = (ArrayList<Player>) getIntent().getSerializableExtra("awayTeam");
@@ -62,11 +62,12 @@ public class FullGame extends AppCompatActivity {
         topInning = (ImageView)findViewById(R.id.FullGame_toparow);
         bottomInning = (ImageView)findViewById(R.id.FullGame_buttomArow);
 
+        initBaseRunners();
         saveGameinformation();
         initButton();
+        removeAllBaseRunners();
         initButtonActions();
         initTextViews();
-        initBaseRunners();
         fillTeamNames(awayTeamPlayers);
         atBats = new AtBats();
         bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);

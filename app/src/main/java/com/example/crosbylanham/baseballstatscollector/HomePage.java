@@ -21,6 +21,8 @@ public class HomePage extends AppCompatActivity {
         LoadTeamActionButton();
         CheckStatsButtonAction();
         viewtables();
+        //Cleaner c = new Cleaner();
+        //c.removeNonGeneratedPlayers();
     }
 
     Button fullGameButton;

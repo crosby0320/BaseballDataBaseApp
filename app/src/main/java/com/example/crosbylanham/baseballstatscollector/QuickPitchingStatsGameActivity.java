@@ -10,15 +10,15 @@ import android.widget.TextView;
 public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     Button savePitcherStatsButton;
     Button foul;
-    Button swingmiss;
+    Button swingMiss;
     Button ball;
     Button lookingButton;
     Button groundBall;
-    Button groundout;
+    Button groundOut;
     Button linerHit;
     Button linerOut;
     Button flyOut;
-    Button gapperhit;
+    Button gapperHit;
     Button homeRunButton;
     Button hitByPitchButton;
     Button runs;
@@ -29,7 +29,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     TextView totalStrikes;
     TextView totalBalls;
     TextView totalKs;
-    TextView inningballs;
+    TextView inningBalls;
     TextView inningStrikes;
     TextView inningOuts;
     TextView inningKs;
@@ -82,7 +82,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         });
     }
     public void setSwingmissAction() {
-        swingmiss.setOnClickListener(new View.OnClickListener() {
+        swingMiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pitchingstats.swingAndAMiss();
@@ -162,7 +162,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         });
     }
     public void setGapperhitAction(){
-        gapperhit.setOnClickListener(new View.OnClickListener() {
+        gapperHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pitchingstats.gapper();
@@ -185,7 +185,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     }
     //----------------------out button action------------------------------------
     public void setGroundoutButtonAction(){
-        groundout.setOnClickListener(new View.OnClickListener() {
+        groundOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pitchingstats.grounderout();
@@ -255,16 +255,16 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
     public void initButtons() {
         savePitcherStatsButton = (Button) findViewById(R.id.savePitchersStats);
         foul = (Button) findViewById(R.id.foulBallButton);
-        swingmiss = (Button) findViewById(R.id.swingAndMissButton);
+        swingMiss = (Button) findViewById(R.id.swingAndMissButton);
         ball = (Button) findViewById(R.id.ballButton);
         lookingButton = (Button) findViewById(R.id.looking);
         //-------------------------hits---------------------------------------
         groundBall = (Button) findViewById(R.id.hitGroundBallButton);
         linerHit = (Button) findViewById(R.id.hitLinerButton);
-        gapperhit = (Button) findViewById(R.id.hitGroundBallButton);
+        gapperHit = (Button) findViewById(R.id.hitGapper);
         homeRunButton = (Button) findViewById(R.id.homeRunButton);
         //-------------------------outs---------------------------------------
-        groundout = (Button) findViewById(R.id.outGrounder);
+        groundOut = (Button) findViewById(R.id.outGrounder);
         linerOut = (Button) findViewById(R.id.outLiner);
         flyOut = (Button) findViewById(R.id.outGapperButton);
         //--------------------------------------------------------------------
@@ -289,13 +289,13 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
 
     public void initPitchCounter() {
         inningStrikes = (TextView) findViewById(R.id.inningStrikes);
-        inningballs = (TextView) findViewById(R.id.inningballs);
+        inningBalls = (TextView) findViewById(R.id.inningballs);
         inningOuts = (TextView) findViewById(R.id.inningouts);
         inningKs = (TextView) findViewById(R.id.inningKs);
     }
 
     public void updateInningStatsCounter() {
-        inningballs.setText(String.valueOf(pitchCounter.getBalls()));
+        inningBalls.setText(String.valueOf(pitchCounter.getBalls()));
         inningStrikes.setText(String.valueOf(pitchCounter.getStrikes()));
         inningKs.setText(String.valueOf(pitchCounter.getKs()));
         inningOuts.setText(String.valueOf(pitchCounter.getOuts()));

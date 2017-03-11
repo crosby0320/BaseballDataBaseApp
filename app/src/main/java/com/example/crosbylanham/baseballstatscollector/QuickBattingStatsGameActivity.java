@@ -445,10 +445,8 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
         });
     }
     public void getPlayerThatIsSelected(){
-        if(((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
-                .getText().toString().matches("")) {
-
-        }else {
+        if(!(((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField))
+                .getText().toString().matches(""))) {
             newPlayer = true;
             playeratbat = new DataBaseHelper().savePlayer(new Player(((EditText) findViewById(R.id.quickBattingStats_PlayerNameTextField)).getText().toString()));
         }
@@ -456,7 +454,11 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     public void UpdatePlayerStats(ArrayList<AtBats> allAtBats){
         BatStatsCalculator bs = new BatStatsCalculator(allAtBats);
         bs.calcStats();
-
+        abs.setText(String.valueOf(bs.totalab));
+        avg.setText(String.format("%.3f",bs.totalavg));
+        hits.setText(String.valueOf(bs.totalh));
+        ks.setText(String.valueOf(bs.totalks));
+        hr.setText(String.valueOf(bs.totalhr));
     }
     public void saveGame() {
         if(game == null) {

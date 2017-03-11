@@ -36,9 +36,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5sp">
-                <TextView android:text="Games Played" style="@style/statscolumns"/>
-                <TextView android:text="W" style="@style/statscolumns"/>
-                <TextView android:text="L" style="@style/statscolumns"/>
+
+                <TextView
+                    style="@style/statscolumns"
+                    android:text="GP" />
+
+                <TextView
+                    style="@style/statscolumns"
+                    android:text="W " />
+
+                <TextView
+                    style="@style/statscolumns"
+                    android:text="L  " />
                 <TextView android:text="ERA" style="@style/statscolumns"/>
                 <TextView android:text="GS" style="@style/statscolumns"/>
                 <TextView android:text="Shut Outs" style="@style/statscolumns"/>

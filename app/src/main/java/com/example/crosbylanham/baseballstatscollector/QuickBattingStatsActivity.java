@@ -31,7 +31,7 @@ class BatStatsCalculator{
     int total1b = 0;
     int total2b = 0;
     int total3b = 0;
-    int totalhr = 0;
+    int totalhr = 0,totalks=0;
     int totalsb = 0;
     int totalcs = 0;
     int totalab = 0;
@@ -42,10 +42,11 @@ class BatStatsCalculator{
     public void setAllaTbatsList(ArrayList<AtBats> list){allabs = list;}
     public void calcStats() {
         for (AtBats a:allabs){
-            if(a.getOutcome() == 0 ){total1b+=1;}
-            else if(a.getOutcome() == 1 ){total2b+=1;}
-            else if(a.getOutcome() == 2 ){total3b+=1;}
-            else if(a.getOutcome() == 3 ){totalhr+=1;}
+            if(a.getOutcome() == AtBatInformation.SINGLE ){total1b+=1;}
+            else if(a.getOutcome() == AtBatInformation.DOUBLE ){total2b+=1;}
+            else if(a.getOutcome() == AtBatInformation.TRIPLE ){total3b+=1;}
+            else if(a.getOutcome() == AtBatInformation.HOMERUN ){totalhr+=1;}
+            else if(a.getOutcome() == AtBatInformation.STRIKEOUT){totalks+=1;}
         }
         totalHBP = new AtBats().getAllHBP(allabs);
         totalBB     = new AtBats().getAllBaseOnBalls(allabs);
