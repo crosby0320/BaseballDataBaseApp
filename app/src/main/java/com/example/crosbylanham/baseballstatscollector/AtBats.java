@@ -1,5 +1,7 @@
 package com.example.crosbylanham.baseballstatscollector;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class AtBats {
@@ -35,13 +37,16 @@ public class AtBats {
         }
         return total;
     }
-    public int getallhits(ArrayList<AtBats> allatbats){
+    public int getAllHits(ArrayList<AtBats> allatbats){
         int hits = 0 ;
+        Log.d("Total At Bats " , String.valueOf(allatbats.size()));
         for (AtBats x:allatbats) {
-            if(x.getOutcome() == AtBatInformation.SINGLE || x.getOutcome() == AtBatInformation.DOUBLE
-                    ||x.getOutcome() == AtBatInformation.TRIPLE || x.getOutcome() == AtBatInformation.HOMERUN){
+            if(x.getOutcome() == AtBatInformation.SINGLE || x.getOutcome() == AtBatInformation.DOUBLE ||
+                    x.getOutcome() == AtBatInformation.TRIPLE || x.getOutcome() == AtBatInformation.HOMERUN){
+                Log.d("Out come ","we did get a hit");
                 hits++;
             }
+            Log.d("outcome was ", String.valueOf(x.getOutcome()));
         }
         return hits;
     }

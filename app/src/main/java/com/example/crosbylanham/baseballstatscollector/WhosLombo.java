@@ -11,7 +11,7 @@ public class WhosLombo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_whos_lombo);
+        setContentView(R.layout.select_stats_to_view);
 
         initButton();
 

@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:text="Last 4 Games"/>
         <TableLayout
+            android:id="@+id/BattingStats_lastGames"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

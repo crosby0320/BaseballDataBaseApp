@@ -25,7 +25,6 @@ public class AtBatInformation{
     public final static int ERROR = 8;
     public final static int GROUNDOUT = 9;
     public final static int FOUL_OUT= 10;
-
     public final static int FIELDERS_CHOICE =12;
     public final static int LINEOUT = 13;
     public final static int ADVANCERUNNER = 14;

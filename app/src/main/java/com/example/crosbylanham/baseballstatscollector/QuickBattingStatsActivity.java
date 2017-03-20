@@ -1,12 +1,14 @@
 package com.example.crosbylanham.baseballstatscollector;
 
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,50 +19,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-class BatStatsCalculator{
-    ArrayList<AtBats> allabs = new ArrayList<>();
-    int totalPA =0;
-    double totalavg = 0;
-    double totalobp = 0;
-    double totalslg = 0;
-    int totalr  = 0;
-    int totalh  = 0;
-    int total1b = 0;
-    int total2b = 0;
-    int total3b = 0;
-    int totalhr = 0,totalks=0;
-    int totalsb = 0;
-    int totalcs = 0;
-    int totalab = 0;
-    int totalHBP = 0;
-    int totalBB = 0;
-    public BatStatsCalculator(){}
-    public BatStatsCalculator(ArrayList<AtBats> allabs) {this.allabs = allabs;}
-    public void setAllaTbatsList(ArrayList<AtBats> list){allabs = list;}
-    public void calcStats() {
-        for (AtBats a:allabs){
-            if(a.getOutcome() == AtBatInformation.SINGLE ){total1b+=1;}
-            else if(a.getOutcome() == AtBatInformation.DOUBLE ){total2b+=1;}
-            else if(a.getOutcome() == AtBatInformation.TRIPLE ){total3b+=1;}
-            else if(a.getOutcome() == AtBatInformation.HOMERUN ){totalhr+=1;}
-            else if(a.getOutcome() == AtBatInformation.STRIKEOUT){totalks+=1;}
-        }
-        totalHBP = new AtBats().getAllHBP(allabs);
-        totalBB     = new AtBats().getAllBaseOnBalls(allabs);
-        totalPA     = allabs.size();
-        totalab     = new AtBats().getAllAtBats(allabs);
-        totalh      = new AtBats().getallhits(allabs);
-        totalr      = 0;
-        totalavg    = totalh/(double)totalab;
-        totalobp    = (totalh + totalBB + totalHBP)/
-                (double)(totalab + totalBB + totalHBP );
-        totalslg    = (total1b + total2b * 2 + total3b * 3 + totalhr * 4)/
-                (double)(totalab);
-    }
-}
+
 
 public class QuickBattingStatsActivity extends AppCompatActivity {
 
@@ -141,6 +101,7 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 allAtBats = new ArrayList<>();
+                player = listOfPlayers.get(position);
 
                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference(DataBaseHelper.ATBATTableName);
                 Query query = dr.orderByChild("playerAtBatId").equalTo(listOfPlayers.get(position).getPlayerID());
@@ -163,7 +124,7 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
     }
 
     public void fillTotalStats(ArrayList<AtBats> allAtBats){
-        BatStatsCalculator bs = new BatStatsCalculator(allAtBats);
+        BattingStatsCalculator bs = new BattingStatsCalculator(allAtBats);
         bs.calcStats();
         abTextView.setText(String.valueOf(bs.totalab));
         paTextView.setText(String.valueOf(bs.totalPA));

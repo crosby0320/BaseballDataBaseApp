@@ -25,10 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MakeTeam extends AppCompatActivity {
-    int[] hometeamids ={R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1,
-            R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1,R.id.homeplayer1};
-    int[] awayteamids ={R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,
-            R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1,R.id.awayplayer1};
+    int[] hometeamids ={R.id.homeplayer1,R.id.homeplayer2,R.id.homeplayer3,R.id.homeplayer4,R.id.homeplayer5,
+            R.id.homeplayer6,R.id.homeplayer7,R.id.homeplayer8,R.id.homeplayer9,R.id.homeplayer10};
+    int[] awayteamids ={R.id.awayplayer1,R.id.awayplayer2,R.id.awayplayer3,R.id.awayplayer4,R.id.awayplayer5,
+            R.id.awayplayer6,R.id.awayplayer7,R.id.awayplayer8,R.id.awayplayer9,R.id.awayplayer10};
 
     CheckBox checkBoxHome, checkBoxAway;
     int numberOfBattersHome;
@@ -135,8 +135,10 @@ public class MakeTeam extends AppCompatActivity {
                 Team aT = new Team(); aT.setName(awayTeamName);
 
 
-                hT = new DataBaseHelper().saveTeam(hT);
-                aT = new DataBaseHelper().saveTeam(aT);
+                hT = new DataBaseHelper().saveTeam(hT,homePlayers);
+                aT = new DataBaseHelper().saveTeam(aT,awayPlayers);
+
+
 
                 Intent intent = new Intent(MakeTeam.this,FullGame.class);
                 intent.putExtra("homeTeam",homePlayers);
@@ -191,11 +193,11 @@ public class MakeTeam extends AppCompatActivity {
             arrayAdapters[i].setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             playerListSpinners[i].setAdapter(arrayAdapters[i]);
             arrayAdapters[i].add("Unknown Player");
-            listOfPlayers.add(defa);
         }
+        listOfPlayers.add(defa);
 
         DatabaseReference br = FirebaseDatabase.getInstance().getReference(DataBaseHelper.PLAYERINFOTABLEBNAME);
-        br.addListenerForSingleValueEvent(new ValueEventListener() {
+        br.orderByChild("generated").equalTo(0).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> it = dataSnapshot.getChildren();
@@ -204,6 +206,9 @@ public class MakeTeam extends AppCompatActivity {
                     for(ArrayAdapter a: arrayAdapters){
                         a.add(x.getValue(Player.class).getName());
                     }
+                }
+                for (Player x:listOfPlayers){
+                    Log.d("player ",x.toString());
                 }
             }
             @Override
@@ -229,14 +234,14 @@ public class MakeTeam extends AppCompatActivity {
         ArrayList<Player> homeTeam = new ArrayList<>();
         for(int i = 0;i<numberOfBattersHome;i++){
             Player p;
-            String line = ((EditText)findViewById(hometeamids[i])).getText().toString();
+            String line = ((EditText)findViewById(hometeamids[i])).getText().toString().trim();
             if(!line.matches("")){
                 p = new Player(line);
                 new DataBaseHelper().savePlayer(p);
-            }else if(!playerListSpinners[i+10].getSelectedItem().toString().equals("Unknown Player")){
+            }else if(playerListSpinners[i+10].getSelectedItemPosition() != 0){
                 p = listOfPlayers.get(playerListSpinners[i+10].getSelectedItemPosition());
             }else{
-                p = new Player("Player #"+ (int)(Math.random()*10000));
+                p = new Player("Player #"+ (int)(Math.random()*10000),7);
                 new DataBaseHelper().savePlayer(p);
             }
             homeTeam.add(p);
@@ -246,18 +251,20 @@ public class MakeTeam extends AppCompatActivity {
     public ArrayList<Player> getNamesForAwayTeam(){
         ArrayList<Player> awayTeam = new ArrayList<>();
         for(int i = 0;i<numberOfBattersAway;i++){
+            Log.d("Player "+i,"");
             Player p;
-            String line = ((EditText)findViewById(awayteamids[i])).getText().toString();
-            if(!line.matches("")){
+            String line = ((EditText)findViewById(awayteamids[i])).getText().toString().trim();
+            if(line.length() > 0){
                 p = new Player(line);
                 new DataBaseHelper().savePlayer(p);
-            }else if(playerListSpinners[i].getSelectedItem().toString().equals("Unknown Player")){
+            }else if(playerListSpinners[i].getSelectedItemPosition()!= 0){
+                Log.d("This player","is using a spinner");
                 p = listOfPlayers.get(playerListSpinners[i].getSelectedItemPosition());
             }else{
-                p = new Player("Player #"+ (int)(Math.random()*10000));
+                Log.d("This player","is generated");
+                p = new Player("Player #"+ (int)(Math.random()*10000),7);
                 new DataBaseHelper().savePlayer(p);
             }
-            new DataBaseHelper().savePlayer(p);
             awayTeam.add(p);
         }
         return awayTeam;

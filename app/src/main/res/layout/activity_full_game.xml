@@ -28,7 +28,7 @@
                 <TextView
                     android:id="@+id/awayplayername1"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -38,7 +38,7 @@
                 <TextView
                     android:id="@+id/awayplayername2"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -48,7 +48,7 @@
                 <TextView
                     android:id="@+id/awayplayername3"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -58,7 +58,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber4"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -68,7 +68,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber5"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -78,7 +78,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber6"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -88,7 +88,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber7"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber8"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -108,7 +108,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber9"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -118,7 +118,7 @@
                 <TextView
                     android:id="@+id/awayplayernumber10"
                     style="@style/fullgameplayernames.name"
-                    android:layout_width="55sp"/>
+                    android:layout_width="65sp"/>
 
                 <Button style="@style/fullgameplayernames.subbutton" />
             </LinearLayout>
@@ -131,12 +131,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+            ext="BRE"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -144,11 +139,9 @@
                     android:layout_weight="1">
 
                     <ImageView
-                        android:layout_width="250dp"
+                        android:layout_width="280dp"
                         android:layout_height="match_parent"
                         android:src="@drawable/clipartbestcomvclipart" />
-                    <!-- home base player name -->
-                    <!-- batter name -->
                     <TextView
                         android:id="@+id/FullGame_HomePlate"
                         android:layout_width="wrap_content"
@@ -165,22 +158,25 @@
                         android:id="@+id/FullGame_FirstBase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="182dp"
-                        android:layout_marginTop="160dp"
                         android:background="@android:color/white"
                         android:text="Player"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginBottom="64dp"
+                        android:layout_above="@+id/FullGame_HomePlate"
+                        android:layout_toEndOf="@+id/FullGame_HomePlate" />
                     <!-- third base player -->
                     <TextView
                         android:id="@+id/FullGame_ThirdBase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="160dp"
                         android:background="@android:color/white"
                         android:text="Player"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/black"
+                        android:layout_marginEnd="50dp"
+                        android:layout_alignBaseline="@+id/FullGame_FirstBase"
+                        android:layout_alignBottom="@+id/FullGame_FirstBase"
+                        android:layout_toStartOf="@+id/FullGame_SecondBase" />
 
                     <TextView
                         android:id="@+id/FullGame_SecondBase"
@@ -188,18 +184,17 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="80dp"
+                        android:layout_marginTop="77dp"
                         android:background="@android:color/white"
                         android:text="Player"
                         android:textColor="@android:color/black" />
                 </RelativeLayout>
-            </LinearLayout>
         </LinearLayout>
 
 
         <!--This is the information that will be given for the pitcher-->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="185dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -436,21 +431,27 @@
                         android:text="Foul Out"
                         style="@style/buttonSmallText" />
 
-                    <Button
-                        android:id="@+id/FullGame_GroundOut"
-                        android:text="Gournd Out"
-                        style="@style/buttonSmallText" />
+
 
                     <Button
                         android:id="@+id/FullGame_FlyOut"
                         android:text="Fly Out"
                         style="@style/buttonSmallText" />
 
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <Button
                         android:id="@+id/FullGame_LineOut"
                         android:text="Line Out"
                         style="@style/buttonSmallText" />
-                </LinearLayout>
+                    <Button
+                        android:id="@+id/FullGame_GroundOut"
+                        android:text="Gournd Out"
+                        style="@style/buttonSmallText" />
+                    </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

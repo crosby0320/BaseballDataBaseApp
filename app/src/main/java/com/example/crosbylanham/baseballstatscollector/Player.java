@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Player implements Serializable{
     String playerID;
     String name;
+    int generated = 0;
 
     public Player() {
     }
@@ -16,6 +17,7 @@ public class Player implements Serializable{
     public Player(String name) {
         this.name = name;
     }
+    public Player(String name,int s) {this.name = name;generated =1;}
 
     public String getPlayerID() {
         return playerID;

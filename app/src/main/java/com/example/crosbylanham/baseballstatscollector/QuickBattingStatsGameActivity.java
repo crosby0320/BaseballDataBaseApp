@@ -392,6 +392,7 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
             neverBeenSaved = false;
         }
         getPlayerThatIsSelected();
+        atBats.setPlayerAtBatId(playeratbat.getPlayerID());
         atBats.setGameID(game.getGameID());
         new DataBaseHelper().saveAtBat(atBats);
         pitchCounter.reset();
@@ -452,7 +453,7 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
         }
     }
     public void UpdatePlayerStats(ArrayList<AtBats> allAtBats){
-        BatStatsCalculator bs = new BatStatsCalculator(allAtBats);
+        BattingStatsCalculator bs = new BattingStatsCalculator(allAtBats);
         bs.calcStats();
         abs.setText(String.valueOf(bs.totalab));
         avg.setText(String.format("%.3f",bs.totalavg));

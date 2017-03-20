@@ -33,9 +33,11 @@ public class PitchCounter {
         totalAtBatPitches++;
         totalInningPitches++;
         if (strikes == 3) {
-            hitout();
+
             totalAtBatPitches=0;
-            return true;
+            balls = 0;
+            strikes = 0;
+            return hitout();
         }
         return false;
     }
@@ -50,11 +52,11 @@ public class PitchCounter {
             totalAtBatPitches=0;
             balls = 0;
             strikes = 0;
-            return true;
+            return hitout();
         }
     }
 
-    public void hitout() {
+    public boolean hitout() {
         totalAtBatPitches=0;
         totalInningPitches+=1;
         outs++;
@@ -65,16 +67,18 @@ public class PitchCounter {
             inning++;
             totalAtBatPitches=0;
             totalInningPitches=0;
+            return true;
         }
+        return false;
     }
 
     public void foulAction(){
         totalInningPitches+=1;
         totalAtBatPitches+=1;
         if(strikes <= 2){
-
-        }else{
             strikes++;
+        }else{
+
         }
     }
 
