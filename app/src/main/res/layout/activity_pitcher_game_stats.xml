@@ -334,7 +334,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Hit By Pitch" />
+                android:text="HBY" />
 
             <Button
                 android:layout_width="match_parent"
@@ -342,12 +342,13 @@
                 android:layout_weight="1"
                 android:text="Runs"
                 android:id="@+id/PitchingStatsRuns" />
+
             <Button
+                android:id="@+id/PitchingStats_EarnedRun"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Earned Run"
-                android:id="@+id/PitchingStats_EarnedRun"/>
+                android:text="Earned R" />
 
         </LinearLayout>
 

@@ -127,12 +127,15 @@ public class FullGame extends AppCompatActivity {
     }
     public void makeAlert(final TextView[] baseRunnersTextViews, final int position){
         final TextView baseHeIsOn = baseRunnersTextViews[position];
+        final String oldplayer = baseHeIsOn.getText().toString();
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("Were do you want "+baseHeIsOn.getText().toString()+" to go.");
         dialog.setContentView(R.layout.activity_ask_runner_stats);
         dialog.show();
-        TextView textView = (TextView) findViewById(R.id.telltheuserweretherunnerwent);
-        textView.setText("Were do you want "+baseHeIsOn.getText().toString()+" to go.");
+
+        TextView textView = (TextView) dialog.findViewById(R.id.telltheuserweretherunnerwent);
+        String l = "Were do you want "+baseHeIsOn.getText().toString()+" to go.";
+        textView.setText(l);
 
         Button button2b = (Button) dialog.findViewById(R.id.BaseRunner_2b);
         Button button3b = (Button) dialog.findViewById(R.id.BaseRunner_3b);
@@ -145,19 +148,14 @@ public class FullGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Person on base ",baseHeIsOn.getText().toString());
-                baseRunnersTextViews[2].setText(baseHeIsOn.getText().toString());
-                baseRunnersTextViews[2].setVisibility(View.VISIBLE);
-                baseHeIsOn.setText("");
-                baseHeIsOn.setVisibility(View.INVISIBLE);
+                setSecondBasePlayer(oldplayer);
                 dialog.cancel();
             }
         });
         button3b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                baseRunnersTextViews[3].setText(baseHeIsOn.getText().toString());
-                baseHeIsOn.setText("");
-                baseHeIsOn.setVisibility(View.INVISIBLE);
+                setThirdBasePlayer(oldplayer);
                 dialog.cancel();
             }
         });
@@ -195,7 +193,7 @@ public class FullGame extends AppCompatActivity {
                         scoreBoard.homeScore += 1;
                     }
                 } else {
-                    baseRunnersTextViews[position + 1].setText(baseHeIsOn.getText().toString());
+                    baseRunnersTextViews[position + 1].setText(oldplayer);
                     baseRunnersTextViews[position + 1].setVisibility(View.VISIBLE);
                     baseHeIsOn.setText("");
                     baseHeIsOn.setVisibility(View.INVISIBLE);
