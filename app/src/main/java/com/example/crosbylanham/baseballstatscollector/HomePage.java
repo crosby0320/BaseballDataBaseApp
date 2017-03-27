@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-
-import com.google.firebase.crash.FirebaseCrash;
 
 public class HomePage extends AppCompatActivity {
     @Override
@@ -18,7 +15,7 @@ public class HomePage extends AppCompatActivity {
         initButtons();
         fullGameActionButton();
         quickPitchStatsButtonAction();
-        LoadTeamActionButton();
+        quickBattingStatsButton();
         CheckStatsButtonAction();
         viewtables();
         //Cleaner c = new Cleaner();
@@ -57,7 +54,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
-    public void LoadTeamActionButton(){
+    public void quickBattingStatsButton(){
         quickBattingStatsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +77,7 @@ public class HomePage extends AppCompatActivity {
         viewTablesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomePage.this,EditorInfo.class);
+                Intent intent = new Intent(HomePage.this,EditHome.class);
                 startActivity(intent);
             }
         });

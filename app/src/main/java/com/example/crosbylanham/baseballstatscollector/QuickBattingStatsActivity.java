@@ -4,6 +4,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -37,14 +38,21 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
     ArrayList<AtBats> allAtBats;
     Game game;
 
+    TableLayout last4table;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_batting_stats2);
 
         initTotalTextViews();
+        initTable();
         initGameTextViews();
         playerSpinnerAction();
+    }
+
+    private void initTable() {
+        last4table = (TableLayout) findViewById(R.id.BattingStats_lastGames);
     }
 
     public void initTotalTextViews(){

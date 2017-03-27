@@ -22,13 +22,14 @@
         <activity android:name=".LoadPitcherinformation" />
         <activity android:name=".MakeTeam" />
         <activity android:name=".QuickPitchingStatsGameActivity" />
-        <activity android:name=".selectStatsToEdit" />
         <activity android:name=".QuickPitchingStatsActivity" />
         <activity android:name=".WhosLombo" />
         <activity android:name=".QuickBattingStatsGameActivity" />
         <activity android:name=".QuickBattingStatsActivity" />
         <activity android:name=".EditHome" />
-        <activity android:name=".AskRunnerStats"></activity>
+        <activity android:name=".AskRunnerStats" />
+        <activity android:name=".EditPlayerInformation" />
+        <activity android:name=".LogIn"></activity>
     </application>
 
 </manifest>

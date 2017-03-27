@@ -23,6 +23,7 @@ class ScoreBoard {
     public int awayPositionAtBat = 0;
     public boolean top = true;
     public int inningNumber = 1;
+    public int inningscore = 0;
 }
 
 public class FullGame extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class FullGame extends AppCompatActivity {
     TextView[] baseRunnersTextViews;
     Player[] playerBaseRunners;
     TextView[] playername;
+    TextView[] awayscores,homescores;
 
     boolean lastOutFlag;
 
@@ -63,6 +65,7 @@ public class FullGame extends AppCompatActivity {
         lastOutFlag = false;
 
         initBaseRunners();
+        initScores();
         saveGameinformation();
         initButton();
         removeAllBaseRunners();
@@ -70,13 +73,75 @@ public class FullGame extends AppCompatActivity {
         initTextViews();
         scoreBoard = new ScoreBoard();
         ///beginning
-        fillTeamNames(awayTeamPlayers);
         atBats = new AtBats();
-        playeratbat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
-        setTextColor(scoreBoard.awayPositionAtBat);
-        setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat).getName());
-        bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
+        setupScreen();
 
+    }
+    public void setupScreen(){
+        if (scoreBoard.top){
+            fillTeamNames(awayTeamPlayers);
+            playeratbat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
+            setTextColor(scoreBoard.awayPositionAtBat);
+            setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat));
+            bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
+        }else{
+
+        }
+    }
+
+    public void saveInformation(){
+        if(scoreBoard.top){
+            new DataBaseHelper().saveAtBat(atBats);
+            atBats = new AtBats();
+            scoreBoard.awayPositionAtBat = (scoreBoard.awayPositionAtBat +1) % awayTeamPlayers.size();//goes to the next players iteration.
+            setupScreen();
+            if (lastOutFlag){
+                scoreBoard.top = false;
+                removeAllBaseRunners();
+                awayscores[scoreBoard.inningNumber - 1].setText(scoreBoard.inningscore);
+                setupScreen();
+            }
+        }else{
+            new DataBaseHelper().saveAtBat(atBats);
+            atBats = new AtBats();
+            scoreBoard.homePositionAtBat = (scoreBoard.homePositionAtBat +1) % homeTeamPlayers.size();//goes to the next players iteration.
+            setupScreen();
+            if (lastOutFlag){
+                scoreBoard.top = true;
+                removeAllBaseRunners();
+                homescores[scoreBoard.inningNumber - 1].setText(scoreBoard.inningscore);
+                scoreBoard.inningNumber+=1;
+                setupScreen();
+            }
+        }
+        updateInformation();
+    }
+
+    private void initScores() {
+
+        awayscores = new TextView[10];
+        homescores = new TextView[10];
+        awayscores[0] = (TextView) findViewById(R.id.inningscoreaway1);
+        awayscores[1] = (TextView) findViewById(R.id.inningscoreaway2);
+        awayscores[2] = (TextView) findViewById(R.id.inningscoreaway3);
+        awayscores[3] = (TextView) findViewById(R.id.inningscoreaway4);
+        awayscores[4] = (TextView) findViewById(R.id.inningscoreaway5);
+        awayscores[5] = (TextView) findViewById(R.id.inningscoreaway6);
+        awayscores[6] = (TextView) findViewById(R.id.inningscoreaway7);
+        awayscores[7] = (TextView) findViewById(R.id.inningscoreaway8);
+        awayscores[8] = (TextView) findViewById(R.id.inningscoreaway9);
+        awayscores[9] =  (TextView) findViewById(R.id.inningscoreaway10);
+
+        homescores[0] = (TextView) findViewById(R.id.inningscorehome1);
+        homescores[1] = (TextView) findViewById(R.id.inningscorehome2);
+        homescores[2] = (TextView) findViewById(R.id.inningscorehome3);
+        homescores[3] = (TextView) findViewById(R.id.inningscorehome4);
+        homescores[4] = (TextView) findViewById(R.id.inningscorehome5);
+        homescores[5] = (TextView) findViewById(R.id.inningscorehome6);
+        homescores[6] = (TextView) findViewById(R.id.inningscorehome7);
+        homescores[7] = (TextView) findViewById(R.id.inningscorehome8);
+        homescores[8] = (TextView) findViewById(R.id.inningscorehome9);
+        homescores[9] = (TextView) findViewById(R.id.inningscorehome10);
     }
 
     public void setTextColor(int a){
@@ -85,56 +150,14 @@ public class FullGame extends AppCompatActivity {
             else{playername[i].setTextColor(Color.rgb(0,0,0));}
         }
     }
-
-    public void saveInformation(){
-        if(scoreBoard.top){
-            bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);//changing the Arrow up or down
-            fillTeamNames(awayTeamPlayers);//filling team names to the screen
-            new DataBaseHelper().saveAtBat(atBats);
-            scoreBoard.awayPositionAtBat = (scoreBoard.awayPositionAtBat +1) % awayTeamPlayers.size();//goes to the next players iteration.
-            playeratbat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat); //get score board position for the next player at bat
-            setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat).getName()); // sets up the player at bases name
-            setTextColor(scoreBoard.awayPositionAtBat);
-            atBats = new AtBats();
-            if (lastOutFlag){
-                scoreBoard.top = false;
-                removeAllBaseRunners();
-                fillTeamNames(homeTeamPlayers);
-                setAtbatplayername(homeTeamPlayers.get(scoreBoard.homePositionAtBat).getName()); // sets up the player at bases name
-                setTextColor(scoreBoard.homePositionAtBat);
-                bottomInning.setVisibility(ImageView.VISIBLE);topInning.setVisibility(ImageView.INVISIBLE);//changing the Arrow up or down
-            }
-        }else{
-            bottomInning.setVisibility(ImageView.VISIBLE);topInning.setVisibility(ImageView.INVISIBLE);//changing the Arrow up or down
-            fillTeamNames(homeTeamPlayers);//filling team names to the screen
-            new DataBaseHelper().saveAtBat(atBats);
-            scoreBoard.homePositionAtBat = (scoreBoard.homePositionAtBat +1) % homeTeamPlayers.size();//goes to the next players iteration.
-            playeratbat = homeTeamPlayers.get(scoreBoard.homePositionAtBat); //get score board position for the next player at bat
-            setAtbatplayername(homeTeamPlayers.get(scoreBoard.homePositionAtBat).getName()); // sets up the player at bases name
-            setTextColor(scoreBoard.homePositionAtBat);
-            atBats = new AtBats();
-            if (lastOutFlag){
-                scoreBoard.top = true;
-                removeAllBaseRunners();
-                fillTeamNames(awayTeamPlayers);
-                setAtbatplayername(homeTeamPlayers.get(scoreBoard.homePositionAtBat).getName()); // sets up the player at bases name
-                setTextColor(scoreBoard.homePositionAtBat);
-                scoreBoard.inningNumber+=1;
-                bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);//changing the Arrow up or down
-            }
-        }
-        updateInformation();
-    }
-    public void makeAlert(final TextView[] baseRunnersTextViews, final int position){
-        final TextView baseHeIsOn = baseRunnersTextViews[position];
-        final String oldplayer = baseHeIsOn.getText().toString();
+    public void makeAlert(final Player oldPlayer){
         final Dialog dialog = new Dialog(this);
-        dialog.setTitle("Were do you want "+baseHeIsOn.getText().toString()+" to go.");
+        dialog.setTitle("Were do you want "+oldPlayer.getName() +" to go.");
         dialog.setContentView(R.layout.activity_ask_runner_stats);
         dialog.show();
 
         TextView textView = (TextView) dialog.findViewById(R.id.telltheuserweretherunnerwent);
-        String l = "Were do you want "+baseHeIsOn.getText().toString()+" to go.";
+        String l = "Were do you want "+oldPlayer.getName()+" to go.";
         textView.setText(l);
 
         Button button2b = (Button) dialog.findViewById(R.id.BaseRunner_2b);
@@ -147,56 +170,28 @@ public class FullGame extends AppCompatActivity {
         button2b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Person on base ",baseHeIsOn.getText().toString());
-                setSecondBasePlayer(oldplayer);
+                baseRunnersTextViews[2].setText(oldPlayer.getName());
+                baseRunnersTextViews[2].setVisibility(View.VISIBLE);
+                playerBaseRunners[2] = oldPlayer;
                 dialog.cancel();
             }
         });
         button3b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setThirdBasePlayer(oldplayer);
+                baseRunnersTextViews[3].setText(oldPlayer.getName());
+                baseRunnersTextViews[3].setVisibility(View.VISIBLE);
+                playerBaseRunners[3] = oldPlayer;
                 dialog.cancel();
             }
         });
         buttonhp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                baseHeIsOn.setText("");
-                baseHeIsOn.setVisibility(View.INVISIBLE);
                 if (scoreBoard.top) {
-                    scoreBoard.awayScore += 1;
+                    scoreBoard.inningscore += 1;
                 } else {
-                    scoreBoard.homeScore += 1;
-                }
-                dialog.cancel();
-            }
-        });
-        buttoncs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                baseHeIsOn.setText("");
-                baseHeIsOn.setVisibility(View.INVISIBLE);
-                pitchCounter.hitout();
-                dialog.cancel();
-            }
-        });
-        buttonsb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (position == 3) {
-                    baseHeIsOn.setText("");
-                    baseHeIsOn.setVisibility(View.INVISIBLE);
-                    if (scoreBoard.top) {
-                        scoreBoard.awayScore += 1;
-                    } else {
-                        scoreBoard.homeScore += 1;
-                    }
-                } else {
-                    baseRunnersTextViews[position + 1].setText(oldplayer);
-                    baseRunnersTextViews[position + 1].setVisibility(View.VISIBLE);
-                    baseHeIsOn.setText("");
-                    baseHeIsOn.setVisibility(View.INVISIBLE);
+                    scoreBoard.inningscore += 1;
                 }
                 dialog.cancel();
             }
@@ -204,8 +199,82 @@ public class FullGame extends AppCompatActivity {
         buttonto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                baseHeIsOn.setText("");
-                baseHeIsOn.setVisibility(View.INVISIBLE);
+                pitchCounter.hitout();
+                dialog.cancel();
+            }
+        });
+    }
+
+    public void makeAlert(final Player oldPlayer, final int positionFrom){
+        final Dialog dialog = new Dialog(this);
+        dialog.setTitle("Were do you want "+oldPlayer.getName() +" to go.");
+        dialog.setContentView(R.layout.activity_ask_runner_stats);
+        dialog.show();
+
+        TextView textView = (TextView) dialog.findViewById(R.id.telltheuserweretherunnerwent);
+        String l = "Were do you want "+oldPlayer.getName()+" to go.";
+        textView.setText(l);
+
+        Button button2b = (Button) dialog.findViewById(R.id.BaseRunner_2b);
+        Button button3b = (Button) dialog.findViewById(R.id.BaseRunner_3b);
+        Button buttonhp = (Button) dialog.findViewById(R.id.BaseRunner_hp);
+        Button buttoncs = (Button) dialog.findViewById(R.id.BaseRunner_cs);
+        Button buttonsb = (Button) dialog.findViewById(R.id.BaseRunner_sb);
+        Button buttonto = (Button) dialog.findViewById(R.id.BaseRunner_TO);
+
+        button2b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseRunnersTextViews[2].setText(oldPlayer.getName());
+                playerBaseRunners[2] = oldPlayer;
+                dialog.cancel();
+            }
+        });
+        button3b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseRunnersTextViews[3].setText(oldPlayer.getName());
+                playerBaseRunners[3] = oldPlayer;
+                dialog.cancel();
+            }
+        });
+        buttonhp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (scoreBoard.top) {
+                    scoreBoard.inningscore += 1;
+                } else {
+                    scoreBoard.inningscore += 1;
+                }
+                dialog.cancel();
+            }
+        });
+        buttoncs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pitchCounter.hitout();
+                dialog.cancel();
+            }
+        });
+        buttonsb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (positionFrom == 3) {
+                    if (scoreBoard.top) {
+                        scoreBoard.awayScore += 1;
+                    } else {
+                        scoreBoard.homeScore += 1;
+                    }
+                } else {
+                    baseRunnersTextViews[positionFrom + 1].setText(oldPlayer.getName());
+                    baseRunnersTextViews[positionFrom + 1].setVisibility(View.VISIBLE);
+                }
+                dialog.cancel();
+            }
+        });
+        buttonto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 pitchCounter.hitout();
                 dialog.cancel();
             }
@@ -221,19 +290,25 @@ public class FullGame extends AppCompatActivity {
         baseRunnersTextViews[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeAlert(baseRunnersTextViews,1);
+                makeAlert(playerBaseRunners[1],1);
+                baseRunnersTextViews[1].setText("");
+                baseRunnersTextViews[1].setVisibility(View.INVISIBLE);
             }
         });
         baseRunnersTextViews[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeAlert(baseRunnersTextViews,2);
+                makeAlert(playerBaseRunners[2],2);
+                baseRunnersTextViews[2].setText("");
+                baseRunnersTextViews[2].setVisibility(View.INVISIBLE);
             }
         });
         baseRunnersTextViews[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeAlert(baseRunnersTextViews,3);
+                makeAlert(playerBaseRunners[3],3);
+                baseRunnersTextViews[3].setText("");
+                baseRunnersTextViews[3].setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -259,51 +334,70 @@ public class FullGame extends AppCompatActivity {
         game = new DataBaseHelper().saveGame(game);
     }
 
-    public void setAtbatplayername(String playerName) {
+    public void setAtbatplayername(Player player) {
         baseRunnersTextViews[0].setVisibility(View.VISIBLE);
-        baseRunnersTextViews[0].setText(playerName);
+        baseRunnersTextViews[0].setText(player.getName());
     }
 
-    public void setFirstBasePlayer(String playerName) {
+    public void setFirstBasePlayer(Player player) {
         if(!(baseRunnersTextViews[1].getText().toString().matches("") ||
                 baseRunnersTextViews[1].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,1);}
-        baseRunnersTextViews[1].setVisibility(View.VISIBLE);
-        baseRunnersTextViews[1].setText(playerName);
+            makeAlert(playerBaseRunners[1]);
+            removeFirstBaseRunner();}
+            baseRunnersTextViews[1].setText(player.getName());
+            baseRunnersTextViews[1].setVisibility(View.VISIBLE);
+            playerBaseRunners[1] = player;
     }
-    public void setSecondBasePlayer(String playerName){
+    public void setSecondBasePlayer(Player player){
         if(!(baseRunnersTextViews[2].getText().toString().matches("") ||
                 baseRunnersTextViews[2].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,2);}
+            makeAlert(playerBaseRunners[2]);
+            removeFirstBaseRunner();}
         if(!(baseRunnersTextViews[1].getText().toString().matches("")||
                 baseRunnersTextViews[1].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,1);}
+            makeAlert(playerBaseRunners[1]);removeSecondBaseRunner();}
+        baseRunnersTextViews[2].setText(player.getName());
         baseRunnersTextViews[2].setVisibility(View.VISIBLE);
-        baseRunnersTextViews[2].setText(playerName);
+        playerBaseRunners[2] = player;
     }
-    public void setThirdBasePlayer(String playerName){
+    public void setThirdBasePlayer(Player player){
         if(!(baseRunnersTextViews[3].getText().toString().matches("") ||
                 baseRunnersTextViews[3].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,3);}
+            makeAlert(playerBaseRunners[3]);
+            removeFirstBaseRunner();}
         if(!(baseRunnersTextViews[2].getText().toString().matches("") ||
                 baseRunnersTextViews[2].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,2);}
+            makeAlert(playerBaseRunners[2]);
+            removeSecondBaseRunner();}
         if(!(baseRunnersTextViews[1].getText().toString().matches("")||
                 baseRunnersTextViews[1].getText().toString().matches("Player"))){
-            makeAlert(baseRunnersTextViews,1);}
+            makeAlert(playerBaseRunners[1]);
+            removeThirdBaseRunner();}
+        baseRunnersTextViews[3].setText(player.getName());
         baseRunnersTextViews[3].setVisibility(View.VISIBLE);
-        baseRunnersTextViews[3].setText(playerName);
+        playerBaseRunners[3] = player;
     }
+
     public void removeFirstBaseRunner(){
         baseRunnersTextViews[1].setVisibility(View.INVISIBLE);
-        baseRunnersTextViews[1].setText("");}
+        baseRunnersTextViews[1].setText("");
+        playerBaseRunners[1] = null;
+    }
     public void removeSecondBaseRunner(){
         baseRunnersTextViews[2].setVisibility(View.INVISIBLE);
-        baseRunnersTextViews[2].setText("");}
+        baseRunnersTextViews[2].setText("");
+        playerBaseRunners[2] = null;
+    }
     public void removeThirdBaseRunner(){
         baseRunnersTextViews[3].setVisibility(View.INVISIBLE);
-        baseRunnersTextViews[3].setText("");}
-    public void removeAllBaseRunners(){for (TextView x: baseRunnersTextViews){x.setText("");x.setVisibility(View.GONE);}}
+        baseRunnersTextViews[3].setText("");
+        playerBaseRunners[3] = null;
+    }
+
+    public void removeAllBaseRunners(){
+        for (TextView x: baseRunnersTextViews){x.setText("");x.setVisibility(View.GONE);}
+        for(Player x:playerBaseRunners){x = null;}
+    }
 
     public void fillTeamNames(ArrayList<Player> awayTeamPlayers) {
         for(int i=0;i<9;i++){playername[i].setText(awayTeamPlayers.get(i).getName());}
@@ -376,7 +470,7 @@ public class FullGame extends AppCompatActivity {
                     atBats.setOutcome(AtBatInformation.WALK);
                     atBats.setPlayerAtBatId(playeratbat.getPlayerID());
                     atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
-                    setFirstBasePlayer(playeratbat.getName());
+                    setFirstBasePlayer(playeratbat);
                     saveInformation();
 
                     pitchCounter.calledBall();
@@ -428,7 +522,7 @@ public class FullGame extends AppCompatActivity {
                 atBats.setOutcome(AtBatInformation.SINGLE);
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
-                setFirstBasePlayer(playeratbat.getName());
+                setFirstBasePlayer(playeratbat);
 
                 saveInformation();
                 updateInformation();
@@ -446,7 +540,7 @@ public class FullGame extends AppCompatActivity {
                 atBats.setOutcome(AtBatInformation.DOUBLE);
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
-                setSecondBasePlayer(playeratbat.getName());
+                setSecondBasePlayer(playeratbat);
 
                 saveInformation();
                 updateInformation();
@@ -464,7 +558,7 @@ public class FullGame extends AppCompatActivity {
                 atBats.setOutcome(AtBatInformation.TRIPLE);
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
-                setThirdBasePlayer(playeratbat.getName());
+                setThirdBasePlayer(playeratbat);
 
                 saveInformation();
             }

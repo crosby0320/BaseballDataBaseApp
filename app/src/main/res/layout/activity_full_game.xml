@@ -322,26 +322,16 @@
                     <TextView
                         android:text="away"
                         android:textSize="10dp" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
-
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway1"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway2"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway3"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway4"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway5"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway6"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway7"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway8"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway9"/>
+                    <TextView style="@style/inningscores" android:id="@+id/inningscoreaway10"/>
                 </TableRow>
 
                 <TableRow>
@@ -350,25 +340,25 @@
                         android:text="home"
                         android:textSize="10dp" />
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome1"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome2"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome3"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome4"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome5"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome6"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome7"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome8"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome9"/>
 
-                    <TextView style="@style/inningscores" />
+                    <TextView style="@style/inningscores" android:id="@+id/inningscorehome10"/>
                 </TableRow>
             </TableLayout>
 
