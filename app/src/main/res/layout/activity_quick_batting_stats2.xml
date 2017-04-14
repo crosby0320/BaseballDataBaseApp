@@ -64,19 +64,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5sp">
-                <TextView android:text="PA" style="@style/statscolumns"/>
-                <TextView android:text="AB" style="@style/statscolumns"/>
-                <TextView android:text="AVG" style="@style/statscolumns"/>
-                <TextView android:text="OBP" style="@style/statscolumns"/>
-                <TextView android:text="SLG" style="@style/statscolumns"/>
-                <TextView android:text="R" style="@style/statscolumns"/>
-                <TextView android:text="H" style="@style/statscolumns"/>
-                <TextView android:text="1B" style="@style/statscolumns"/>
-                <TextView android:text="2B" style="@style/statscolumns"/>
-                <TextView android:text="3B" style="@style/statscolumns"/>
-                <TextView android:text="HR" style="@style/statscolumns"/>
+                <TextView android:text="Balls" style="@style/statscolumns"/>
+                <TextView android:text="Strikes" style="@style/statscolumns"/>
+                <TextView android:text="Pitches" style="@style/statscolumns"/>
+                <TextView android:text="Outcome" style="@style/statscolumns"/>
             </TableRow>
-
+            <TableRow>
+                <TextView android:id="@+id/Battingstats_last4balls1" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4strikes1" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4pitches1" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4outcome1" style="@style/statscolumns"/>
+            </TableRow>
+            <TableRow>
+                <TextView android:id="@+id/Battingstats_last4balls2" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4strikes2" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4pitches2" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4outcome2" style="@style/statscolumns"/>
+            </TableRow>
+            <TableRow>
+                <TextView android:id="@+id/Battingstats_last4balls3" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4strikes3" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4pitches3" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4outcome3" style="@style/statscolumns"/>
+            </TableRow>
+            <TableRow>
+                <TextView android:id="@+id/Battingstats_last4balls4" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4strikes4" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4pitches4" style="@style/statscolumns"/>
+                <TextView android:id="@+id/Battingstats_last4outcome4" style="@style/statscolumns"/>
+            </TableRow>
         </TableLayout>
 
         <Spinner

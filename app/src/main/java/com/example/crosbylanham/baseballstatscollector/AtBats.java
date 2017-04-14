@@ -10,6 +10,8 @@ public class AtBats {
     String gameID;
     String pitcherID;
     String playerAtBatId;
+
+
     String description;
     int pitches;
     int balls;
@@ -90,6 +92,8 @@ public class AtBats {
     public String getGameID() {
         return gameID;
     }
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
 
     public void setGameID(String gameID) {
         this.gameID = gameID;

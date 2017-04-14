@@ -147,7 +147,7 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
         strike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pitchCounter.getStrikes() == 2) {
+                if (pitchCounter.getStrikes() >= 2) {
                     atBats.setBalls(pitchCounter.getBalls());
                     atBats.setStrikes(pitchCounter.getStrikes() + 1);
                     atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);

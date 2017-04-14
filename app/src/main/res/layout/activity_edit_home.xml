@@ -15,30 +15,35 @@
             android:id="@+id/EditTable_PLayerInfoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Player Information" />
 
         <Button
             android:id="@+id/EditTable_AtBatButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="AtBat" />
 
         <Button
             android:id="@+id/EditTable_GameButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Game" />
 
         <Button
             android:id="@+id/EditTable_PitchongStatsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Pitching Stats" />
 
         <Button
             android:id="@+id/EditTable_TeamButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Team Information" />
 
     </LinearLayout>

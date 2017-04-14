@@ -13,14 +13,15 @@
     tools:context="com.example.crosbylanham.baseballstatscollector.SplashscreenActivity">
 
     <TextView
-        android:text="Batting Stats Collector"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_marginTop="79dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
+        android:text="Baseball Stats Collector"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <ImageView
         android:layout_width="150sp"

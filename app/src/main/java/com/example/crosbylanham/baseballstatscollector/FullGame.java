@@ -85,7 +85,11 @@ public class FullGame extends AppCompatActivity {
             setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat));
             bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
         }else{
-
+            fillTeamNames(homeTeamPlayers);
+            playeratbat = homeTeamPlayers.get(scoreBoard.homePositionAtBat);
+            setTextColor(scoreBoard.homePositionAtBat);
+            setAtbatplayername(homeTeamPlayers.get(scoreBoard.homePositionAtBat));
+            topInning.setVisibility(ImageView.INVISIBLE);bottomInning.setVisibility(ImageView.VISIBLE);
         }
     }
 
@@ -98,7 +102,7 @@ public class FullGame extends AppCompatActivity {
             if (lastOutFlag){
                 scoreBoard.top = false;
                 removeAllBaseRunners();
-                awayscores[scoreBoard.inningNumber - 1].setText(scoreBoard.inningscore);
+                awayscores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.inningscore));
                 setupScreen();
             }
         }else{
@@ -109,7 +113,7 @@ public class FullGame extends AppCompatActivity {
             if (lastOutFlag){
                 scoreBoard.top = true;
                 removeAllBaseRunners();
-                homescores[scoreBoard.inningNumber - 1].setText(scoreBoard.inningscore);
+                homescores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.inningscore));
                 scoreBoard.inningNumber+=1;
                 setupScreen();
             }
@@ -591,6 +595,7 @@ public class FullGame extends AppCompatActivity {
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 lastOutFlag = pitchCounter.hitout();
+                Log.d("Is This the ","Last out "+ lastOutFlag);
                 saveInformation();
             }
         });
@@ -625,6 +630,7 @@ public class FullGame extends AppCompatActivity {
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
 
                 lastOutFlag = pitchCounter.hitout();
+                Log.d("Is This the ","Last out "+ lastOutFlag);
 
                 saveInformation();
             }

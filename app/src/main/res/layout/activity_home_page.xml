@@ -48,7 +48,7 @@
             android:text="Check Stats" />
 
         <Button
-            android:id="@+id/ViewTablesButton"
+            android:id="@+id/Homepage_LoadTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

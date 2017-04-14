@@ -25,18 +25,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/EditPlayerInfoSpinner"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout4">
 
         <TextView
+            android:id="@+id/EditPlayerInfo_Name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/EditPlayerInfo_NameFillIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/EditPlayerInfo_RemoveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:layout_below="@+id/EditPlayerInfo_MakeChanges"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/EditPlayerInfo_MakeChanges"
+        android:layout_below="@id/linearLayout4"
+        android:text="Make Changes"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.crosbylanham.baseballstatscollector;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -36,9 +37,8 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
 
     Player player;
     ArrayList<AtBats> allAtBats;
-    Game game;
 
-    TableLayout last4table;
+    TextView[][] last4TextViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +46,31 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quick_batting_stats2);
 
         initTotalTextViews();
-        initTable();
+        initLast4TextViews();
         initGameTextViews();
         playerSpinnerAction();
     }
+    private void initLast4TextViews() {
+        last4TextViews = new TextView[4][4];
+        last4TextViews[0][0] = (TextView) findViewById(R.id.Battingstats_last4balls1);
+        last4TextViews[0][1] = (TextView) findViewById(R.id.Battingstats_last4strikes1);
+        last4TextViews[0][2] = (TextView) findViewById(R.id.Battingstats_last4pitches1);
+        last4TextViews[0][3] = (TextView) findViewById(R.id.Battingstats_last4outcome1);
 
-    private void initTable() {
-        last4table = (TableLayout) findViewById(R.id.BattingStats_lastGames);
+        last4TextViews[1][0] = (TextView) findViewById(R.id.Battingstats_last4balls2);
+        last4TextViews[1][1] = (TextView) findViewById(R.id.Battingstats_last4strikes2);
+        last4TextViews[1][2] = (TextView) findViewById(R.id.Battingstats_last4pitches2);
+        last4TextViews[1][3] = (TextView) findViewById(R.id.Battingstats_last4outcome2);
+
+        last4TextViews[2][0] = (TextView) findViewById(R.id.Battingstats_last4balls3);
+        last4TextViews[2][1] = (TextView) findViewById(R.id.Battingstats_last4strikes3);
+        last4TextViews[2][2] = (TextView) findViewById(R.id.Battingstats_last4pitches3);
+        last4TextViews[2][3] = (TextView) findViewById(R.id.Battingstats_last4outcome3);
+
+        last4TextViews[3][0] = (TextView) findViewById(R.id.Battingstats_last4balls4);
+        last4TextViews[3][1] = (TextView) findViewById(R.id.Battingstats_last4strikes4);
+        last4TextViews[3][2] = (TextView) findViewById(R.id.Battingstats_last4pitches4);
+        last4TextViews[3][3] = (TextView) findViewById(R.id.Battingstats_last4outcome4);
     }
 
     public void initTotalTextViews(){
@@ -121,6 +139,7 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
                             allAtBats.add(x.getValue(AtBats.class));
                         }
                         fillTotalStats(allAtBats);
+                        fillLast4AtBats(allAtBats);
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {}
@@ -144,4 +163,12 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
         hrTextView.setText(String.valueOf(bs.totalhr));
     }
 
+    public void fillLast4AtBats(ArrayList<AtBats> list){
+        for(int i = list.size(),j=0;i>=list.size()-4 && i >=0 && j < 4;i--,j++){
+            last4TextViews[j][0].setText(String.valueOf(list.get(i-1).getBalls()));
+            last4TextViews[j][1].setText(String.valueOf(list.get(i-1).getStrikes()));
+            last4TextViews[j][2].setText(String.valueOf(list.get(i-1).getPitches()));
+            last4TextViews[j][3].setText(String.valueOf(list.get(i-1).getDescription()));
+        }
+    }
 }

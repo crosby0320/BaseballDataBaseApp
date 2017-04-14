@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15sp"
+    tools:context="com.example.crosbylanham.baseballstatscollector.EditAtBatInformation">
+
+    <TextView
+        android:id="@+id/EditAtBatInfo_textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select a player" />
+
+    <Spinner
+        android:id="@+id/EditAtBatInfo_Spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/EditAtBatInfo_textView2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EditAtBatInfo_Spinner"
+        android:id="@+id/EditAtBatInfo_selectAtBatTextView"
+        android:text="Select AB"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EditAtBatInfo_selectAtBatTextView"
+        android:id="@+id/EditAtBatInfo_selectABspinner"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/EditAtBatInfo_makeChanges"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/EditAtBatInfo_selectABspinner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/EditAtBatInfo_ballsView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:layout_weight="1"
+                    android:text="balls:" />
+
+                <EditText
+                    android:id="@+id/EditAtBatInfo_ballsEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:id="@+id/EditAtBatInfo_descriptionView"
+                    android:layout_weight="1"
+                    android:text="description:"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/EditAtBatInfo_descriptionEditText"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_outcomeView"
+                android:textAlignment="textEnd"
+                android:layout_weight="1"
+                android:text="outcome:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_outcomeEditText"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:textAlignment="textEnd"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_PitchesView"
+                android:layout_weight="1"
+                android:text="pitches:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_pitchesEditText"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_strikesview"
+                android:textAlignment="textEnd"
+                android:layout_weight="1"
+                android:text="strikes:"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditAtBatInfo_strikesEditText"
+                android:layout_weight="1" />
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/EditAtBatInfo_makeChanges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/EditAtBatInfo_remove"
+        android:layout_alignParentStart="true"
+        android:text="Make Changes" />
+
+    <Button
+        android:id="@+id/EditAtBatInfo_remove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Remove" />
+</RelativeLayout>

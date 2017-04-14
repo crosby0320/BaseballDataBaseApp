@@ -75,10 +75,8 @@ public class PitchCounter {
     public void foulAction(){
         totalInningPitches+=1;
         totalAtBatPitches+=1;
-        if(strikes <= 2){
+        if(strikes < 2){
             strikes++;
-        }else{
-
         }
     }
 

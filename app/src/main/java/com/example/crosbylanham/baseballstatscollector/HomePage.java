@@ -17,23 +17,24 @@ public class HomePage extends AppCompatActivity {
         quickPitchStatsButtonAction();
         quickBattingStatsButton();
         CheckStatsButtonAction();
+        loadTeam();
         viewtables();
-        //Cleaner c = new Cleaner();
-        //c.removeNonGeneratedPlayers();
     }
 
     Button fullGameButton;
     Button quickPitchButton;
     Button quickBattingStatsButton;
     Button checkStatsButton;
-    Button viewTablesButton;
+    Button loadTeam;
+    Button editDatabase;
 
     public void initButtons(){
         fullGameButton = (Button) findViewById(R.id.fullgamebutton);
         quickPitchButton = (Button) findViewById(R.id.quickpitchlink);
         quickBattingStatsButton = (Button) findViewById(R.id.quickbattingstatsbutton);
         checkStatsButton = (Button) findViewById(R.id.homepage_checkstatsbutton);
-        viewTablesButton = (Button) findViewById(R.id.ViewTablesButton);
+        loadTeam = (Button) findViewById(R.id.Homepage_LoadTeam);
+        editDatabase = (Button) findViewById(R.id.HomePage_EditData);
     }
 
     public void fullGameActionButton(){
@@ -72,9 +73,18 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
+    public void loadTeam(){
+        loadTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePage.this,LogIn.class);
+                startActivity(intent);
+            }
+        });
+    }
     //---------------------------just used for debugging see tables and elements-------
     public void viewtables(){
-        viewTablesButton.setOnClickListener(new View.OnClickListener() {
+        editDatabase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomePage.this,EditHome.class);

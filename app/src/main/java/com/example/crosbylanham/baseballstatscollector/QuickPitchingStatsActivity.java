@@ -123,11 +123,8 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
                         fillTotalStats(stats);
                         //------------------------------------------
                     }
-
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                    public void onCancelled(DatabaseError databaseError) {}});
             }
 
             @Override
@@ -163,11 +160,11 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
     public void fillTotalStats(Stats stats) {
         gamesPlayered.setText(String.valueOf(stats.gamesplayed));
         wins.setText("N/A");
+        GS.setText("N/A");
+        saves.setText("N/A");
         losses.setText("N/A");
         totalERA.setText(String.format("%.3f", stats.getERA()));
-        GS.setText("N/A");
         shutouts.setText(String.valueOf(stats.shutouts));
-        saves.setText("N/A");
         totalhits.setText(String.valueOf(stats.totalhits));
         totalHR.setText(String.valueOf(stats.totalhr));
         totalIP.setText(String.format("%.1f", stats.putouts / 3.0));
