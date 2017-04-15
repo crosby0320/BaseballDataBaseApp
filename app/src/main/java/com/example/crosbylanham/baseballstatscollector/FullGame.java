@@ -40,6 +40,7 @@ public class FullGame extends AppCompatActivity {
 
     TextView[] baseRunnersTextViews;
     Player[] playerBaseRunners;
+
     TextView[] playername;
     TextView[] awayscores,homescores;
 
@@ -84,12 +85,14 @@ public class FullGame extends AppCompatActivity {
             setTextColor(scoreBoard.awayPositionAtBat);
             setAtbatplayername(awayTeamPlayers.get(scoreBoard.awayPositionAtBat));
             bottomInning.setVisibility(ImageView.INVISIBLE);topInning.setVisibility(ImageView.VISIBLE);
+            awayscores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.awayScore));
         }else{
             fillTeamNames(homeTeamPlayers);
             playeratbat = homeTeamPlayers.get(scoreBoard.homePositionAtBat);
             setTextColor(scoreBoard.homePositionAtBat);
             setAtbatplayername(homeTeamPlayers.get(scoreBoard.homePositionAtBat));
             topInning.setVisibility(ImageView.INVISIBLE);bottomInning.setVisibility(ImageView.VISIBLE);
+            homescores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.homeScore));
         }
     }
 
@@ -101,8 +104,8 @@ public class FullGame extends AppCompatActivity {
             setupScreen();
             if (lastOutFlag){
                 scoreBoard.top = false;
+                pitchCounter.reset();
                 removeAllBaseRunners();
-                awayscores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.inningscore));
                 setupScreen();
             }
         }else{
@@ -112,8 +115,8 @@ public class FullGame extends AppCompatActivity {
             setupScreen();
             if (lastOutFlag){
                 scoreBoard.top = true;
+                pitchCounter.reset();
                 removeAllBaseRunners();
-                homescores[scoreBoard.inningNumber - 1].setText(String.valueOf(scoreBoard.inningscore));
                 scoreBoard.inningNumber+=1;
                 setupScreen();
             }
@@ -578,7 +581,15 @@ public class FullGame extends AppCompatActivity {
                 atBats.setPitches(pitchCounter.getTotalAtBatPitches() + 1);
                 atBats.setOutcome(AtBatInformation.HOMERUN);
                 atBats.setPlayerAtBatId(playeratbat.getPlayerID());
-
+                for (int i =1;i<baseRunnersTextViews.length;i++){
+                    if(!(baseRunnersTextViews[1].getText().toString().matches(""))){
+                        if(scoreBoard.top ){scoreBoard.awayScore++;}
+                        else{scoreBoard.homeScore++;}
+                    }
+                }
+                if(scoreBoard.top ){scoreBoard.awayScore++;}
+                else{scoreBoard.homeScore++;}
+                removeAllBaseRunners();
                 saveInformation();
             }
         });

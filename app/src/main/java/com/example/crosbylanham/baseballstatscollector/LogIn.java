@@ -98,6 +98,10 @@ public class LogIn extends AppCompatActivity {
                         }else{
                             Toast.makeText(LogIn.this,"Sorry we could not registar you",
                                     Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this,"Try making you password longer",
+                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this,"Or putting in something that looks like a Real email",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -116,11 +120,11 @@ public class LogIn extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LogIn.this,mAuth.getCurrentUser().getUid(),
-                                    Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LogIn.this,HomePage.class));
                         }else{
                             Toast.makeText(LogIn.this, "Sorry we were unable to log you in",
+                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LogIn.this, "Try Registering first",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
