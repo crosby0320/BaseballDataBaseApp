@@ -462,7 +462,7 @@ public class QuickBattingStatsGameActivity extends AppCompatActivity {
     }
     public void saveGame() {
         if(game == null) {
-            game.setName(new Datefunctions().getCurrentTimeAndDate());
+            game.setName(new DateFunctions().getCurrentTimeAndDate());
             game = new DataBaseHelper().saveGame(game);
         }
     }

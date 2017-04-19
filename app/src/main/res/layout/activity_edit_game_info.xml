@@ -45,6 +45,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Game Date: "
+                    android:textAlignment="textEnd"
+                    android:layout_weight=".99"/>
                 <TextView
                     android:id="@+id/EditGameInfo_GameDateTextVire"
                     android:layout_width="match_parent"
@@ -52,61 +59,90 @@
                     android:textAlignment="textEnd"
                     android:layout_weight="1"
                     android:text="Game Date"/>
+
                 <EditText
                     android:id="@+id/EditGameInfo_GameDateEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:id="@+id/EditGameInfo_TeamsAgainst"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Teams Against: "
                     android:textAlignment="textEnd"
-                    android:layout_weight="1"
-                    android:text="Teams Against"/>
-                <EditText
+                    android:layout_weight=".99"/>
+                <TextView
+                    android:id="@+id/EditGameInfo_TeamsAgainstTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="Teams Against"
+                    android:textAlignment="textEnd" />
+
+                <EditText
+                    android:id="@+id/EditGameInfo_TeamsAgainstEditTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:id="@+id/EditGameInfo_AwayTeam"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Away Team: "
                     android:textAlignment="textEnd"
-                    android:layout_weight="1"
-                    android:text="Away Team"/>
-                <EditText
+                    android:layout_weight=".99"/>
+                <TextView
+                    android:id="@+id/EditGameInfo_AwayTeamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="Away Team"
+                    android:textAlignment="textEnd" />
+
+                <EditText
+                    android:id="@+id/EditGameInfo_AwayTeamEditTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Home Team: "
                     android:textAlignment="textEnd"
-                    android:layout_weight="1"
-                    android:text="Home Team"/>
-                <EditText
+                    android:layout_weight=".99"/>
+                <TextView
+                    android:id="@+id/EditGameInfo_HomeTeamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="Home Team"
+                    android:textAlignment="textEnd" />
+
+                <EditText
+                    android:id="@+id/EditGameInfo_HomeTeamEditTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

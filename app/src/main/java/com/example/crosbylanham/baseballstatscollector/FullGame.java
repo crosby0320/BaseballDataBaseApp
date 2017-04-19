@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 class ScoreBoard {
@@ -43,6 +45,7 @@ public class FullGame extends AppCompatActivity {
 
     TextView[] playername;
     TextView[] awayscores,homescores;
+    TextView inningNumberTextView;
 
     boolean lastOutFlag;
 
@@ -50,6 +53,7 @@ public class FullGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_game);
+
         playerBaseRunners = new Player[4];
         baseRunnersTextViews = new TextView[4];
         playername = new TextView[10];
@@ -79,6 +83,7 @@ public class FullGame extends AppCompatActivity {
 
     }
     public void setupScreen(){
+        inningNumberTextView.setText(String.valueOf(scoreBoard.inningNumber));
         if (scoreBoard.top){
             fillTeamNames(awayTeamPlayers);
             playeratbat = awayTeamPlayers.get(scoreBoard.awayPositionAtBat);
@@ -331,6 +336,8 @@ public class FullGame extends AppCompatActivity {
         playername[7] = (TextView) findViewById(R.id.awayplayernumber8);
         playername[8] = (TextView) findViewById(R.id.awayplayernumber9);
         playername[9] = (TextView) findViewById(R.id.awayplayernumber10);
+
+        inningNumberTextView = (TextView) findViewById(R.id.FullGame_inningNumber);
     }
 
     public void saveGameinformation() {

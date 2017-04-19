@@ -1,8 +1,7 @@
 package com.example.crosbylanham.baseballstatscollector;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,9 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +37,7 @@ public class EditPlayerInformation extends AppCompatActivity {
         nameSpinner = (Spinner) findViewById(R.id.EditPlayerInfoSpinner);
         playersList = new ArrayList<>();
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditPlayerInformation.this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(EditPlayerInformation.this,
                 android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -51,7 +48,9 @@ public class EditPlayerInformation extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 doSomething(dataSnapshot);
+
             }
 
             @Override
@@ -59,11 +58,8 @@ public class EditPlayerInformation extends AppCompatActivity {
 
             }
 
-            public void doSomething(DataSnapshot dataSnapshot){
-                adapter.clear();
-                for (int i =0;i<playersList.size();i++){
-                    playersList.remove(0);
-                }
+            void doSomething(DataSnapshot dataSnapshot){
+                adapter.clear();playersList.clear();
                 for(DataSnapshot x:dataSnapshot.getChildren()){
                     adapter.add(x.getValue(Player.class).getName());
                     playersList.add(x.getValue(Player.class));
@@ -110,7 +106,6 @@ public class EditPlayerInformation extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference(DataBaseHelper.PLAYERINFOTABLEBNAME);
                 myRef.child(playerSelected.getPlayerID()).setValue(playerSelected);
-                ((EditText) findViewById(R.id.EditPlayerInfo_NameFillIn)).setText("");
             }
         });
     }

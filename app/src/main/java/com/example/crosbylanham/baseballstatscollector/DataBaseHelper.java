@@ -2,8 +2,10 @@ package com.example.crosbylanham.baseballstatscollector;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -107,6 +109,11 @@ public class DataBaseHelper {
         ab.setAtBatID(r.getKey());
         r.setValue(ab);
         return ab;
+    }
+
+    public boolean isEmpty(EditText editText){
+        String ed_text = editText.getText().toString().trim();
+        return (ed_text.isEmpty() || ed_text.length() == 0 || ed_text.equals("") || ed_text == null);
     }
 
 }

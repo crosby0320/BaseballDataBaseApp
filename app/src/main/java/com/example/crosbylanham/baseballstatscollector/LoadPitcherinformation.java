@@ -3,7 +3,6 @@ package com.example.crosbylanham.baseballstatscollector;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,9 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.PITCHINGSTATSTABLENAME;
 import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.PLAYERINFOTABLEBNAME;
-import static com.example.crosbylanham.baseballstatscollector.DataBaseHelper.TEAMTABLENAME;
 
 public class LoadPitcherinformation extends AppCompatActivity {
     Spinner playersSpinner;
@@ -134,10 +131,11 @@ public class LoadPitcherinformation extends AppCompatActivity {
                         });
                     }else{
                         Player info = new DataBaseHelper().savePlayer(new Player(playername.getText().toString()));
-                        Game g = new Game();g.setName(new Datefunctions().getCurrentTimeAndDate());
-                        Game gameinfo = new DataBaseHelper().saveGame(g);
+                        Game g = new Game();
+                        g.setName(new DateFunctions().getCurrentTimeAndDate());
+                        Game gameInfo = new DataBaseHelper().saveGame(g);
                         pitchingStats.setPlayerID(info.getPlayerID());
-                        pitchingStats.setGameID(gameinfo.getGameID());
+                        pitchingStats.setGameID(gameInfo.getGameID());
                         new DataBaseHelper().savePitchingStats(pitchingStats);
                     }
                         Intent intent = new Intent(LoadPitcherinformation.this, HomePage.class);
@@ -186,8 +184,6 @@ public class LoadPitcherinformation extends AppCompatActivity {
     }
 }
     public void fillspinnerplayer(Spinner playersSpinner){
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(PLAYERINFOTABLEBNAME);
         final ArrayAdapter<String> array = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1);

@@ -87,9 +87,9 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 pitchingstats.swingAndAMiss();
                 if (pitchCounter.getStrikes() == 2) {
-                    int x = pitchingstats.getStrikouts();
+                    int x = pitchingstats.getStrikeOuts();
                     pitchingstats.outsPitched++;
-                    pitchingstats.setStrikouts(++x);
+                    pitchingstats.setStrikeOuts(++x);
                 }
                 pitchCounter.calledStrike();
                 updateInningStatsCounter();
@@ -284,7 +284,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
         totalBalls.setText(String.valueOf(pitchingstats.getBalls()));
         totalPitches.setText(String.valueOf(pitchingstats.getPitchs()));
         totalStrikes.setText(String.valueOf(pitchingstats.getStrikes()));
-        totalKs.setText(String.valueOf(pitchingstats.getStrikouts()));
+        totalKs.setText(String.valueOf(pitchingstats.getStrikeOuts()));
     }
 
     public void initPitchCounter() {

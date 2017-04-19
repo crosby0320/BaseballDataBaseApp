@@ -46,24 +46,25 @@ public class EditHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
+
         pitchingStats = (Button) findViewById(R.id.EditTable_PitchongStatsButton);
         pitchingStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(EditHome.this,);
+                Intent intent = new Intent(EditHome.this, EditPitchingStats.class);
                 startActivity(intent);
             }
         });
+
         teamImnformationButton = (Button) findViewById(R.id.EditTable_TeamButton);
         teamImnformationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(EditHome.this,);
+                Intent intent = new Intent(EditHome.this, EditTeamInformation.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

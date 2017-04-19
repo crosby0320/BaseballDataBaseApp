@@ -23,23 +23,25 @@ import java.util.List;
 
 class Stats {
     ArrayList<PitchingStats> allstats = new ArrayList<>();
+
     public Stats(ArrayList<PitchingStats> allstats) {
         this.allstats = allstats;
     }
-    public void calcStats(){
+
+    public void calcStats() {
         gamesplayed = allstats.size();
 
-            for (PitchingStats x : allstats) {
-                totalhits += x.getHits();
-                putouts += x.getOutsPitched();
-                totalhr += x.getHomeRuns();
-                walks += x.getWalks();
-                totalhbp += x.getHitsByPitch();
-                totalEarnedRuns += x.earnedRuns;
-                if (x.runs == 0) {
-                    shutouts++;
-                }
+        for (PitchingStats x : allstats) {
+            totalhits += x.getHits();
+            putouts += x.getOutsPitched();
+            totalhr += x.getHomeRuns();
+            walks += x.getWalks();
+            totalhbp += x.getHitsByPitch();
+            totalEarnedRuns += x.earnedRuns;
+            if (x.runs == 0) {
+                shutouts++;
             }
+        }
     }
 
     int gamesplayed, wins, losses, totalERA, gs, shutouts, saves, totalhits, totalhr,
@@ -105,37 +107,39 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference(DataBaseHelper.PITCHINGSTATSTABLENAME);
                 Query q = dr.orderByChild("playerID")
                         .equalTo(list.get(position).getPlayerID());
-                Log.d("Position ",String.valueOf(position));
-                Log.d("Looking for","Player nameds"+list.get(position).getPlayerID());
-                Log.d("Playername",list.get(position).getName());
+                Log.d("Position ", String.valueOf(position));
+                Log.d("Looking for", "Player nameds" + list.get(position).getPlayerID());
+                Log.d("Playername", list.get(position).getName());
                 q.addListenerForSingleValueEvent(new ValueEventListener() {
-
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d("Pitches stats",dataSnapshot.toString());
-                        Iterable<DataSnapshot> it = dataSnapshot.getChildren();
-                        ArrayList<PitchingStats> pitchingStatsArrayList = new ArrayList<PitchingStats>();
-                        for (DataSnapshot x : it) {
+                        Log.d("Pitches stats", dataSnapshot.toString());
+                        ArrayList<PitchingStats> pitchingStatsArrayList = new ArrayList<>();
+                        for (DataSnapshot x : dataSnapshot.getChildren()) {
                             pitchingStatsArrayList.add(x.getValue(PitchingStats.class));
+                            Log.d("Pithcing stats ", String.valueOf(x.getValue(PitchingStats.class)));
                         }
                         //----------------------- calculating stats -----
                         Stats stats = new Stats(pitchingStatsArrayList);
                         fillTotalStats(stats);
-                        //------------------------------------------
+                        //-----------------------------------------------
                     }
+
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}});
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-        //--------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------
     }
 
     public void initGameTextViews() {
+
     }
 
     public void initTotalStats() {
@@ -156,8 +160,8 @@ public class QuickPitchingStatsActivity extends AppCompatActivity {
         totalHBP = (TextView) findViewById(R.id.PitchingStats_Total_HBP);
     }
 
-
     public void fillTotalStats(Stats stats) {
+        stats.calcStats();
         gamesPlayered.setText(String.valueOf(stats.gamesplayed));
         wins.setText("N/A");
         GS.setText("N/A");

@@ -94,47 +94,5 @@
                 <TextView android:id="@+id/Battingstats_last4outcome4" style="@style/statscolumns"/>
             </TableRow>
         </TableLayout>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20sp"
-            android:id="@+id/BattingStats_gameSpinner"/>
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5sp"
-                    android:id="@+id/BattingStats_SpecificGame">
-                    <TextView android:text="Game" style="@style/statscolumns"/>
-                    <TextView android:text="PA" style="@style/statscolumns"/>
-                    <TextView android:text="AB" style="@style/statscolumns"/>
-                    <TextView android:text="AVG" style="@style/statscolumns"/>
-                    <TextView android:text="SLG" style="@style/statscolumns"/>
-                    <TextView android:text="R" style="@style/statscolumns"/>
-                    <TextView android:text="H" style="@style/statscolumns"/>
-                    <TextView android:text="1B" style="@style/statscolumns"/>
-                    <TextView android:text="2B" style="@style/statscolumns"/>
-                    <TextView android:text="3B" style="@style/statscolumns"/>
-                    <TextView android:text="HR" style="@style/statscolumns"/>
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView android:id="@+id/BattingStats_game_PA" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_AB" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_AVG" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_OBP" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_SLG" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_R" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_H" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_1B" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_2B" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_3B" style="@style/statscolumns"/>
-                    <TextView android:id="@+id/BattingStats_game_HR" style="@style/statscolumns"/>
-                </TableRow>
-            </TableLayout>
     </LinearLayout>
 </RelativeLayout>

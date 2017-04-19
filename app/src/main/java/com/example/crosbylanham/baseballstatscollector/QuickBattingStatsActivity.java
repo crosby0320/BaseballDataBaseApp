@@ -26,14 +26,10 @@ import java.util.ArrayList;
 
 public class QuickBattingStatsActivity extends AppCompatActivity {
 
-    Spinner playerSpinner,gameSpinner;
+    Spinner playerSpinner;
 
     TextView paTextView,abTextView,avgTextView,obpTextView,slgTextView,
             rTextView,hTextView,hrTextView;
-
-    TextView gamepaTextView,gameabTextView,gameavgTextView,gameobpTextView,gameslgTextView,
-            gamerTextView,gamehTextView,gamesingleTextView,gamedoubleTextView,gametriplesTextView,
-            gamehrTextView;
 
     Player player;
     ArrayList<AtBats> allAtBats;
@@ -47,7 +43,6 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
 
         initTotalTextViews();
         initLast4TextViews();
-        initGameTextViews();
         playerSpinnerAction();
     }
     private void initLast4TextViews() {
@@ -84,22 +79,8 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
         hrTextView      = (TextView)findViewById(R.id.BattingStats_HR);
     }
 
-    public void initGameTextViews(){
-        gamepaTextView      = (TextView)findViewById(R.id.BattingStats_game_PA);
-        gameabTextView      = (TextView)findViewById(R.id.BattingStats_game_AB);
-        gameavgTextView     = (TextView)findViewById(R.id.BattingStats_game_AVG);
-        gameobpTextView     = (TextView)findViewById(R.id.BattingStats_game_OBP);
-        gameslgTextView     = (TextView)findViewById(R.id.BattingStats_game_SLG);
-        gamerTextView       = (TextView)findViewById(R.id.BattingStats_game_R);
-        gamehTextView       = (TextView)findViewById(R.id.BattingStats_game_H);
-        gamesingleTextView  = (TextView)findViewById(R.id.BattingStats_game_1B);
-        gamedoubleTextView  = (TextView)findViewById(R.id.BattingStats_game_2B);
-        gametriplesTextView = (TextView)findViewById(R.id.BattingStats_game_3B);
-        gamehrTextView      = (TextView)findViewById(R.id.BattingStats_game_HR);
-    }
     public void playerSpinnerAction(){
         playerSpinner = (Spinner) findViewById(R.id.BattingStats_playerSpinner);
-        gameSpinner = (Spinner) findViewById(R.id.BattingStats_gameSpinner);
         final ArrayList<Player> listOfPlayers = new ArrayList<>();
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -118,8 +99,7 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
                     listOfPlayers.add(x.getValue(Player.class));
                 }
             }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            @Override public void onCancelled(DatabaseError databaseError) {}
         });
 
         playerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -142,12 +122,8 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
                         fillLast4AtBats(allAtBats);
                     }
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                });
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
-        });
+                    public void onCancelled(DatabaseError databaseError) {}});
+            }@Override public void onNothingSelected(AdapterView<?> parentView) {}});
     }
 
     public void fillTotalStats(ArrayList<AtBats> allAtBats){
@@ -164,7 +140,12 @@ public class QuickBattingStatsActivity extends AppCompatActivity {
     }
 
     public void fillLast4AtBats(ArrayList<AtBats> list){
-        for(int i = list.size(),j=0;i>=list.size()-4 && i >=0 && j < 4;i--,j++){
+        for (int i = 0;i<4;i++){
+            for (int j=0;j<4;j++){
+                last4TextViews[i][j].setText("");
+            }
+        }
+        for(int i = list.size(),j=0;list.size()-i >=0 && i > 0 && j < 4;i--,j++){
             last4TextViews[j][0].setText(String.valueOf(list.get(i-1).getBalls()));
             last4TextViews[j][1].setText(String.valueOf(list.get(i-1).getStrikes()));
             last4TextViews[j][2].setText(String.valueOf(list.get(i-1).getPitches()));

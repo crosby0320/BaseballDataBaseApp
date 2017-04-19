@@ -55,7 +55,7 @@ public class EditAtBatInformation extends AppCompatActivity {
 
                     }
 
-                    public void doSomthing(DataSnapshot dataSnapshot) {
+                    void doSomthing(DataSnapshot dataSnapshot) {
                         adapter.clear();
                         for(int i =0;i<playerArrayList.size();i++)playerArrayList.remove(0);
                         for (DataSnapshot x : dataSnapshot.getChildren()) {
@@ -65,11 +65,13 @@ public class EditAtBatInformation extends AppCompatActivity {
                         onSelection();
                     }
                 });
+        setRemoveButtonAction();
+        setMakeChangesAction();
     }
 
     public void initButtons() {
-        makeChanges = (Button) findViewById(R.id.EditPlayerInfo_MakeChanges);
-        remove = (Button) findViewById(R.id.EditPlayerInfo_RemoveButton);
+        makeChanges = (Button) findViewById(R.id.EditAtBatInfo_makeChanges);
+        remove = (Button) findViewById(R.id.EditAtBatInfo_remove);
     }
 
     public void initSpinners() {
@@ -115,8 +117,6 @@ public class EditAtBatInformation extends AppCompatActivity {
                                 ((TextView)findViewById(R.id.EditAtBatInfo_strikesview))
                                         .setText(String.valueOf(atBatToFix.getStrikes()));
 
-                                setMakeChangesAction();
-                                setRemoveButtonAction();
                             }
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {}});
@@ -127,36 +127,16 @@ public class EditAtBatInformation extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
-    public void setMakeChangesAction(){
-        makeChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(EditTextViews.get(0).getText().toString().length() > 0){
-                    atBatToFix.setBalls(Integer.parseInt(EditTextViews.get(0).getText().toString()));
-                }
-                if(EditTextViews.get(1).getText().toString().length() > 0){
-                    atBatToFix.setDescription((EditTextViews.get(1).getText().toString()));
-                }
-                if(EditTextViews.get(2).getText().toString().length() > 0){
-                    atBatToFix.setOutcome(Integer.parseInt(EditTextViews.get(2).getText().toString()));
-                }
-                if(EditTextViews.get(3).getText().toString().length() > 0){
-                    atBatToFix.setPitches(Integer.parseInt(EditTextViews.get(3).getText().toString()));
-                }
-                if(EditTextViews.get(4).getText().toString().length() > 0){
-                    atBatToFix.setStrikes(Integer.parseInt(EditTextViews.get(4).getText().toString()));
-                }
-            }
-        });
-    }
-    ArrayList<EditText> EditTextViews;
+
+
+    ArrayList<EditText> editTextViews;
     public void initTextViews(){
-        EditTextViews = new ArrayList<>();
-        EditTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_ballsEditText));
-        EditTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_descriptionEditText));
-        EditTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_outcomeEditText));
-        EditTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_pitchesEditText));
-        EditTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_strikesEditText));
+        editTextViews = new ArrayList<>();
+        editTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_ballsEditText));
+        editTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_descriptionEditText));
+        editTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_outcomeEditText));
+        editTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_pitchesEditText));
+        editTextViews.add((EditText) findViewById(R.id.EditAtBatInfo_strikesEditText));
     }
     public void setRemoveButtonAction(){
         remove.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +145,36 @@ public class EditAtBatInformation extends AppCompatActivity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference(DataBaseHelper.PLAYERINFOTABLEBNAME);
                 myRef.child(atBatToFix.getAtBatID()).setValue(null);
+            }
+        });
+    }
+    public void setMakeChangesAction() {
+        makeChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!new DataBaseHelper().isEmpty(editTextViews.get(0))) {
+                    atBatToFix.setBalls(Integer.parseInt(editTextViews.get(0).getText().toString()));
+                    editTextViews.get(0).setText("");
+                }
+                if (!new DataBaseHelper().isEmpty(editTextViews.get(1))) {
+                    atBatToFix.setDescription((editTextViews.get(1).getText().toString()));
+                    editTextViews.get(1).setText("");
+                }
+                if (!new DataBaseHelper().isEmpty(editTextViews.get(2))) {
+                    atBatToFix.setOutcome(Integer.parseInt(editTextViews.get(2).getText().toString()));
+                    editTextViews.get(2).setText("");
+                }
+                if (!new DataBaseHelper().isEmpty(editTextViews.get(3))) {
+                    atBatToFix.setPitches(Integer.parseInt(editTextViews.get(3).getText().toString()));
+                    editTextViews.get(3).setText("");
+                }
+                if (!new DataBaseHelper().isEmpty(editTextViews.get(4))) {
+                    atBatToFix.setStrikes(Integer.parseInt(editTextViews.get(4).getText().toString()));
+                    editTextViews.get(4).setText("");
+                }
+
+                FirebaseDatabase.getInstance().getReference(DataBaseHelper.ATBATTableName)
+                        .child(atBatToFix.getAtBatID()).setValue(atBatToFix);
             }
         });
     }

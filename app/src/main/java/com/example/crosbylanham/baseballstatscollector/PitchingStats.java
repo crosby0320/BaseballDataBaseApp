@@ -14,11 +14,11 @@ public class PitchingStats implements Serializable {
     String gameID;
     String teamID;
     String playerID;
-    int pitchs;
+    int pitches;
     int balls;
     int strikes;
     int hits;
-    private int strikouts;
+    int StrikeOuts;
     int walks;
     int hitsByPitch;
     int homeRuns;
@@ -40,69 +40,69 @@ public class PitchingStats implements Serializable {
 
     //------------------------------------------------------------------------
     public void swingAndAMiss() {
-        pitchs++;
+        pitches++;
         untouched++;
         strikes++;
     }
 
     public void foul() {
-        pitchs++;
+        pitches++;
         strikes++;
         foulBalls++;
     }
 
     public void ball() {
-        pitchs++;
+        pitches++;
         balls++;
     }
 
     public void looking() {
-        pitchs++;
+        pitches++;
         strikes++;
         untouched++;
     }
 
     public void grounderhit() {
-        pitchs++;
+        pitches++;
         hits++;
         groundHits++;
     }
 
     public void grounderout() {
-        pitchs++;
+        pitches++;
         hits++;
         groundOuts++;
         outsPitched++;
     }
 
     public void linerhit() {
-        pitchs++;
+        pitches++;
         hits++;
         lineHits++;
     }
 
     public void linerout() {
-        pitchs++;
+        pitches++;
         hits++;
         lineOuts++;
         outsPitched++;
     }
 
     public void flyout() {
-        pitchs++;
+        pitches++;
         hits++;
         flyOut++;
         outsPitched++;
     }
 
     public void gapper() {
-        pitchs++;
+        pitches++;
         hits++;
         gapper++;
     }
 
     public void homerun() {
-        pitchs++;
+        pitches++;
         hits++;
         homeRuns++;
         runs++;
@@ -110,13 +110,13 @@ public class PitchingStats implements Serializable {
     }
 
     public void hitByPitch() {
-        pitchs++;
+        pitches++;
         hitsByPitch++;
     }
 
     public void hitStrikeout() {
 
-        strikouts++;
+        StrikeOuts++;
         outsPitched++;
     }
 
@@ -163,7 +163,7 @@ public class PitchingStats implements Serializable {
     public int getTotalPitches(ArrayList<PitchingStats> list) {
         int totalPitches = 0;
         for (PitchingStats game : list) {
-            totalPitches += game.getPitchs();
+            totalPitches += game.getPitches();
         }
         return totalPitches;
     }
@@ -179,7 +179,7 @@ public class PitchingStats implements Serializable {
     public int getTotalSO(ArrayList<PitchingStats> list) {
         int totalSO = 0;
         for (PitchingStats game : list) {
-            totalSO += game.getStrikouts();
+            totalSO += game.getStrikeOuts();
         }
         return totalSO;
     }
@@ -250,12 +250,12 @@ public class PitchingStats implements Serializable {
         this.playerID = playerID;
     }
 
-    public int getPitchs() {
-        return pitchs;
+    public int getPitches() {
+        return pitches;
     }
 
-    public void setPitchs(int pitchs) {
-        this.pitchs = pitchs;
+    public void setPitches(int pitchs) {
+        this.pitches = pitchs;
     }
 
     public int getOutsPitched() {
@@ -290,12 +290,12 @@ public class PitchingStats implements Serializable {
         this.hits = hits;
     }
 
-    public int getStrikouts() {
-        return strikouts;
+    public int getStrikeOuts() {
+        return StrikeOuts;
     }
 
-    public void setStrikouts(int strikouts) {
-        this.strikouts = strikouts;
+    public void setStrikeOuts(int strikeOuts) {
+        this.StrikeOuts = strikeOuts;
     }
 
     public int getWalks() {
@@ -392,6 +392,10 @@ public class PitchingStats implements Serializable {
 
     public void setUntouched(int untouched) {
         this.untouched = untouched;
+    }
+
+    public int getEarnedRuns() {
+        return earnedRuns;
     }
 
     public String getTeamID() {

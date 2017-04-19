@@ -101,30 +101,10 @@
             </TableRow>
 
         </TableLayout>
-        <Spinner
-            android:id="@+id/PitchingStats_gamespinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/PitchingStats_GameStatsTable">
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5sp">
-                <TextView android:text="IP" style="@style/statscolumns"/>
-                <TextView android:text="H" style="@style/statscolumns"/>
-                <TextView android:text="R" style="@style/statscolumns"/>
-                <TextView android:text="Pitches" style="@style/statscolumns"/>
-                <TextView android:text="ER" style="@style/statscolumns"/>
-                <TextView android:text="BB" style="@style/statscolumns"/>
-                <TextView android:text="SO" style="@style/statscolumns"/>
-                <TextView android:text="WHIP" style="@style/statscolumns"/>
-                <TextView android:text="ERA" style="@style/statscolumns"/>
-            </TableRow>
-        </TableLayout>
+            android:id="@+id/PitchingStats_GameStatsTable"></TableLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -27,10 +27,5 @@
             android:text="Pitching Stats"
             android:id="@+id/pitchingstatsbutton"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Blank"/>
-
     </LinearLayout>
 </RelativeLayout>
