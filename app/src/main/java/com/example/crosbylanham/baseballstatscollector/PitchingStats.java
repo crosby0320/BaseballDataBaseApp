@@ -39,6 +39,7 @@ public class PitchingStats implements Serializable {
     }
 
     //------------------------------------------------------------------------
+    //thing
     public void swingAndAMiss() {
         pitches++;
         untouched++;
