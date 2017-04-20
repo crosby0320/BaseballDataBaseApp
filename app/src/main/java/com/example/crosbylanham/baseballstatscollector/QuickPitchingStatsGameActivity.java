@@ -282,7 +282,7 @@ public class QuickPitchingStatsGameActivity extends AppCompatActivity {
 
     public void updateTotalGameStatsCounter() {
         totalBalls.setText(String.valueOf(pitchingstats.getBalls()));
-        totalPitches.setText(String.valueOf(pitchingstats.getPitchs()));
+        totalPitches.setText(String.valueOf(pitchingstats.getPitches()));
         totalStrikes.setText(String.valueOf(pitchingstats.getStrikes()));
         totalKs.setText(String.valueOf(pitchingstats.getStrikeOuts()));
     }
